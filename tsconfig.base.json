@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@rental-system/common-interfaces": ["libs/common-interfaces/src/index.ts"],
+      "@rental-system/config": ["libs/config/src/index.ts"],
+      "@rental-system/domain": ["libs/domain/src/index.ts"],
+      "@rental-system/filters": ["libs/filters/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

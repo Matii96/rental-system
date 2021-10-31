@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  books:
+    build:
+      context: .
+      target: rental-base
+    volumes:
+      - .:/app
+    working_dir: /app
+    # command: nx serve books
+    command: sleep infinity
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3001:3000
+      - 9229:9229
+    depends_on:
+      - redis
+      - db
+
+  redis:
+    image: redis:alpine
+    environment:
+      REDIS_PASSWORD: superSecretPassword
+    ports:
+      - 6379:6379
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: rental
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+
+  pg-admin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@rental.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+    ports:
+      - 5000:80

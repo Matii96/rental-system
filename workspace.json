@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "projects": {
+    "books": "apps/books",
+    "common-interfaces": "libs/common-interfaces",
+    "config": "libs/config",
+    "domain": "libs/domain",
+    "filters": "libs/filters"
+  }
+}

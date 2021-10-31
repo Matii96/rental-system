@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "books",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "address": "192.168.1.100",
+      // "localRoot": "${workspaceRoot}",
+      "remoteRoot": "/app",
+      "timeout": 60000,
+      "restart": true
+      // "preLaunchTask": "setup-env",
+      // "postDebugTask": "teardown-env"
+    }
+  ]
+}

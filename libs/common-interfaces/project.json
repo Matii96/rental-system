@@ -1,0 +1,23 @@
+{
+  "root": "libs/common-interfaces",
+  "sourceRoot": "libs/common-interfaces/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/common-interfaces/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/common-interfaces"],
+      "options": {
+        "jestConfig": "libs/common-interfaces/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "setup-env",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": ["-f", "docker-compose-dev.yml", "up", "-d"]
+    },
+    {
+      "label": "teardown-env",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": ["-f", "docker-compose-dev.yml", "down"],
+      "presentation": {
+        "reveal": "silent"
+      }
+    }
+  ]
+}
