@@ -29,7 +29,8 @@
     "serve": {
       "executor": "@nrwl/node:execute",
       "options": {
-        "buildTarget": "books:build"
+        "buildTarget": "books:build",
+        "host": "0.0.0.0"
       }
     },
     "lint": {

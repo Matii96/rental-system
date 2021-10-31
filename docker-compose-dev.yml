@@ -2,25 +2,23 @@ version: '3.8'
 
 services:
   books:
-    build:
-      context: .
-      target: rental-base
+    image: node:16-alpine
     volumes:
       - .:/app
     working_dir: /app
-    # command: nx serve books
-    command: sleep infinity
+    command: ./node_modules/.bin/nx serve books
     environment:
       NODE_ENV: development
     ports:
       - 3001:3000
-      - 9229:9229
+      - 9230:9229
     depends_on:
       - redis
       - db
 
   redis:
     image: redis:alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     environment:
       REDIS_PASSWORD: superSecretPassword
     ports:
