@@ -22,10 +22,15 @@ export class SequelizeMock<TModel extends IdentifiableModel> {
 
   update(model: TModel) {
     this.data[0] = model;
-    return model;
+    return [1, [model]];
   }
 
-  delete() {
-    return this.data.shift();
+  destroy() {
+    this.data.shift();
+    return 1;
+  }
+
+  count() {
+    return this.data.length;
   }
 }

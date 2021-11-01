@@ -34,4 +34,32 @@ export abstract class SequelizeGenericRepository<
     const dataList = await this.model.findAll(where);
     return dataList.map((data) => this.modelFactory.modelToEntity(<TModel>data));
   }
+
+  async create(entity: TEntity) {
+    const data = this.modelFactory.entityToModel(entity);
+    await this.model.create(data);
+    return entity;
+  }
+
+  async update(entity: TEntity) {
+    const { id, ...updateData } = this.modelFactory.entityToModel(entity);
+    const [matchedCount] = await this.model.update(updateData, { where: { id } });
+    if (matchedCount === 0) throw new NotFoundException();
+    return entity;
+  }
+
+  async delete(entity: TEntity) {
+    const data = await this.model.findByPk(entity.id);
+    if (!data) throw new NotFoundException();
+    await data.destroy();
+    return entity;
+  }
+
+  deleteMany(where: Record<string, unknown>) {
+    return this.model.destroy(where);
+  }
+
+  count(where: Record<string, unknown>): Promise<number> {
+    return this.model.count(where);
+  }
 }
