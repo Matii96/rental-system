@@ -17,6 +17,7 @@
     "paths": {
       "@rental-system/common-interfaces": ["libs/common-interfaces/src/index.ts"],
       "@rental-system/config": ["libs/config/src/index.ts"],
+      "@rental-system/database-storage": ["libs/database-storage/src/index.ts"],
       "@rental-system/domain": ["libs/domain/src/index.ts"],
       "@rental-system/filters": ["libs/filters/src/index.ts"]
     }

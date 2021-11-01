@@ -4,6 +4,7 @@
     "books": "apps/books",
     "common-interfaces": "libs/common-interfaces",
     "config": "libs/config",
+    "database-storage": "libs/database-storage",
     "domain": "libs/domain",
     "filters": "libs/filters"
   }

@@ -1,16 +1,8 @@
-import { Column, Model, Table, DataType } from 'sequelize-typescript';
+import { Column, Table, DataType } from 'sequelize-typescript';
+import { ItemModel } from '@rental-system/database-storage';
 
 @Table({ tableName: 'Books' })
-export class BookModel extends Model {
-  @Column({ type: DataType.UUID, primaryKey: true })
-  id: string;
-
-  @Column({ type: DataType.STRING })
-  name: string;
-
-  @Column({ type: DataType.STRING })
-  author: boolean;
-
+export class BookModel extends ItemModel {
   @Column({ type: DataType.INTEGER })
   pagesCount: number;
 }
