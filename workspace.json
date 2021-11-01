@@ -2,10 +2,13 @@
   "version": 2,
   "projects": {
     "books": "apps/books",
-    "common-interfaces": "libs/common-interfaces",
+    "common": "libs/common",
     "config": "libs/config",
     "database-storage": "libs/database-storage",
     "domain": "libs/domain",
-    "filters": "libs/filters"
+    "domain-testing": "libs/domain-testing",
+    "dto": "libs/dto",
+    "filters": "libs/filters",
+    "validators": "libs/validators"
   }
 }

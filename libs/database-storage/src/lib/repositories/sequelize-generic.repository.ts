@@ -1,5 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
-import { IEntityModelFactory, IIdentifiableEntity, IRepository } from '@rental-system/common-interfaces';
+import { FindAllOptions, IEntityModelFactory, IIdentifiableEntity, IRepository } from '@rental-system/common';
+import { WhereOptions } from 'sequelize';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
 
@@ -30,8 +31,13 @@ export abstract class SequelizeGenericRepository<
     return this.modelFactory.modelToEntity(<TModel>data);
   }
 
-  async findAll(where?: Record<string, unknown>) {
-    const dataList = await this.model.findAll(where);
+  async findAll(options: FindAllOptions = {}, where?: WhereOptions) {
+    const dataList = await this.model.findAll({
+      ...(options.sort && options.order ? { order: [options.sort, options.order || 'ASC'] } : {}),
+      ...(options.from ? { offset: options.from } : {}),
+      ...(options.to ? { limit: options.to - (options.from || 0) } : {}),
+      where,
+    });
     return dataList.map((data) => this.modelFactory.modelToEntity(<TModel>data));
   }
 
@@ -59,7 +65,7 @@ export abstract class SequelizeGenericRepository<
     return this.model.destroy(where);
   }
 
-  count(where: Record<string, unknown>): Promise<number> {
+  count(where?: Record<string, unknown>): Promise<number> {
     return this.model.count(where);
   }
 }

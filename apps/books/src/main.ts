@@ -31,9 +31,7 @@ async function bootstrap() {
 
   const port = config.get<number>('PORT');
   await app.startAllMicroservices();
-  await app.listen(port, () => {
-    Logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);
-  });
+  await app.listen(port, () => Logger.log('Listening at http://localhost:' + port + '/' + globalPrefix));
 }
 
 bootstrap();

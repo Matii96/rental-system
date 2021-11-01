@@ -6,5 +6,5 @@ export abstract class ItemModel extends IdentifiableModel {
   name: string;
 
   @Column({ type: DataType.STRING })
-  author: boolean;
+  author: string;
 }

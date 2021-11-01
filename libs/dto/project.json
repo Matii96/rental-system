@@ -1,20 +1,20 @@
 {
-  "root": "libs/common-interfaces",
-  "sourceRoot": "libs/common-interfaces/src",
+  "root": "libs/dto",
+  "sourceRoot": "libs/dto/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/common-interfaces/**/*.ts"]
+        "lintFilePatterns": ["libs/dto/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/common-interfaces"],
+      "outputs": ["coverage/libs/dto"],
       "options": {
-        "jestConfig": "libs/common-interfaces/jest.config.js",
+        "jestConfig": "libs/dto/jest.config.js",
         "passWithNoTests": true
       }
     }

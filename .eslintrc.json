@@ -21,7 +21,7 @@
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript", "plugin:prettier/recommended"],
       "rules": {
-        "@typescript-eslint/no-explicit-any": 0
+        "@typescript-eslint/no-explicit-any": 2
       }
     },
     {

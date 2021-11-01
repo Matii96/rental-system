@@ -2,7 +2,7 @@ import { Inject, Injectable, Scope } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken, InjectModel } from '@nestjs/sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { IEntityModelFactory, IIdentifiableEntity } from '@rental-system/common-interfaces';
+import { IEntityModelFactory, IIdentifiableEntity } from '@rental-system/common';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
 import { SequelizeMock } from '../fixtures/sequelize.mock';
@@ -16,8 +16,8 @@ class IdentifiableEntity implements IIdentifiableEntity<string> {
 @Injectable({ scope: Scope.REQUEST })
 class TestRepository extends SequelizeGenericRepository<IdentifiableEntity, IdentifiableModel> {
   constructor(
-    @InjectModel(IdentifiableModel) readonly model: typeof IdentifiableModel,
-    @Inject('MODEL_FACTORY') readonly modelFactory: IEntityModelFactory<IdentifiableEntity, IdentifiableModel>
+    @InjectModel(IdentifiableModel) model: typeof IdentifiableModel,
+    @Inject('MODEL_FACTORY') modelFactory: IEntityModelFactory<IdentifiableEntity, IdentifiableModel>
   ) {
     super(model, modelFactory);
   }
