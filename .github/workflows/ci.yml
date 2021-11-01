@@ -1,0 +1,66 @@
+name: Node.js CI
+
+on: [push]
+
+jobs:
+  install-dependencies:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ hashFiles('**/package-lock.json') }}
+      - run: npm i
+
+  linting:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        apps: [books, database-storage]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ hashFiles('**/package-lock.json') }}
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - run: ./node_modules/.bin/nx lint ${{ matrix.apps }}
+    needs: install-dependencies
+
+  unit-tests:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        apps: [books, database-storage]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ hashFiles('**/package-lock.json') }}
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - run: ./node_modules/.bin/nx test ${{ matrix.apps }}
+    needs: install-dependencies
+
+  e2e-tests:
+    runs-on: ubuntu-18.04
+    steps:
+      # - run: npm run test:e2e
+      - run: echo ok
+    needs: install-dependencies
