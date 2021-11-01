@@ -1,5 +1,5 @@
 import { plainToClass, Transform } from 'class-transformer';
-import { IsInt, IsString, validateSync } from 'class-validator';
+import { IsIn, IsInt, IsString, validateSync } from 'class-validator';
 import { ConfigValidationError } from './errors/config-validation.error';
 
 export class CommonConfig {
@@ -12,6 +12,26 @@ export class CommonConfig {
 
   @IsString()
   REDIS_PASSWORD: string;
+
+  @IsString()
+  @IsIn(['mysql', 'postgres', 'sqlite', 'mariadb', 'mssql'])
+  DB_DIALECT: string;
+
+  @IsString()
+  DB_HOST: string;
+
+  @Transform((entry) => Number(entry.value))
+  @IsInt()
+  DB_PORT: number;
+
+  @IsString()
+  DB_USERNAME: string;
+
+  @IsString()
+  DB_PASSWORD: string;
+
+  @IsString()
+  DB_NAME: string;
 
   static validate(config: Record<string, unknown>, configClass: typeof CommonConfig = CommonConfig) {
     const configObject = plainToClass(configClass, config);

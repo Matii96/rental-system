@@ -1,5 +1,8 @@
 version: '3.8'
 
+x-node-variables: &node-variables
+  NODE_ENV: development
+
 services:
   books:
     image: node:16-alpine
@@ -7,8 +10,7 @@ services:
       - .:/app
     working_dir: /app
     command: ./node_modules/.bin/nx serve books
-    environment:
-      NODE_ENV: development
+    environment: *node-variables
     ports:
       - 3001:3000
       - 9230:9229
@@ -25,9 +27,10 @@ services:
       - 6379:6379
 
   db:
-    image: postgres:14
+    image: postgres:14-alpine
+    volumes:
+      - ./database-initialization:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_DB: rental
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
@@ -35,8 +38,15 @@ services:
 
   pg-admin:
     image: dpage/pgadmin4
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: dev@rental.com
       PGADMIN_DEFAULT_PASSWORD: secret
     ports:
       - 5000:80
+    logging:
+      driver: none
+
+volumes:
+  pgadmin-data:
