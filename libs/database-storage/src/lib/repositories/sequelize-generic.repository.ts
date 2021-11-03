@@ -1,6 +1,6 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindAllOptions, IEntityModelFactory, IIdentifiableEntity, IRepository } from '@rental-system/common';
-import { WhereOptions } from 'sequelize';
+import { ValidationError, ValidationErrorItem, WhereOptions } from 'sequelize';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
 
@@ -43,7 +43,11 @@ export abstract class SequelizeGenericRepository<
 
   async create(entity: TEntity) {
     const data = this.modelFactory.entityToModel(entity);
-    await this.model.create(data);
+    try {
+      await this.model.create(data);
+    } catch (err) {
+      this.handleDatabaseError(err);
+    }
     return entity;
   }
 
@@ -67,5 +71,12 @@ export abstract class SequelizeGenericRepository<
 
   count(where?: Record<string, unknown>): Promise<number> {
     return this.model.count(where);
+  }
+
+  protected handleDatabaseError(err: ValidationError | Error) {
+    if (!(err instanceof ValidationError)) {
+      throw err;
+    }
+    throw new BadRequestException(err.errors[0].message);
   }
 }

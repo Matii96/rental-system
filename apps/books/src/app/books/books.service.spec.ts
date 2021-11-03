@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BooksService } from './books.service';
+import { bookEntityMock } from '@rental-system/domain-testing';
+import { BooksFactory } from './factories/books-model.factory';
 import { BooksRepository } from './repositories/books.repository';
+import { BooksService } from './books.service';
 
 describe('BooksService', () => {
   let service: BooksService;
@@ -9,6 +11,10 @@ describe('BooksService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         BooksService,
+        {
+          provide: BooksFactory,
+          useValue: { create: jest.fn(() => bookEntityMock()) },
+        },
         {
           provide: BooksRepository,
           useValue: { getById: jest.fn() },

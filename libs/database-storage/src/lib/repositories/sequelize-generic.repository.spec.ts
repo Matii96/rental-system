@@ -1,6 +1,7 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Scope } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken, InjectModel } from '@nestjs/sequelize';
+import { ValidationError, ValidationErrorItem } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 import { IEntityModelFactory, IIdentifiableEntity } from '@rental-system/common';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
@@ -101,5 +102,11 @@ describe('SequelizeGenericRepository', () => {
 
   it('should count entities in database', async () => {
     expect(await repository.count({})).toBe(0);
+  });
+
+  it('should throw model validation error', () => {
+    const error = new ValidationError('Error', [new ValidationErrorItem('Oops')]);
+    // @ts-ignore
+    expect(() => repository.handleDatabaseError(error)).toThrow(BadRequestException);
   });
 });

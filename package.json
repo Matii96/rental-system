@@ -7,7 +7,9 @@
     "build": "nx build",
     "test": "nx test",
     "start:dev": "docker-compose -f docker-compose-dev.yml up",
-    "stop:dev": "docker-compose -f docker-compose-dev.yml down"
+    "stop:dev": "docker-compose -f docker-compose-dev.yml down",
+    "lint:all": "nx run-many --target=lint --all --parallel --maxParallel=2",
+    "test:all": "nx run-many --target=test --all --parallel --maxParallel=2"
   },
   "private": true,
   "dependencies": {
