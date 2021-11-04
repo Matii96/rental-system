@@ -14,7 +14,7 @@ export class BooksController {
   @Get()
   @ApiOkResponse({ type: [BookOutputDto] })
   async list(@Req() req: Request, @Query() query: ReactAdminQueryDto) {
-    const { data, total } = await this.booksService.getAll(query.optionsFormat);
+    const { data, total } = await this.booksService.getAll(query.toOptions());
     req.res.setHeader('X-Total-Count', total);
     return data;
   }

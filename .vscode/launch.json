@@ -2,6 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "users",
+      "type": "node",
+      "request": "attach",
+      "port": 9231,
+      "address": "localhost",
+      "localRoot": "${workspaceRoot}",
+      "remoteRoot": "/app",
+      "restart": true
+    },
+    {
       "name": "books",
       "type": "node",
       "request": "attach",

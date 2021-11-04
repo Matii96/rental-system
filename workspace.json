@@ -9,6 +9,7 @@
     "domain-testing": "libs/domain-testing",
     "dto": "libs/dto",
     "filters": "libs/filters",
+    "users": "apps/users",
     "validators": "libs/validators"
   }
 }

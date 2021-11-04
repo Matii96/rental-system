@@ -36,7 +36,7 @@ export class ReactAdminQueryDto {
   @IsOptional()
   q?: string;
 
-  get optionsFormat(): FindAllSearchOptions {
+  toOptions(): FindAllSearchOptions {
     return {
       sort: this._sort,
       order: this._order,
