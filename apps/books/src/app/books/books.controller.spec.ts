@@ -26,7 +26,7 @@ describe('BooksController', () => {
 
   it('should get all queried books', async () => {
     const req = <Request>{ res: <any>{ setHeader: jest.fn() } };
-    expect(await controller.list(req, <any>{})).toEqual([]);
+    expect(await controller.list(req, { toOptions: jest.fn() })).toEqual([]);
     expect(booksServiceMock.getAll).toHaveBeenCalledTimes(1);
   });
 });

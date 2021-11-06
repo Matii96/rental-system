@@ -3,6 +3,10 @@ import { IsIn, IsInt, IsString, validateSync } from 'class-validator';
 import { ConfigValidationError } from './errors/config-validation.error';
 
 export class CommonConfig {
+  @Transform((entry) => Number(entry.value))
+  @IsInt()
+  PORT: number;
+
   @IsString()
   REDIS_HOST: string;
 

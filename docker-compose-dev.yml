@@ -43,7 +43,7 @@ services:
   db:
     image: postgres:14-alpine
     volumes:
-      - ./database-initialization:/docker-entrypoint-initdb.d
+      - ./dev-db:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

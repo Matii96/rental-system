@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { sequelizeFactory } from '@rental-system/config';
-import { BooksConfig } from './config/config.validator';
+import { CommonConfig, sequelizeFactory } from '@rental-system/config';
 import { AppController } from './app.controller';
 import { BooksModule } from './books/books.module';
 
@@ -11,7 +10,7 @@ import { BooksModule } from './books/books.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env', 'apps/books/.env'],
-      validate: BooksConfig.validate,
+      validate: CommonConfig.validate,
     }),
     SequelizeModule.forRootAsync({
       inject: [ConfigService],

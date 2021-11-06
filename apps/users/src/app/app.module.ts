@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { CommonConfig, sequelizeFactory } from '@rental-system/config';
+import { sequelizeFactory } from '@rental-system/config';
 import { AppController } from './app.controller';
+import { UsersConfig } from './config/config.validator';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -10,7 +11,7 @@ import { UsersModule } from './users/users.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env', 'apps/users/.env'],
-      validate: CommonConfig.validate,
+      validate: UsersConfig.validate,
     }),
     SequelizeModule.forRootAsync({
       inject: [ConfigService],

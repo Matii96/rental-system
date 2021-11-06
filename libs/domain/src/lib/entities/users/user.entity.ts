@@ -3,7 +3,7 @@ import { hashSync, compareSync } from 'bcrypt';
 import { IIdentifiableEntity } from '@rental-system/common';
 import { InvalidLoginException } from '../../exceptions/invalid-login.exception';
 
-export abstract class UserEntity extends AggregateRoot implements IIdentifiableEntity<string> {
+export class UserEntity extends AggregateRoot implements IIdentifiableEntity<string> {
   constructor(
     public readonly id: string,
     public readonly createdAt: Date,
