@@ -1,5 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs';
-import { hashSync, compareSync } from 'bcrypt';
+import { hashSync, compareSync } from 'bcryptjs';
 import { IIdentifiableEntity } from '@rental-system/common';
 import { InvalidLoginException } from '../../exceptions/invalid-login.exception';
 
