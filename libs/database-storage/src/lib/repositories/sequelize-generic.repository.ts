@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindAllOptions, IEntityModelFactory, IIdentifiableEntity, IRepository } from '@rental-system/common';
-import { ValidationError, ValidationErrorItem, WhereOptions } from 'sequelize';
+import { ValidationError, WhereOptions } from 'sequelize';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
 

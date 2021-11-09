@@ -14,6 +14,10 @@ export class UserEntity extends AggregateRoot implements IIdentifiableEntity<str
     super();
   }
 
+  getPassword() {
+    return this.password;
+  }
+
   setPassword(password: string, salt: number) {
     this.password = hashSync(password, salt);
   }

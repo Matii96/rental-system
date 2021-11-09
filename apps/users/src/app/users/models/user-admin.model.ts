@@ -1,9 +1,8 @@
 import { Column, Model, Table, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { IdentifiableModel } from '@rental-system/database-storage';
 import { UserModel } from './user.model';
 
 @Table({ tableName: 'UsersAdmins' })
-export class UserAdminModel extends IdentifiableModel {
+export class UserAdminModel extends Model {
   @Column({ type: DataType.BOOLEAN })
   agreedToNewsletter: boolean;
 
@@ -11,9 +10,9 @@ export class UserAdminModel extends IdentifiableModel {
   salary: number;
 
   @ForeignKey((): typeof Model => UserModel)
-  @Column({ type: DataType.STRING })
-  public userId: string;
+  @Column({ type: DataType.STRING, primaryKey: true })
+  userId: string;
 
   @BelongsTo((): typeof Model => UserModel, { onDelete: 'CASCADE' })
-  public user: UserModel;
+  user: UserModel;
 }
