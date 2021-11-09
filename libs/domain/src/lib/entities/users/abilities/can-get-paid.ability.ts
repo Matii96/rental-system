@@ -1,6 +1,6 @@
 import { MixinConstructor } from '@rental-system/common';
 
-export const canGetPaidAbility = <TBase extends MixinConstructor>(base: TBase) =>
+export const CanGetPaidAbility = <TBase extends MixinConstructor>(base: TBase) =>
   class extends base {
     salary: number;
 
