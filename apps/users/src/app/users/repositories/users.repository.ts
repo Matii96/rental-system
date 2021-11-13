@@ -12,7 +12,7 @@ import { CustomersModelFactory } from '../customers/repositories/factories/custo
 import { InvalidUserClassException } from '../exceptions/invalid-user-class.exception';
 import { UsersModelFactory } from './factories/users-model.factory';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel> {
   private readonly usersClasses = [UserAdminModel, UserCustomerModel];
 
@@ -39,7 +39,7 @@ export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel
       ...this.applyOptions(options),
     });
 
-    return users.map((user) => {
+    return users.map((user): IUser => {
       if (user.adminData) return this.adminsModelFactory.modelToEntity(user.adminData, user);
       if (user.customerData) return this.customersModelFactory.modelToEntity(user.customerData, user);
       throw new InvalidUserClassException(user.id);

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AdminInputDto } from './dto/input.dto';
 import { AdminOutputDto } from './dto/output.dto';
-import { AdminsFactory } from './factories/admins-model.factory';
+import { AdminsFactory } from './factories/admins.factory';
 import { AdminsRepository } from './repositories/admins.repository';
 
 @Injectable()

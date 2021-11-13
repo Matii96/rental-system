@@ -1,4 +1,4 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { BookEntity } from '@rental-system/domain';
@@ -7,7 +7,7 @@ import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { BookModel } from '../models/book.model';
 import { BooksModelFactory } from './factories/books-model.factory';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class BooksRepository extends SequelizeGenericRepository<BookEntity, BookModel> {
   constructor(@InjectModel(BookModel) model: typeof BookModel, modelFactory: BooksModelFactory) {
     super(model, modelFactory);

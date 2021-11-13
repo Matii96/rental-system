@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { FindAllOptions, IEntityModelFactory, IIdentifiableEntity, IRepository } from '@rental-system/common';
-import { ValidationError, WhereOptions } from 'sequelize';
+import { Transaction, ValidationError, WhereOptions } from 'sequelize';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
 
@@ -14,58 +14,64 @@ export abstract class SequelizeGenericRepository<
     protected readonly modelFactory: IEntityModelFactory<TEntity, TModel>
   ) {}
 
-  async findById(id: string) {
+  async findById(id: string, transaction?: Transaction) {
     const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
     if (!regexExp.test(id)) {
       throw new InvalidIdException();
     }
 
-    const data = await this.model.findByPk(id);
+    const data = await this.model.findByPk(id, { transaction });
     if (!data) throw new NotFoundException();
     return this.modelFactory.modelToEntity(<TModel>data);
   }
 
-  async findOne(where: Record<string, unknown>) {
-    const data = await this.model.findOne(where);
+  async findOne(where: Record<string, unknown>, transaction?: Transaction) {
+    const data = await this.model.findOne({ where, transaction });
     if (!data) throw new NotFoundException();
     return this.modelFactory.modelToEntity(<TModel>data);
   }
 
-  async findAll(options: FindAllOptions = {}, where?: WhereOptions) {
-    const dataList = await this.model.findAll({ where, ...this.applyOptions(options) });
+  async findAll(options: FindAllOptions = {}, where?: WhereOptions, transaction?: Transaction) {
+    const dataList = await this.model.findAll({ where, ...this.applyOptions(options), transaction });
     return dataList.map((data) => this.modelFactory.modelToEntity(<TModel>data));
   }
 
-  async create(entity: TEntity) {
+  async create(entity: TEntity, transaction?: Transaction) {
     const data = this.modelFactory.entityToModel(entity);
     try {
-      await this.model.create(data);
+      await this.model.create(data, { transaction });
     } catch (err) {
       this.handleDatabaseError(err);
     }
     return entity;
   }
 
-  async update(entity: TEntity) {
+  async update(entity: TEntity, transaction?: Transaction) {
     const { id, ...updateData } = this.modelFactory.entityToModel(entity);
-    const [matchedCount] = await this.model.update(updateData, { where: { id } });
-    if (matchedCount === 0) throw new NotFoundException();
+    let updatedCount: number;
+    try {
+      const [matchedCount] = await this.model.update(updateData, { where: { id }, transaction });
+      updatedCount = matchedCount;
+    } catch (err) {
+      this.handleDatabaseError(err);
+    }
+    if (updatedCount === 0) throw new NotFoundException();
     return entity;
   }
 
-  async delete(entity: TEntity) {
-    const data = await this.model.findByPk(entity.id);
+  async delete(entity: TEntity, transaction?: Transaction) {
+    const data = await this.model.findByPk(entity.id, { transaction });
     if (!data) throw new NotFoundException();
-    await data.destroy();
+    await data.destroy({ transaction });
     return entity;
   }
 
-  deleteMany(where: Record<string, unknown>) {
-    return this.model.destroy(where);
+  deleteMany(where: Record<string, unknown>, transaction?: Transaction) {
+    return this.model.destroy({ where, transaction });
   }
 
-  count(where?: Record<string, unknown>): Promise<number> {
-    return this.model.count(where);
+  count(where?: Record<string, unknown>, transaction?: Transaction): Promise<number> {
+    return this.model.count({ where, transaction });
   }
 
   protected applyOptions(options: FindAllOptions) {

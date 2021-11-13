@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserAdminEntity } from '@rental-system/domain';
+import { UserCustomerEntity } from '@rental-system/domain';
 
-export class AdminOutputDto {
+export class CustomerOutputDto {
   @ApiProperty()
   name: string;
 
@@ -14,10 +14,9 @@ export class AdminOutputDto {
   @ApiProperty({ example: 1000 })
   salary: number;
 
-  constructor(user: UserAdminEntity) {
+  constructor(user: UserCustomerEntity) {
     this.name = user.name;
     this.email = user.email;
     this.agreedToNewsletter = user.agreedToNewsletter;
-    this.salary = user.salary;
   }
 }

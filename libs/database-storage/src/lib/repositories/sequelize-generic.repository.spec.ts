@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, Scope } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken, InjectModel } from '@nestjs/sequelize';
 import { ValidationError, ValidationErrorItem } from 'sequelize';
@@ -14,7 +14,7 @@ class IdentifiableEntity implements IIdentifiableEntity<string> {
   constructor(readonly id: string) {}
 }
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 class TestRepository extends SequelizeGenericRepository<IdentifiableEntity, IdentifiableModel> {
   constructor(
     @InjectModel(IdentifiableModel) model: typeof IdentifiableModel,
@@ -44,7 +44,7 @@ describe('SequelizeGenericRepository', () => {
       ],
     }).compile();
 
-    repository = await module.resolve(TestRepository);
+    repository = module.get(TestRepository);
     dbModelMock = module.get(getModelToken(IdentifiableModel));
     modelFactoryMock = module.get('MODEL_FACTORY');
   });

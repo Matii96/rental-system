@@ -4,7 +4,7 @@ import { UserAdminModel } from './models/admin.model';
 import { AdminsModelFactory } from './repositories/factories/admins-model.factory';
 import { AdminsRepository } from './repositories/admins.repository';
 import { UsersModule } from '../users.module';
-import { AdminsFactory } from './factories/admins-model.factory';
+import { AdminsFactory } from './factories/admins.factory';
 import { AdminsController } from './admins.controller';
 import { AdminsService } from './admins.service';
 

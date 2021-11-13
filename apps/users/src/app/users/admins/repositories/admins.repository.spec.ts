@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
 import { UsersRepository } from '../../repositories/users.repository';
@@ -30,6 +31,10 @@ describe('AdminsRepository', () => {
         {
           provide: UsersRepository,
           useValue: { create: jest.fn(), update: jest.fn() },
+        },
+        {
+          provide: Sequelize,
+          useValue: { transaction: jest.fn((action: () => any) => action()) },
         },
       ],
     }).compile();
