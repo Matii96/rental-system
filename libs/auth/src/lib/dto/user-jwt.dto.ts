@@ -1,7 +1,6 @@
 import { IUser, UserTypes } from '@rental-system/domain';
-import { IUserJwt } from '../interfaces/user-jwt.interface';
 
-export class UserJwtDto implements IUserJwt {
+export class UserJwtDto {
   id: string;
   name: string;
   email: string;
