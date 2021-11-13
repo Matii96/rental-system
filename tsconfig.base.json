@@ -15,12 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@rental-system/auth": ["libs/auth/src/index.ts"],
       "@rental-system/common": ["libs/common/src/index.ts"],
       "@rental-system/config": ["libs/config/src/index.ts"],
       "@rental-system/database-storage": ["libs/database-storage/src/index.ts"],
       "@rental-system/domain": ["libs/domain/src/index.ts"],
       "@rental-system/domain-testing": ["libs/domain-testing/src/index.ts"],
       "@rental-system/dto": ["libs/dto/src/index.ts"],
+      "@rental-system/dto-interfaces": ["libs/dto-interfaces/src/index.ts"],
       "@rental-system/filters": ["libs/filters/src/index.ts"],
       "@rental-system/validators": ["libs/validators/src/index.ts"]
     }

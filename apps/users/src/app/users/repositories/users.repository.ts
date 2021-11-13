@@ -1,27 +1,19 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { FindAllSearchOptions } from '@rental-system/common';
-import { IUser } from '@rental-system/domain';
+import { InvalidLoginException, IUser } from '@rental-system/domain';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { UserModel } from '../models/user.model';
 import { UserAdminModel } from '../admins/models/admin.model';
 import { UserCustomerModel } from '../customers/models/user-customer.model';
-import { AdminsModelFactory } from '../admins/repositories/factories/admins-model.factory';
-import { CustomersModelFactory } from '../customers/repositories/factories/customers-model.factory';
-import { InvalidUserClassException } from '../exceptions/invalid-user-class.exception';
 import { UsersModelFactory } from './factories/users-model.factory';
 
 @Injectable()
 export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel> {
-  private readonly usersClasses = [UserAdminModel, UserCustomerModel];
+  private readonly usersModels = [UserAdminModel, UserCustomerModel];
 
-  constructor(
-    @InjectModel(UserModel) protected readonly model: typeof UserModel,
-    modelFactory: UsersModelFactory,
-    private readonly adminsModelFactory: AdminsModelFactory,
-    private readonly customersModelFactory: CustomersModelFactory
-  ) {
+  constructor(@InjectModel(UserModel) protected readonly model: typeof UserModel, modelFactory: UsersModelFactory) {
     super(model, modelFactory);
   }
 
@@ -34,15 +26,24 @@ export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel
     }
 
     const users = await this.model.findAll({
-      include: this.usersClasses.map((model) => ({ model, required: false })),
+      include: this.usersModels.map((model) => ({ model, required: false })),
       where: { [Op.or]: query },
       ...this.applyOptions(options),
     });
 
-    return users.map((user): IUser => {
-      if (user.adminData) return this.adminsModelFactory.modelToEntity(user.adminData, user);
-      if (user.customerData) return this.customersModelFactory.modelToEntity(user.customerData, user);
-      throw new InvalidUserClassException(user.id);
+    return users.map((user) => this.modelFactory.modelToEntity(user));
+  }
+
+  async findByLogin(nameOrEmail: string): Promise<IUser> {
+    const user = await this.model.findOne({
+      include: this.usersModels.map((model) => ({ model, required: false })),
+      where: {
+        [Op.or]: [{ name: nameOrEmail }, { email: nameOrEmail }],
+        password: { [Op.ne]: null },
+      },
     });
+
+    if (!user) throw new InvalidLoginException();
+    return this.modelFactory.modelToEntity(user);
   }
 }

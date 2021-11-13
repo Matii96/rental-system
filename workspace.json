@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "auth": "libs/auth",
     "books": "apps/books",
     "common": "libs/common",
     "config": "libs/config",
@@ -8,6 +9,7 @@
     "domain": "libs/domain",
     "domain-testing": "libs/domain-testing",
     "dto": "libs/dto",
+    "dto-interfaces": "libs/dto-interfaces",
     "filters": "libs/filters",
     "users": "apps/users",
     "validators": "libs/validators"

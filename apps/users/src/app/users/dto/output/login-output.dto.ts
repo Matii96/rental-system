@@ -1,9 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IUser } from '@rental-system/domain';
+import { IUserLoginOutput } from '@rental-system/dto-interfaces';
+import { UserOutputDto } from './output.dto';
 
-export class UserLoginOutputDto {
+export class UserLoginOutputDto extends UserOutputDto implements IUserLoginOutput {
   @ApiProperty()
-  nameOrEmail: string;
+  jwt: string;
 
-  @ApiProperty()
-  password: string;
+  constructor(user: IUser, jwt: string) {
+    super(user);
+    this.jwt = jwt;
+  }
 }

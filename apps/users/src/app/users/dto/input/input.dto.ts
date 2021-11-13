@@ -1,7 +1,8 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IUserInput } from '@rental-system/dto-interfaces';
 
-export abstract class UserInputDto {
+export abstract class UserInputDto implements IUserInput {
   @ApiProperty({ example: 'John Smith' })
   @IsString()
   @IsNotEmpty()
@@ -12,7 +13,7 @@ export abstract class UserInputDto {
   @IsNotEmpty()
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'password' })
   @IsString()
   @IsNotEmpty()
   password: string;

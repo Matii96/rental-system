@@ -22,6 +22,9 @@ export class UserEntity extends AggregateRoot implements IIdentifiableEntity<str
     this.password = hashSync(password, salt);
   }
 
+  /**
+   * Throws InvalidLoginException if password is invalid
+   */
   checkPassword(password: string) {
     if (!compareSync(password, this.password)) {
       throw new InvalidLoginException();

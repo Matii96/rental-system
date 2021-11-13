@@ -1,22 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserCustomerEntity } from '@rental-system/domain';
+import { ICustomerOutput } from '@rental-system/dto-interfaces';
+import { UserOutputDto } from '../../dto/output/output.dto';
 
-export class CustomerOutputDto {
-  @ApiProperty()
-  name: string;
-
-  @ApiProperty()
-  email: string;
-
+export class CustomerOutputDto extends UserOutputDto implements ICustomerOutput {
   @ApiProperty()
   agreedToNewsletter: boolean;
 
-  @ApiProperty({ example: 1000 })
-  salary: number;
-
   constructor(user: UserCustomerEntity) {
-    this.name = user.name;
-    this.email = user.email;
+    super(user);
     this.agreedToNewsletter = user.agreedToNewsletter;
   }
 }

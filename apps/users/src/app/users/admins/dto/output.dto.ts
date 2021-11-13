@@ -1,13 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserAdminEntity } from '@rental-system/domain';
+import { IAdminOutput } from '@rental-system/dto-interfaces';
+import { UserOutputDto } from '../../dto/output/output.dto';
 
-export class AdminOutputDto {
-  @ApiProperty()
-  name: string;
-
-  @ApiProperty()
-  email: string;
-
+export class AdminOutputDto extends UserOutputDto implements IAdminOutput {
   @ApiProperty()
   agreedToNewsletter: boolean;
 
@@ -15,8 +11,7 @@ export class AdminOutputDto {
   salary: number;
 
   constructor(user: UserAdminEntity) {
-    this.name = user.name;
-    this.email = user.email;
+    super(user);
     this.agreedToNewsletter = user.agreedToNewsletter;
     this.salary = user.salary;
   }

@@ -1,13 +1,14 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IUserLoginInput } from '@rental-system/dto-interfaces';
 
-export class UserLoginInputDto {
-  @ApiProperty()
+export class UserLoginInputDto implements IUserLoginInput {
+  @ApiProperty({ example: 'John Smith' })
   @IsString()
   @IsNotEmpty()
   nameOrEmail: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'password' })
   @IsString()
   @IsNotEmpty()
   password: string;

@@ -1,5 +1,5 @@
 import { plainToClass, Transform } from 'class-transformer';
-import { IsIn, IsInt, IsString, validateSync } from 'class-validator';
+import { IsDefined, IsIn, IsInt, IsString, validateSync } from 'class-validator';
 import { ConfigValidationError } from './errors/config-validation.error';
 
 export class CommonConfig {
@@ -36,6 +36,12 @@ export class CommonConfig {
 
   @IsString()
   DB_NAME: string;
+
+  @IsString()
+  JWT_SECRET: string;
+
+  @IsDefined()
+  JWT_EXPIRES_IN: string | number;
 
   static validate(config: Record<string, unknown>, configClass: typeof CommonConfig = CommonConfig) {
     const configObject = plainToClass(configClass, config);
