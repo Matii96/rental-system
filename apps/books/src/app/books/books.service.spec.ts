@@ -17,7 +17,7 @@ describe('BooksService', () => {
         },
         {
           provide: BooksRepository,
-          useValue: { getById: jest.fn() },
+          useValue: {},
         },
       ],
     }).compile();

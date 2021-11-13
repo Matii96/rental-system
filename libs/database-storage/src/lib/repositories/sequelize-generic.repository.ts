@@ -32,12 +32,7 @@ export abstract class SequelizeGenericRepository<
   }
 
   async findAll(options: FindAllOptions = {}, where?: WhereOptions) {
-    const dataList = await this.model.findAll({
-      ...(options.sort && options.order ? { order: [options.sort, options.order || 'ASC'] } : {}),
-      ...(options.from ? { offset: options.from } : {}),
-      ...(options.to ? { limit: options.to - (options.from || 0) } : {}),
-      where,
-    });
+    const dataList = await this.model.findAll({ where, ...this.applyOptions(options) });
     return dataList.map((data) => this.modelFactory.modelToEntity(<TModel>data));
   }
 
@@ -71,6 +66,14 @@ export abstract class SequelizeGenericRepository<
 
   count(where?: Record<string, unknown>): Promise<number> {
     return this.model.count(where);
+  }
+
+  protected applyOptions(options: FindAllOptions) {
+    return {
+      ...(options.sort && options.order ? { order: [options.sort, options.order || 'ASC'] } : {}),
+      ...(options.from ? { offset: options.from } : {}),
+      ...(options.to ? { limit: options.to - (options.from || 0) } : {}),
+    };
   }
 
   protected handleDatabaseError(err: ValidationError | Error) {

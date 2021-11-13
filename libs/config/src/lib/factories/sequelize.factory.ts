@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import { Dialect } from 'sequelize/types';
+import { format } from 'sql-formatter';
 
 export const sequelizeFactory = (config: ConfigService): SequelizeModuleOptions => {
   const debug = process.env.NODE_ENV !== 'production';
@@ -19,7 +20,7 @@ export const sequelizeFactory = (config: ConfigService): SequelizeModuleOptions 
 
   if (debug) {
     const logger = new Logger('Database');
-    sequelize.logging = (msg: string) => logger.debug(msg);
+    sequelize.logging = (msg: string) => logger.debug(format(msg));
   }
 
   return sequelize;

@@ -1,0 +1,52 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { getModelToken } from '@nestjs/sequelize';
+import { userCustomerEntityMock } from '@rental-system/domain-testing';
+import { SequelizeMock } from '@rental-system/database-storage';
+import { UsersRepository } from '../../repositories/users.repository';
+import { UserCustomerModel } from '../models/user-customer.model';
+import { userCustomerModelMock } from '../customers.fixtures';
+import { CustomersModelFactory } from './factories/customers-model.factory';
+import { CustomersRepository } from './customers.repository';
+
+describe('CustomersRepository', () => {
+  let repository: CustomersRepository;
+  let usersRepositoryMock: UsersRepository;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        CustomersRepository,
+        {
+          provide: getModelToken(UserCustomerModel),
+          useClass: SequelizeMock,
+        },
+        {
+          provide: CustomersModelFactory,
+          useValue: {
+            entityToModel: jest.fn(() => userCustomerModelMock()),
+            modelToEntity: jest.fn(() => userCustomerEntityMock()),
+          },
+        },
+        {
+          provide: UsersRepository,
+          useValue: { create: jest.fn(), update: jest.fn() },
+        },
+      ],
+    }).compile();
+
+    repository = await module.resolve(CustomersRepository);
+    usersRepositoryMock = await module.resolve(UsersRepository);
+  });
+
+  it('should create customer user', async () => {
+    const user = userCustomerEntityMock();
+    expect(await repository.create(user)).toEqual(user);
+    expect(usersRepositoryMock.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should update customer user', async () => {
+    const user = userCustomerEntityMock();
+    expect(await repository.update(user)).toEqual(user);
+    expect(usersRepositoryMock.update).toHaveBeenCalledTimes(1);
+  });
+});

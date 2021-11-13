@@ -12,8 +12,8 @@ services:
     command: ./node_modules/.bin/nx serve users
     environment: *node-variables
     ports:
-      - 3002:3000
-      - 9231:9229
+      - 3001:3000
+      - 9230:9229
     depends_on:
       - redis
       - db
@@ -26,8 +26,8 @@ services:
     command: ./node_modules/.bin/nx serve books
     environment: *node-variables
     ports:
-      - 3001:3000
-      - 9230:9229
+      - 3002:3000
+      - 9231:9229
     depends_on:
       - redis
       - db

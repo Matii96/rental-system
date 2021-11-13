@@ -1,26 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { UserCustomerEntity } from '@rental-system/domain';
 import { IEntityModelFactory } from '@rental-system/common';
+import { UserModel } from '../../../models/user.model';
 import { UserCustomerModel } from '../../models/user-customer.model';
-import { UserModel } from '../../models/user.model';
 
 @Injectable()
-export class UsersCustomersModelFactory implements IEntityModelFactory<UserCustomerEntity, UserCustomerModel> {
-  entityToUserModel(user: UserCustomerEntity): UserModel {
-    return <UserModel>{
-      id: user.id,
-      createdAt: user.createdAt,
-      name: user.name,
-      email: user.email,
-      password: user.getPassword(),
-    };
-  }
-
+export class CustomersModelFactory implements IEntityModelFactory<UserCustomerEntity, UserCustomerModel> {
   entityToModel(user: UserCustomerEntity): UserCustomerModel {
     return <UserCustomerModel>{
-      agreedToNewsletter: user.agreedToNewsletter,
-      userId: user.id,
+      id: user.id,
       user: null,
+      agreedToNewsletter: user.agreedToNewsletter,
     };
   }
 

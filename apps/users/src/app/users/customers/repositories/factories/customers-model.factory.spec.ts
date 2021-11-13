@@ -1,17 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { userCustomerEntityMock } from '@rental-system/domain-testing';
-import { UsersCustomersModelFactory } from './users-customers-model.factory';
-import { userCustomerModelMock, userModelMock } from '../../users.fixtures';
+import { userModelMock } from '../../../users.fixtures';
+import { userCustomerModelMock } from '../../customers.fixtures';
+import { CustomersModelFactory } from './customers-model.factory';
 
-describe('UsersCustomersModelFactory', () => {
-  let factory: UsersCustomersModelFactory;
+describe('CustomersModelFactory', () => {
+  let factory: CustomersModelFactory;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersCustomersModelFactory],
+      providers: [CustomersModelFactory],
     }).compile();
 
-    factory = module.get(UsersCustomersModelFactory);
+    factory = module.get(CustomersModelFactory);
   });
 
   it('should map entity to model', () => {
