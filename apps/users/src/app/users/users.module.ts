@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { jwtFactory } from '@rental-system/config';
+import { AuthModule } from '@rental-system/auth';
 import { AdminsModule } from './admins/admins.module';
 import { CustomersModule } from './customers/customers.module';
 import { UserModel } from './models/user.model';
@@ -18,6 +19,7 @@ import { UsersService } from './users.service';
       useFactory: jwtFactory,
     }),
     SequelizeModule.forFeature([UserModel]),
+    AuthModule,
     AdminsModule,
     CustomersModule,
   ],

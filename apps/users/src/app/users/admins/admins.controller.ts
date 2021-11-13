@@ -5,7 +5,7 @@ import { AdminInputDto } from './dto/input.dto';
 import { AdminOutputDto } from './dto/output.dto';
 
 @ApiTags('Users Admins')
-@Controller('admins')
+@Controller('v1/admins')
 export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
 

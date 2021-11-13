@@ -1,18 +1,20 @@
-import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { ReactAdminQueryDto } from '@rental-system/dto';
+import { JwtAuthGuard } from '@rental-system/auth';
 import { UsersService } from './users.service';
 import { UserOutputDto } from './dto/output/output.dto';
 import { UserLoginOutputDto } from './dto/output/login-output.dto';
 import { UserLoginInputDto } from './dto/input/login-input.dto';
 
 @ApiTags('Users')
-@Controller('users')
+@Controller('v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: [UserOutputDto] })
   async list(@Req() req: Request, @Query() query: ReactAdminQueryDto) {
     const { data, total } = await this.usersService.getAll(query.toOptions());

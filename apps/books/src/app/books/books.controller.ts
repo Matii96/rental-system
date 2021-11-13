@@ -7,7 +7,7 @@ import { BookOutputDto } from './dto/output.dto';
 import { BookInputDto } from './dto/input.dto';
 
 @ApiTags('Books')
-@Controller('books')
+@Controller('v1/books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
