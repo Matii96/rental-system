@@ -6,8 +6,8 @@ import { registerDecorator, ValidationOptions, ValidationArguments } from 'class
  * @param {number} by Max difference between both values. Default 0
  * @param {ValidationOptions} validationOptions
  */
-export function IsNotGreaterThan(property: string, by = 0, validationOptions?: ValidationOptions) {
-  return function (object: any, propertyName: string) {
+export const IsNotGreaterThan = (property: string, by = 0, validationOptions?: ValidationOptions) =>
+  function (object: any, propertyName: string) {
     registerDecorator({
       name: IsNotGreaterThan.name,
       target: object.constructor,
@@ -25,4 +25,3 @@ export function IsNotGreaterThan(property: string, by = 0, validationOptions?: V
       },
     });
   };
-}

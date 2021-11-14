@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { IUser, UsersMapper } from '@rental-system/domain';
+import { IUser } from '@rental-system/domain';
 import { plainToClass } from 'class-transformer';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { AuthUserDto } from '../dto/auth-user.dto';
+import { AuthUserJwtDto } from '../dto/auth-user-jwt.dto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: AuthUserDto): IUser {
-    return plainToClass(UsersMapper[payload.type], payload.data);
+  validate(payload: AuthUserJwtDto): IUser {
+    // return plainToClass(UsersMapper[payload.type], payload.data);
   }
 }

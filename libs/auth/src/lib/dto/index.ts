@@ -1,1 +1,1 @@
-export * from './auth-user.dto';
+export * from './auth-user-jwt.dto';
