@@ -3,6 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { ClassOf, instanceOfMixin, Mixin } from '@rental-system/common';
 import { IUser } from '@rental-system/domain';
 import { AuthMetadata } from '../enums/metadata.enum';
+import { InvalidContextTypeException } from '../exceptions/invalid-context-type.exception';
 import { IAuthenticatedRequest } from '../interfaces/authenticated-request.interface';
 
 @Injectable()
@@ -28,9 +29,9 @@ export class UserAuthorizationGuard implements CanActivate {
     const allowed = this.reflector.get<(ClassOf<IUser> | Mixin)[]>(AuthMetadata.AUTH_ALLOWED, context.getHandler());
     switch (context.getType()) {
       case 'http':
-        const req = context.switchToHttp().getRequest<IAuthenticatedRequest>();
-        return this.checkAccess(req.user, allowed);
+        return this.checkAccess(context.switchToHttp().getRequest<IAuthenticatedRequest>().user, allowed);
+      default:
+        throw new InvalidContextTypeException(context.getType());
     }
-    return true;
   }
 }

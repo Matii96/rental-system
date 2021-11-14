@@ -24,7 +24,7 @@ describe('BooksRepository', () => {
       ],
     }).compile();
 
-    repository = await module.resolve(BooksRepository);
+    repository = module.get(BooksRepository);
   });
 
   it('should find queried books', async () => {

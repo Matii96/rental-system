@@ -39,8 +39,8 @@ describe('CustomersRepository', () => {
       ],
     }).compile();
 
-    repository = await module.resolve(CustomersRepository);
-    usersRepositoryMock = await module.resolve(UsersRepository);
+    repository = module.get(CustomersRepository);
+    usersRepositoryMock = module.get(UsersRepository);
   });
 
   it('should create customer user', async () => {

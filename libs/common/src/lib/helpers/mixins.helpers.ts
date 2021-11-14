@@ -5,7 +5,7 @@ export const instanceOfMixin = (
   mixin: <TBase extends MixinConstructor>(base: TBase) => MixinConstructor
 ) => {
   const mixinClass = mixin(class {});
-  for (let propertyName of Object.getOwnPropertyNames(mixinClass.prototype)) {
+  for (const propertyName of Object.getOwnPropertyNames(mixinClass.prototype)) {
     if (!obj[propertyName]) return false;
   }
   return true;

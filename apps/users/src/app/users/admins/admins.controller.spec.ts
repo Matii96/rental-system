@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
+import { AdminsRepository } from './repositories/admins.repository';
 import { userAdminInputMock } from './admins.fixtures';
 import { AdminsController } from './admins.controller';
 import { AdminOutputDto } from './dto/output.dto';
@@ -7,15 +8,23 @@ import { AdminsService } from './admins.service';
 
 describe('AdminsController', () => {
   let controller: AdminsController;
+  let adminsRepositoryMock: AdminsRepository;
   let adminsServiceMock: AdminsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminsController],
-      providers: [{ provide: AdminsService, useValue: { create: jest.fn() } }],
+      providers: [
+        {
+          provide: AdminsRepository,
+          useValue: { findById: jest.fn(() => userAdminEntityMock()) },
+        },
+        { provide: AdminsService, useValue: { create: jest.fn() } },
+      ],
     }).compile();
 
     controller = module.get(AdminsController);
+    adminsRepositoryMock = module.get(AdminsRepository);
     adminsServiceMock = module.get(AdminsService);
   });
 
@@ -26,5 +35,13 @@ describe('AdminsController', () => {
 
     expect(await controller.create(userAdminInputMock(user))).toEqual(userOutput);
     expect(adminsServiceMock.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should get user by id', async () => {
+    const user = userAdminEntityMock();
+    jest.spyOn(adminsRepositoryMock, 'findById').mockResolvedValueOnce(user);
+
+    expect(await controller.getUserById('id')).toEqual(user);
+    expect(adminsRepositoryMock.findById).toHaveBeenCalledTimes(1);
   });
 });

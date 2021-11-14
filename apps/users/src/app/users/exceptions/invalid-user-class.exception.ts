@@ -1,6 +1,6 @@
-import { InternalServerErrorException } from '@nestjs/common';
+import { NotImplementedException } from '@nestjs/common';
 
-export class InvalidUserClassException extends InternalServerErrorException {
+export class InvalidUserClassException extends NotImplementedException {
   constructor(userId: string) {
     super('Invalid user class for User id=' + userId);
   }

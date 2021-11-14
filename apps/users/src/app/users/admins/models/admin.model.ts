@@ -1,4 +1,4 @@
-import { Column, Model, Table, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Column, Table, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { IdentifiableModel } from '@rental-system/database-storage';
 import { UserModel } from '../../models/user.model';
 

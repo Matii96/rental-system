@@ -28,14 +28,14 @@ export class AdminsRepository extends SequelizeGenericRepository<UserAdminEntity
   async create(user: UserAdminEntity) {
     return this.sequelize.transaction(async (t) => {
       await this.usersRepository.create(user, t);
-      return await super.create(user, t);
+      return super.create(user, t);
     });
   }
 
   async update(user: UserAdminEntity) {
     return this.sequelize.transaction(async (t) => {
       await this.usersRepository.update(user, t);
-      return await super.update(user, t);
+      return super.update(user, t);
     });
   }
 }

@@ -39,8 +39,8 @@ describe('AdminsRepository', () => {
       ],
     }).compile();
 
-    repository = await module.resolve(AdminsRepository);
-    usersRepositoryMock = await module.resolve(UsersRepository);
+    repository = module.get(AdminsRepository);
+    usersRepositoryMock = module.get(UsersRepository);
   });
 
   it('should create admin user', async () => {

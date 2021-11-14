@@ -1,5 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { UserAdminEntity } from '@rental-system/domain';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
+import { AdminsFactory } from './factories/admins.factory';
+import { AdminsRepository } from './repositories/admins.repository';
 import { AdminsService } from './admins.service';
 
 describe('AdminsService', () => {
@@ -10,8 +13,12 @@ describe('AdminsService', () => {
       providers: [
         AdminsService,
         {
-          provide: AdminsService,
+          provide: AdminsFactory,
           useValue: { create: jest.fn(() => userAdminEntityMock()) },
+        },
+        {
+          provide: AdminsRepository,
+          useValue: { create: jest.fn((user: UserAdminEntity) => user) },
         },
       ],
     }).compile();

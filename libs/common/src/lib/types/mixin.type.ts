@@ -1,3 +1,3 @@
-import { MixinConstructor } from '@rental-system/common';
+import { MixinConstructor } from './mixin-constructor.type';
 
 export type Mixin = <TBase extends MixinConstructor>(base: TBase) => MixinConstructor;
