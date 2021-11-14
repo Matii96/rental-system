@@ -38,4 +38,9 @@ export class AdminsRepository extends SequelizeGenericRepository<UserAdminEntity
       return super.update(user, t);
     });
   }
+
+  async delete(user: UserAdminEntity) {
+    await this.usersRepository.delete(user);
+    return user;
+  }
 }

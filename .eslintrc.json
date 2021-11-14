@@ -21,6 +21,7 @@
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript", "plugin:prettier/recommended"],
       "rules": {
+        "no-case-declarations": 0,
         "@typescript-eslint/no-explicit-any": 2
       }
     },
