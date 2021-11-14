@@ -9,6 +9,7 @@ export const userAdminEntityMock = () =>
     name.findName(),
     internet.email(),
     'password',
+    datatype.boolean(),
     datatype.number({ min: 1000, max: 10000 }),
     datatype.boolean()
   );

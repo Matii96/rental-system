@@ -9,7 +9,7 @@ export class UserCustomerModel extends IdentifiableModel {
   id: string;
 
   @BelongsTo(() => UserModel, { onDelete: 'CASCADE' })
-  user: UserModel;
+  base: UserModel;
 
   @Column({ type: DataType.BOOLEAN })
   agreedToNewsletter: boolean;

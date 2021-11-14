@@ -16,6 +16,7 @@ export class AdminsFactory implements IEntityFactory<UserAdminEntity> {
       data.name,
       data.email,
       'password', // Set manually below
+      data.active,
       data.salary,
       data.agreedToNewsletter
     );

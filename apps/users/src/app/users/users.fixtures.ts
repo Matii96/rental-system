@@ -8,4 +8,5 @@ export const userModelMock = (user: IUser) =>
     name: user.name,
     email: user.email,
     password: user.getPassword(),
+    active: user.isActive(),
   };

@@ -40,6 +40,7 @@ export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel
       where: {
         [Op.or]: [{ name: nameOrEmail }, { email: nameOrEmail }],
         password: { [Op.ne]: null },
+        active: true,
       },
     });
 

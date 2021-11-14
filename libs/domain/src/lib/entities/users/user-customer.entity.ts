@@ -4,8 +4,16 @@ import { CanReceiveNewsletterAbility } from './abilities/can-receive-newsletter.
 import { UserEntity } from './user.entity';
 
 export class UserCustomerEntity extends CanReceiveNewsletterAbility(UserEntity) implements IUser {
-  constructor(id: string, createdAt: Date, name: string, email: string, password: string, agreedToNewsletter: boolean) {
-    super(id, createdAt, name, email, password);
+  constructor(
+    id: string,
+    createdAt: Date,
+    name: string,
+    email: string,
+    password: string,
+    active: boolean,
+    agreedToNewsletter: boolean
+  ) {
+    super(id, createdAt, name, email, password, active);
     this.agreedToNewsletter = agreedToNewsletter;
   }
 

@@ -16,6 +16,7 @@ export class CustomersFactory implements IEntityFactory<UserCustomerEntity> {
       data.name,
       data.email,
       'password', // Set manually below
+      data.active,
       data.agreedToNewsletter
     );
     user.setPassword(data.password, parseInt(this.config.get<string>('PASSWORD_SALT')));

@@ -9,7 +9,7 @@ export class CustomersModelFactory implements IEntityModelFactory<UserCustomerEn
   entityToModel(user: UserCustomerEntity): UserCustomerModel {
     return <UserCustomerModel>{
       id: user.id,
-      user: null,
+      base: null,
       agreedToNewsletter: user.agreedToNewsletter,
     };
   }
@@ -21,6 +21,7 @@ export class CustomersModelFactory implements IEntityModelFactory<UserCustomerEn
       baseModel.name,
       baseModel.email,
       baseModel.password,
+      baseModel.active,
       customerModel.agreedToNewsletter
     );
   }

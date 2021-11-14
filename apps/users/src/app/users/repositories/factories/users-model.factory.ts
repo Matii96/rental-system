@@ -20,6 +20,7 @@ export class UsersModelFactory implements IEntityModelFactory<IUser, UserModel> 
       name: user.name,
       email: user.email,
       password: user.getPassword(),
+      active: user.isActive(),
     };
   }
 

@@ -1,14 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ClientProxy } from '@nestjs/microservices';
 import { PassportStrategy } from '@nestjs/passport';
-import { IUser } from '@rental-system/domain';
-import { plainToClass } from 'class-transformer';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { firstValueFrom } from 'rxjs';
+import { plainToClass } from 'class-transformer';
+import { IUser, UsersMapper } from '@rental-system/domain';
+import { IUserGetByIdMicroserviceQuery, MicroservicesEnum, UsersMessagesEnum } from '@rental-system/microservices';
 import { AuthUserJwtDto } from '../dto/auth-user-jwt.dto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(config: ConfigService) {
+  private readonly logger = new Logger(JwtStrategy.name);
+
+  constructor(config: ConfigService, @Inject(MicroservicesEnum.USERS) private readonly usersClient: ClientProxy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: config.get<string>('JWT_SECRET'),
@@ -16,7 +21,27 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: AuthUserJwtDto): IUser {
-    // return plainToClass(UsersMapper[payload.type], payload.data);
+  async validate(payload: AuthUserJwtDto): Promise<IUser> {
+    let user: IUser;
+    try {
+      user = plainToClass(
+        UsersMapper[payload.type],
+        await firstValueFrom(
+          this.usersClient.send<IUser>(
+            <IUserGetByIdMicroserviceQuery>{ query: UsersMessagesEnum.GET_USER, type: payload.type },
+            payload.userId
+          )
+        )
+      );
+    } catch (err) {
+      this.logger.warn(err);
+      return;
+    }
+
+    if (!user.isActive()) {
+      return;
+    }
+
+    return user;
   }
 }

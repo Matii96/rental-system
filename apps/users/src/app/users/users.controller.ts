@@ -25,7 +25,7 @@ export class UsersController {
 
   @Post('login')
   @ApiOkResponse({ type: UserLoginOutputDto })
-  async login(@Body() data: UserLoginInputDto) {
+  login(@Body() data: UserLoginInputDto) {
     return this.usersService.login(data);
   }
 }

@@ -11,10 +11,11 @@ export class UserAdminEntity extends CanReceiveNewsletterAbility(CanGetPaidAbili
     name: string,
     email: string,
     password: string,
+    active: boolean,
     salary: number,
     agreedToNewsletter: boolean
   ) {
-    super(id, createdAt, name, email, password);
+    super(id, createdAt, name, email, password, active);
     this.salary = salary;
     this.agreedToNewsletter = agreedToNewsletter;
   }

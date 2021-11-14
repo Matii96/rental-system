@@ -11,6 +11,7 @@
     "dto": "libs/dto",
     "dto-interfaces": "libs/dto-interfaces",
     "filters": "libs/filters",
+    "microservices": "libs/microservices",
     "users": "apps/users",
     "validators": "libs/validators"
   }

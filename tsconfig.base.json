@@ -24,6 +24,7 @@
       "@rental-system/dto": ["libs/dto/src/index.ts"],
       "@rental-system/dto-interfaces": ["libs/dto-interfaces/src/index.ts"],
       "@rental-system/filters": ["libs/filters/src/index.ts"],
+      "@rental-system/microservices": ["libs/microservices/src/index.ts"],
       "@rental-system/validators": ["libs/validators/src/index.ts"]
     }
   },

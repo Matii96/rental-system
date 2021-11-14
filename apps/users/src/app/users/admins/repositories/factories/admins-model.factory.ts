@@ -9,7 +9,7 @@ export class AdminsModelFactory implements IEntityModelFactory<UserAdminEntity, 
   entityToModel(user: UserAdminEntity): UserAdminModel {
     return <UserAdminModel>{
       id: user.id,
-      user: null,
+      base: null,
       agreedToNewsletter: user.agreedToNewsletter,
       salary: user.salary,
     };
@@ -22,6 +22,7 @@ export class AdminsModelFactory implements IEntityModelFactory<UserAdminEntity, 
       baseModel.name,
       baseModel.email,
       baseModel.password,
+      baseModel.active,
       adminModel.salary,
       adminModel.agreedToNewsletter
     );

@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { IUserInput } from '@rental-system/dto-interfaces';
 
@@ -17,4 +17,8 @@ export abstract class UserInputDto implements IUserInput {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  active: boolean;
 }

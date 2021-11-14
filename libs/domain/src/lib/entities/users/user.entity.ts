@@ -9,7 +9,8 @@ export class UserEntity extends AggregateRoot implements IIdentifiableEntity<str
     public readonly createdAt: Date,
     public name: string,
     public email: string,
-    private password: string
+    private password: string,
+    private active: boolean
   ) {
     super();
   }
@@ -29,6 +30,18 @@ export class UserEntity extends AggregateRoot implements IIdentifiableEntity<str
     if (!compareSync(password, this.password)) {
       throw new InvalidLoginException();
     }
+  }
+
+  isActive() {
+    return this.active;
+  }
+
+  activate() {
+    this.active = true;
+  }
+
+  deactivate() {
+    this.active = false;
   }
 
   toString(): string {

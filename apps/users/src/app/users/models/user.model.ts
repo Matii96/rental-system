@@ -5,14 +5,17 @@ import { UserCustomerModel } from '../customers/models/user-customer.model';
 
 @Table({ tableName: 'Users' })
 export class UserModel extends IdentifiableModel {
-  @Column({ type: DataType.STRING, unique: true })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   name: string;
 
-  @Column({ type: DataType.STRING, unique: true })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   email: string;
 
   @Column({ type: DataType.STRING })
   password: string;
+
+  @Column({ type: DataType.BOOLEAN, allowNull: false })
+  active: boolean;
 
   @HasOne(() => UserAdminModel)
   adminData: UserAdminModel;
