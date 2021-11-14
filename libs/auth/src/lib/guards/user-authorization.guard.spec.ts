@@ -32,6 +32,7 @@ describe('UserAuthorizationGuard', () => {
     it('should disallow user access - no matching class', () => {
       const user = userAdminEntityMock();
       const userClassMock = class {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         someMethod() {}
       };
 
