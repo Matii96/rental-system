@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserAdminEntity } from '@rental-system/domain';
-import { AdminInputDto } from './dto/input.dto';
+import { AdminInputSelfDto } from './dto/input/input-self.dto';
+import { AdminInputDto } from './dto/input/input.dto';
 import { AdminOutputDto } from './dto/output.dto';
 import { AdminsFactory } from './factories/admins.factory';
 import { AdminsRepository } from './repositories/admins.repository';
@@ -13,6 +14,11 @@ export class AdminsService {
     private readonly factory: AdminsFactory,
     private readonly repository: AdminsRepository
   ) {}
+
+  async getById(id: string): Promise<AdminOutputDto> {
+    const user = await this.repository.findById(id);
+    return new AdminOutputDto(user);
+  }
 
   async create(data: AdminInputDto): Promise<AdminOutputDto> {
     const user = this.factory.create(data);
@@ -27,7 +33,15 @@ export class AdminsService {
     data.active ? user.activate() : user.deactivate;
     data.agreedToNewsletter ? user.agreeToNewsletter() : user.disagreeToNewsletter();
     user.salary = data.salary;
+    await this.repository.update(user);
+    return new AdminOutputDto(user);
+  }
 
+  async updateSelf(user: UserAdminEntity, data: AdminInputSelfDto): Promise<AdminOutputDto> {
+    user.name = data.name;
+    user.email = data.email;
+    user.setPassword(data.password, parseInt(this.config.get<string>('PASSWORD_SALT')));
+    data.agreedToNewsletter ? user.agreeToNewsletter() : user.disagreeToNewsletter();
     await this.repository.update(user);
     return new AdminOutputDto(user);
   }

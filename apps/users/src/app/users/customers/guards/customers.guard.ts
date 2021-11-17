@@ -2,11 +2,11 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { InvalidContextTypeException } from '@rental-system/common';
 import { IUser } from '@rental-system/domain';
 import { IUserRequest } from '../../interfaces/user-request.interface';
-import { AdminsRepository } from '../repositories/admins.repository';
+import { CustomersRepository } from '../repositories/customers.repository';
 
 @Injectable()
-export class AdminsGuard implements CanActivate {
-  constructor(private readonly repository: AdminsRepository) {}
+export class CustomersGuard implements CanActivate {
+  constructor(private readonly repository: CustomersRepository) {}
 
   private getUser(user: IUser, userId: string) {
     return this.repository.findById(userId);

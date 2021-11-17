@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { v4 as uuidv4 } from 'uuid';
 import { IEntityFactory } from '@rental-system/common';
 import { UserCustomerEntity } from '@rental-system/domain';
-import { CustomerInputDto } from '../dto/input.dto';
+import { CustomerInputDto } from '../dto/input/input.dto';
 
 @Injectable()
 export class CustomersFactory implements IEntityFactory<UserCustomerEntity> {

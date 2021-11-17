@@ -1,4 +1,4 @@
-import { IUserInput } from '../../input/input.interface';
+import { IUserInput } from '@rental-system/dto-interfaces';
 
 export interface IAdminInput extends IUserInput {
   agreedToNewsletter: boolean;

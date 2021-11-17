@@ -1,5 +1,5 @@
-export interface IUserInput {
-  name: string;
-  email: string;
-  password: string;
+import { IUserInputSelf } from './input-self.interface';
+
+export interface IUserInput extends IUserInputSelf {
+  active: boolean;
 }

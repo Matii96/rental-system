@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
@@ -6,6 +6,7 @@ import { UserCustomerEntity } from '@rental-system/domain';
 import { UsersRepository } from '../../repositories/users.repository';
 import { UserCustomerModel } from '../models/user-customer.model';
 import { CustomersModelFactory } from './factories/customers-model.factory';
+import { UserModel } from '../../models/user.model';
 
 @Injectable()
 export class CustomersRepository extends SequelizeGenericRepository<UserCustomerEntity, UserCustomerModel> {
@@ -16,6 +17,12 @@ export class CustomersRepository extends SequelizeGenericRepository<UserCustomer
     private readonly sequelize: Sequelize
   ) {
     super(model, modelFactory);
+  }
+
+  async findById(id: string) {
+    const user = <UserCustomerModel>await this.model.findByPk(id, { include: [{ model: UserModel }] });
+    if (!user) throw new NotFoundException();
+    return this.modelFactory.modelToEntity(user, user.base);
   }
 
   async create(user: UserCustomerEntity) {
@@ -30,5 +37,10 @@ export class CustomersRepository extends SequelizeGenericRepository<UserCustomer
       await this.usersRepository.update(user, t);
       return super.update(user, t);
     });
+  }
+
+  async delete(user: UserCustomerEntity) {
+    await this.usersRepository.delete(user);
+    return user;
   }
 }

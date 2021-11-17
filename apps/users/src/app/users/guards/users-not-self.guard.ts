@@ -1,27 +1,24 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { InvalidContextTypeException } from '@rental-system/common';
 import { IUser } from '@rental-system/domain';
-import { IUserRequest } from '../../interfaces/user-request.interface';
-import { AdminsRepository } from '../repositories/admins.repository';
+import { IUserRequest } from '../interfaces/user-request.interface';
 
+/**
+ * Prevents user from accessing himself
+ */
 @Injectable()
-export class AdminsGuard implements CanActivate {
-  constructor(private readonly repository: AdminsRepository) {}
-
-  private getUser(user: IUser, userId: string) {
-    return this.repository.findById(userId);
+export class UserNotSelfGuard implements CanActivate {
+  private checkAccess(user: IUser, requestUser: IUser) {
+    return user.id !== requestUser.id;
   }
 
   async canActivate(context: ExecutionContext) {
     switch (context.getType()) {
       case 'http':
         const req = context.switchToHttp().getRequest<IUserRequest>();
-        req.requestUser = await this.getUser(req.user, req.params.userId);
-        break;
+        return this.checkAccess(req.user, req.requestUser);
       default:
         throw new InvalidContextTypeException(context.getType());
     }
-
-    return true;
   }
 }
