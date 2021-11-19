@@ -1,5 +1,5 @@
 import { IUser } from '@rental-system/domain';
-import { UserModel } from './models/user.model';
+import { UserModel } from './infrastructure/database/models/user.model';
 
 export const userModelMock = (user: IUser) =>
   <UserModel>{

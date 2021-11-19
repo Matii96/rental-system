@@ -1,5 +1,5 @@
 import { bookEntityMock } from '@rental-system/domain-testing';
-import { BookInputDto } from './dto/input.dto';
+import { BookInputDto } from './presentation/dto/input.dto';
 
 export const bookInputMock = (book = bookEntityMock()) => {
   const dto = new BookInputDto();

@@ -16,8 +16,8 @@ async function bootstrap() {
   // Api docs
   if (process.env.NODE_ENV !== 'production') {
     const swagger = new DocumentBuilder()
-      .setTitle('Books')
-      .setDescription('Books microservice API')
+      .setTitle('Users')
+      .setDescription('Users microservice API')
       .setVersion('1.0')
       .build();
     const document = SwaggerModule.createDocument(app, swagger);

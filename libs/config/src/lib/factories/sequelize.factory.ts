@@ -5,7 +5,7 @@ import { Dialect } from 'sequelize/types';
 import { format } from 'sql-formatter';
 
 export const sequelizeFactory = (config: ConfigService): SequelizeModuleOptions => {
-  const debug = process.env.NODE_ENV !== 'production';
+  const debug = config.get<boolean>('DB_SHOW_LOGS');
 
   const sequelize: SequelizeModuleOptions = {
     dialect: config.get<Dialect>('DB_DIALECT'),
@@ -21,6 +21,8 @@ export const sequelizeFactory = (config: ConfigService): SequelizeModuleOptions 
   if (debug) {
     const logger = new Logger('Database');
     sequelize.logging = (msg: string) => logger.debug(format(msg));
+  } else {
+    sequelize.logging = false;
   }
 
   return sequelize;

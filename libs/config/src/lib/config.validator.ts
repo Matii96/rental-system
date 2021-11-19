@@ -1,5 +1,5 @@
 import { plainToClass, Transform } from 'class-transformer';
-import { IsDefined, IsIn, IsInt, IsString, validateSync } from 'class-validator';
+import { IsBoolean, IsDefined, IsIn, IsInt, IsString, validateSync } from 'class-validator';
 import { ConfigValidationError } from './errors/config-validation.error';
 
 export class CommonConfig {
@@ -36,6 +36,10 @@ export class CommonConfig {
 
   @IsString()
   DB_NAME: string;
+
+  @Transform((entry) => entry.value === 'true')
+  @IsBoolean()
+  DB_SHOW_LOGS: boolean;
 
   @IsString()
   JWT_SECRET: string;

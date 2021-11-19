@@ -4,13 +4,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { jwtFactory } from '@rental-system/config';
 import { AuthModule } from '@rental-system/auth';
-import { AdminsModule } from './admins/admins.module';
-import { CustomersModule } from './customers/customers.module';
-import { UserModel } from './models/user.model';
-import { UsersModelFactory } from './repositories/factories/users-model.factory';
-import { UsersRepository } from './repositories/users.repository';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
+import { CustomersModule } from './submodules/customers/customers.module';
+import { UserModel } from './infrastructure/database/models/user.model';
+import { UsersController } from './presentation/users.controller';
+import { UsersModelFactory } from './infrastructure/database/repositories/factories/users-model.factory';
+import { UsersRepository } from './infrastructure/database/repositories/users.repository';
+import { AdminsModule } from './submodules/admins/admins.module';
+import { UsersService } from './application/users.service';
 
 @Module({
   imports: [

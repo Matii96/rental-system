@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { sequelizeFactory } from '@rental-system/config';
-import { AppController } from './app.controller';
-import { UsersConfig } from './config/config.validator';
+import { AppController } from './presentation/app.controller';
+import { UsersConfig } from './infrastructure/config/config.validator';
 import { UsersModule } from './users/users.module';
 
 @Module({
