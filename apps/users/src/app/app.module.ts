@@ -4,7 +4,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { sequelizeFactory } from '@rental-system/config';
 import { AppController } from './presentation/app.controller';
 import { UsersConfig } from './infrastructure/config/config.validator';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './modules/users/users.module';
+import { AdminsModule } from './modules/admins/admins.module';
+import { CustomersModule } from './modules/customers/customers.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { UsersModule } from './users/users.module';
       useFactory: sequelizeFactory,
     }),
     UsersModule,
+    AdminsModule,
+    CustomersModule,
   ],
   controllers: [AppController],
 })

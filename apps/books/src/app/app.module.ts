@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { CommonConfig, sequelizeFactory } from '@rental-system/config';
 import { AppController } from './presentation/app.controller';
-import { BooksModule } from './books/books.module';
+import { BooksModule } from './modules/books/books.module';
 
 @Module({
   imports: [
