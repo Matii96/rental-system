@@ -16,13 +16,14 @@ export class BooksController {
   async list(@Req() req: Request, @Query() query: ReactAdminQueryDto) {
     const { data, total } = await this.booksService.getAll(query.toOptions());
     req.res.setHeader('X-Total-Count', total);
-    return data;
+    return data.map((book) => new BookOutputDto(book));
   }
 
   @Post()
   @ApiCreatedResponse({ type: BookOutputDto })
   @ApiBadRequestResponse()
-  create(@Body() data: BookInputDto) {
-    return this.booksService.create(data);
+  async create(@Body() data: BookInputDto) {
+    const book = await this.booksService.create(data);
+    return new BookOutputDto(book);
   }
 }

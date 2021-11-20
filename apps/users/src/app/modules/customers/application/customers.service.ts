@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserCustomerEntity } from '@rental-system/domain';
-import { CustomerInputSelfDto } from '../presentation/dto/input/input-self.dto';
-import { CustomerInputDto } from '../presentation/dto/input/input.dto';
-import { CustomerOutputDto } from '../presentation/dto/output.dto';
+import { ICustomerInput, ICustomerInputSelf } from '@rental-system/dto-interfaces';
 import { CustomersFactory } from './factories/customers.factory';
 import { CustomersRepository } from '../infrastructure/database/repositories/customers.repository';
 
@@ -15,38 +13,28 @@ export class CustomersService {
     private readonly repository: CustomersRepository
   ) {}
 
-  async getById(id: string): Promise<CustomerOutputDto> {
-    const user = await this.repository.findById(id);
-    return new CustomerOutputDto(user);
-  }
-
-  async create(data: CustomerInputDto): Promise<CustomerOutputDto> {
+  async create(data: ICustomerInput): Promise<UserCustomerEntity> {
     const user = this.factory.create(data);
     await this.repository.create(user);
-    return new CustomerOutputDto(user);
+    return user;
   }
 
-  async update(user: UserCustomerEntity, data: CustomerInputDto): Promise<CustomerOutputDto> {
+  async update(user: UserCustomerEntity, data: ICustomerInput): Promise<UserCustomerEntity> {
     user.name = data.name;
     user.email = data.email;
     user.setPassword(data.password, parseInt(this.config.get<string>('PASSWORD_SALT')));
     data.active ? user.activate() : user.deactivate;
     data.agreedToNewsletter ? user.agreeToNewsletter() : user.disagreeToNewsletter();
     await this.repository.update(user);
-    return new CustomerOutputDto(user);
+    return user;
   }
 
-  async updateSelf(user: UserCustomerEntity, data: CustomerInputSelfDto): Promise<CustomerOutputDto> {
+  async updateSelf(user: UserCustomerEntity, data: ICustomerInputSelf): Promise<UserCustomerEntity> {
     user.name = data.name;
     user.email = data.email;
     user.setPassword(data.password, parseInt(this.config.get<string>('PASSWORD_SALT')));
     data.agreedToNewsletter ? user.agreeToNewsletter() : user.disagreeToNewsletter();
     await this.repository.update(user);
-    return new CustomerOutputDto(user);
-  }
-
-  async delete(user: UserCustomerEntity): Promise<CustomerOutputDto> {
-    await this.repository.delete(user);
-    return new CustomerOutputDto(user);
+    return user;
   }
 }

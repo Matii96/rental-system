@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BookEntity } from '@rental-system/domain';
+import { IBookOutput } from '@rental-system/dto-interfaces';
 
-export class BookOutputDto {
+export class BookOutputDto implements IBookOutput {
   @ApiProperty()
   id: string;
 

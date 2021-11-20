@@ -1,11 +1,9 @@
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ICountableData } from '@rental-system/common';
-import { InvalidLoginException } from '@rental-system/domain';
+import { InvalidLoginException, IUser } from '@rental-system/domain';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
 import { UsersRepository } from '../infrastructure/database/repositories/users.repository';
-import { UserLoginOutputDto } from '../presentation/dto/output/login-output.dto';
-import { UserOutputDto } from '../presentation/dto/output/output.dto';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -29,7 +27,7 @@ describe('UsersService', () => {
   });
 
   it('should get queried users', async () => {
-    expect(await service.getAll({})).toEqual(<ICountableData<UserOutputDto>>{ data: [], total: 0 });
+    expect(await service.getAll({})).toEqual(<ICountableData<IUser>>{ data: [], total: 0 });
     expect(usersRepositoryMock.findAll).toHaveBeenCalledTimes(1);
   });
 
@@ -44,7 +42,7 @@ describe('UsersService', () => {
 
       const result = await service.login({ nameOrEmail: user.name, password });
       expect(result.jwt).toBeDefined();
-      expect(result).toEqual(new UserLoginOutputDto(user, result.jwt));
+      expect(result).toEqual({ user, jwt: result.jwt });
     });
 
     it('should fail to login user - invalid password', async () => {
