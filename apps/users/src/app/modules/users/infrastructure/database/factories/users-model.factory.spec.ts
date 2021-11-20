@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { userAdminEntityMock, userCustomerEntityMock } from '@rental-system/domain-testing';
-import { AdminsModelFactory } from 'apps/users/src/app/modules/admins/infrastructure/database/repositories/factories/admins-model.factory';
-import { CustomersModelFactory } from '../../../../../customers/infrastructure/database/repositories/factories/customers-model.factory';
-import { InvalidUserClassException } from '../../../exceptions/invalid-user-class.exception';
-import { userModelMock } from '../../../../users.fixtures';
+import { AdminsModelFactory } from '../../../../admins/infrastructure/database/factories/admins-model.factory';
+import { CustomersModelFactory } from '../../../../customers/infrastructure/database/factories/customers-model.factory';
+import { InvalidUserClassException } from '../../exceptions/invalid-user-class.exception';
+import { userModelMock } from '../../../users.fixtures';
 import { UsersModelFactory } from './users-model.factory';
 
 describe('UsersModelFactory', () => {

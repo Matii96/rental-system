@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UserCustomerEntity } from '@rental-system/domain';
 import { IEntityModelFactory } from '@rental-system/common';
-import { UserModel } from '../../../../../users/infrastructure/database/models/user.model';
-import { UserCustomerModel } from '../../models/user-customer.model';
+import { UserModel } from '../../../../users/infrastructure/database/models/user.model';
+import { UserCustomerModel } from '../models/user-customer.model';
 
 @Injectable()
 export class CustomersModelFactory implements IEntityModelFactory<UserCustomerEntity, UserCustomerModel> {

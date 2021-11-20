@@ -1,17 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BookEntity } from '@rental-system/domain';
 import { bookEntityMock } from '@rental-system/domain-testing';
-import { BookModel } from '../../models/book.model';
+import { bookModelObjectMock } from '../../../books.fixtures';
 import { BooksModelFactory } from './books-model.factory';
-
-const bookModelObjectMock = (book: BookEntity) =>
-  <BookModel>{
-    id: book.id,
-    name: book.name,
-    author: book.author,
-    pagesCount: book.pagesCount,
-    createdAt: book.createdAt,
-  };
 
 describe('BooksModelFactory', () => {
   let factory: BooksModelFactory;

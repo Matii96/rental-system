@@ -6,7 +6,7 @@ import { jwtFactory } from '@rental-system/config';
 import { AuthModule } from '@rental-system/auth';
 import { UserModel } from './infrastructure/database/models/user.model';
 import { UsersController } from './presentation/users.controller';
-import { UsersModelFactory } from './infrastructure/database/repositories/factories/users-model.factory';
+import { UsersModelFactory } from './infrastructure/database/factories/users-model.factory';
 import { UsersRepository } from './infrastructure/database/repositories/users.repository';
 import { UsersService } from './application/users.service';
 import { AdminsModule } from '../admins/admins.module';

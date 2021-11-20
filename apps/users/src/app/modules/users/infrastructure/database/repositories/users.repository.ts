@@ -5,7 +5,7 @@ import { FindAllSearchOptions } from '@rental-system/common';
 import { InvalidLoginException, IUser } from '@rental-system/domain';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { UserModel } from '../models/user.model';
-import { UsersModelFactory } from './factories/users-model.factory';
+import { UsersModelFactory } from '../factories/users-model.factory';
 import { UserAdminModel } from '../../../../admins/infrastructure/database/models/admin.model';
 import { UserCustomerModel } from '../../../../customers/infrastructure/database/models/user-customer.model';
 

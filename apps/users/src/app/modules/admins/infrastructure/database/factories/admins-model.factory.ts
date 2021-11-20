@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserAdminEntity } from '@rental-system/domain';
 import { IEntityModelFactory } from '@rental-system/common';
-import { UserAdminModel } from '../../models/admin.model';
+import { UserAdminModel } from '../models/admin.model';
 import { UserModel } from 'apps/users/src/app/modules/users/infrastructure/database/models/user.model';
 
 @Injectable()

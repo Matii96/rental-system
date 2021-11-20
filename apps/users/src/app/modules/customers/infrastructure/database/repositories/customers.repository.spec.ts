@@ -4,9 +4,9 @@ import { Sequelize } from 'sequelize-typescript';
 import { userCustomerEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
 import { UsersRepository } from 'apps/users/src/app/modules/users/infrastructure/database/repositories/users.repository';
-import { UserCustomerModel } from '../models/user-customer.model';
 import { userCustomerModelMock } from '../../../customers.fixtures';
-import { CustomersModelFactory } from './factories/customers-model.factory';
+import { UserCustomerModel } from '../models/user-customer.model';
+import { CustomersModelFactory } from '../factories/customers-model.factory';
 import { CustomersRepository } from './customers.repository';
 
 describe('CustomersRepository', () => {

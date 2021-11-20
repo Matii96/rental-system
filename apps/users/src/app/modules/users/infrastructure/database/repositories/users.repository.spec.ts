@@ -3,11 +3,11 @@ import { getModelToken } from '@nestjs/sequelize';
 import { InvalidLoginException } from '@rental-system/domain';
 import { userAdminEntityMock, userCustomerEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
-import { AdminsModelFactory } from 'apps/users/src/app/modules/admins/infrastructure/database/repositories/factories/admins-model.factory';
-import { CustomersModelFactory } from 'apps/users/src/app/modules/customers/infrastructure/database/repositories/factories/customers-model.factory';
+import { AdminsModelFactory } from '../../../../admins/infrastructure/database/factories/admins-model.factory';
+import { CustomersModelFactory } from '../../../../customers/infrastructure/database/factories/customers-model.factory';
 import { userModelMock } from '../../../users.fixtures';
 import { UserModel } from '../models/user.model';
-import { UsersModelFactory } from './factories/users-model.factory';
+import { UsersModelFactory } from '../factories/users-model.factory';
 import { UsersRepository } from './users.repository';
 
 describe('UsersRepository', () => {

@@ -5,7 +5,7 @@ import { BookEntity } from '@rental-system/domain';
 import { FindAllSearchOptions } from '@rental-system/common';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { BookModel } from '../models/book.model';
-import { BooksModelFactory } from './factories/books-model.factory';
+import { BooksModelFactory } from '../factories/books-model.factory';
 
 @Injectable()
 export class BooksRepository extends SequelizeGenericRepository<BookEntity, BookModel> {

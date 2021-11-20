@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { userCustomerEntityMock } from '@rental-system/domain-testing';
-import { userModelMock } from '../../../../../users/users.fixtures';
-import { userCustomerModelMock } from '../../../../customers.fixtures';
+import { userModelMock } from '../../../../users/users.fixtures';
+import { userCustomerModelMock } from '../../../customers.fixtures';
 import { CustomersModelFactory } from './customers-model.factory';
 
 describe('CustomersModelFactory', () => {

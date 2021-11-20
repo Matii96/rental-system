@@ -6,7 +6,7 @@ import { UserAdminEntity } from '@rental-system/domain';
 import { UsersRepository } from 'apps/users/src/app/modules/users/infrastructure/database/repositories/users.repository';
 import { UserModel } from 'apps/users/src/app/modules/users/infrastructure/database/models/user.model';
 import { UserAdminModel } from '../models/admin.model';
-import { AdminsModelFactory } from './factories/admins-model.factory';
+import { AdminsModelFactory } from '../factories/admins-model.factory';
 
 @Injectable()
 export class AdminsRepository extends SequelizeGenericRepository<UserAdminEntity, UserAdminModel> {

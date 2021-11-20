@@ -5,7 +5,7 @@ import { AdminsService } from './application/admins.service';
 import { AdminsFactory } from './application/factories/admins.factory';
 import { UserAdminModel } from './infrastructure/database/models/admin.model';
 import { AdminsRepository } from './infrastructure/database/repositories/admins.repository';
-import { AdminsModelFactory } from './infrastructure/database/repositories/factories/admins-model.factory';
+import { AdminsModelFactory } from './infrastructure/database/factories/admins-model.factory';
 import { AdminsController } from './presentation/admins.controller';
 
 @Module({

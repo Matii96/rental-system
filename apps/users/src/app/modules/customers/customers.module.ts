@@ -5,7 +5,7 @@ import { CustomersService } from './application/customers.service';
 import { CustomersFactory } from './application/factories/customers.factory';
 import { UserCustomerModel } from './infrastructure/database/models/user-customer.model';
 import { CustomersRepository } from './infrastructure/database/repositories/customers.repository';
-import { CustomersModelFactory } from './infrastructure/database/repositories/factories/customers-model.factory';
+import { CustomersModelFactory } from './infrastructure/database/factories/customers-model.factory';
 import { CustomersController } from './presentation/customers.controller';
 
 @Module({

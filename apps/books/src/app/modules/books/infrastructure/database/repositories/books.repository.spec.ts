@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/sequelize';
 import { bookEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
+import { BooksModelFactory } from '../factories/books-model.factory';
 import { BookModel } from '../models/book.model';
-import { BooksModelFactory } from './factories/books-model.factory';
 import { BooksRepository } from './books.repository';
 
 describe('BooksRepository', () => {

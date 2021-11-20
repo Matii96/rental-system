@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { IUser } from '@rental-system/domain';
 import { IEntityModelFactory } from '@rental-system/common';
-import { UserModel } from '../../models/user.model';
-import { CustomersModelFactory } from '../../../../../customers/infrastructure/database/repositories/factories/customers-model.factory';
-import { InvalidUserClassException } from '../../../exceptions/invalid-user-class.exception';
-import { AdminsModelFactory } from '../../../../../admins/infrastructure/database/repositories/factories/admins-model.factory';
+import { UserModel } from '../models/user.model';
+import { CustomersModelFactory } from '../../../../customers/infrastructure/database/factories/customers-model.factory';
+import { InvalidUserClassException } from '../../exceptions/invalid-user-class.exception';
+import { AdminsModelFactory } from '../../../../admins/infrastructure/database/factories/admins-model.factory';
 
 @Injectable()
 export class UsersModelFactory implements IEntityModelFactory<IUser, UserModel> {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BookEntity } from '@rental-system/domain';
 import { IEntityModelFactory } from '@rental-system/common';
-import { BookModel } from '../../models/book.model';
+import { BookModel } from '../models/book.model';
 
 @Injectable()
 export class BooksModelFactory implements IEntityModelFactory<BookEntity, BookModel> {
