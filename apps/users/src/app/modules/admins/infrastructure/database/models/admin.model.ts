@@ -1,6 +1,6 @@
 import { Column, Table, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { IdentifiableModel } from '@rental-system/database-storage';
-import { UserModel } from 'apps/users/src/app/modules/users/infrastructure/database/models/user.model';
+import { UserModel } from '../../../../users/infrastructure/database/models/user.model';
 
 @Table({ tableName: 'UsersAdmins' })
 export class UserAdminModel extends IdentifiableModel {

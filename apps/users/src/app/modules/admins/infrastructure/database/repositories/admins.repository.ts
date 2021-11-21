@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { UserAdminEntity } from '@rental-system/domain';
-import { UsersRepository } from 'apps/users/src/app/modules/users/infrastructure/database/repositories/users.repository';
-import { UserModel } from 'apps/users/src/app/modules/users/infrastructure/database/models/user.model';
+import { UsersRepository } from '../../../../users/infrastructure/database/repositories/users.repository';
+import { UserModel } from '../../../../users/infrastructure/database/models/user.model';
 import { UserAdminModel } from '../models/admin.model';
 import { AdminsModelFactory } from '../factories/admins-model.factory';
 

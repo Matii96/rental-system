@@ -3,7 +3,7 @@ import { IdentifiableModel } from '@rental-system/database-storage';
 import { ItemTypes } from '@rental-system/domain';
 
 @Table({ tableName: 'ItemsAvailability' })
-export class ItemAvailabilityModel extends IdentifiableModel {
+export class AvailabilityModel extends IdentifiableModel {
   @Column({ type: DataType.STRING, allowNull: false })
   type: ItemTypes;
 

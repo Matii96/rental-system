@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
-import { userModelMock } from 'apps/users/src/app/modules/users/users.fixtures';
+import { userModelMock } from '../../../../users/users.fixtures';
 import { userAdminModelMock } from '../../../admins.fixtures';
 import { AdminsModelFactory } from './admins-model.factory';
 

@@ -3,10 +3,10 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { UserCustomerEntity } from '@rental-system/domain';
-import { UsersRepository } from 'apps/users/src/app/modules/users/infrastructure/database/repositories/users.repository';
+import { UserModel } from '../../../../users/infrastructure/database/models/user.model';
+import { UsersRepository } from '../../../../users/infrastructure/database/repositories/users.repository';
 import { UserCustomerModel } from '../models/user-customer.model';
 import { CustomersModelFactory } from '../factories/customers-model.factory';
-import { UserModel } from '../../../../users/infrastructure/database/models/user.model';
 
 @Injectable()
 export class CustomersRepository extends SequelizeGenericRepository<UserCustomerEntity, UserCustomerModel> {

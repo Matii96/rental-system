@@ -3,7 +3,7 @@ import { getModelToken } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
-import { UsersRepository } from 'apps/users/src/app/modules/users/infrastructure/database/repositories/users.repository';
+import { UsersRepository } from '../../../../users/infrastructure/database/repositories/users.repository';
 import { userAdminModelMock } from '../../../admins.fixtures';
 import { UserAdminModel } from '../models/admin.model';
 import { AdminsModelFactory } from '../factories/admins-model.factory';

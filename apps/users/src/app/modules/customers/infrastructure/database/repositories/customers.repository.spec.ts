@@ -3,7 +3,7 @@ import { getModelToken } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { userCustomerEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
-import { UsersRepository } from 'apps/users/src/app/modules/users/infrastructure/database/repositories/users.repository';
+import { UsersRepository } from '../../../../users/infrastructure/database/repositories/users.repository';
 import { userCustomerModelMock } from '../../../customers.fixtures';
 import { UserCustomerModel } from '../models/user-customer.model';
 import { CustomersModelFactory } from '../factories/customers-model.factory';
