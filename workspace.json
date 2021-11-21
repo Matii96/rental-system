@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "auth": "libs/auth",
+    "availability": "apps/availability",
     "books": "apps/books",
     "common": "libs/common",
     "config": "libs/config",

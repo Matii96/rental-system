@@ -12,10 +12,20 @@
       "restart": true
     },
     {
+      "name": "availability",
+      "type": "node",
+      "request": "attach",
+      "port": 9232,
+      "address": "localhost",
+      "localRoot": "${workspaceRoot}",
+      "remoteRoot": "/app",
+      "restart": true
+    },
+    {
       "name": "books",
       "type": "node",
       "request": "attach",
-      "port": 9231,
+      "port": 9233,
       "address": "localhost",
       "localRoot": "${workspaceRoot}",
       "remoteRoot": "/app",

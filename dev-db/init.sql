@@ -1,3 +1,4 @@
 CREATE DATABASE users;
+CREATE DATABASE availability;
 CREATE DATABASE books;
 CREATE DATABASE movies;

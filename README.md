@@ -56,7 +56,8 @@ $ nx test <app_name>
 Interactive [swagger.io](https://swagger.io/tools/swagger-ui/) documentation is available under following addresses:
 
 - Users service: http://localhost:3001/api/docs
-- Books service: http://localhost:3002/api/docs
+- Availability service: http://localhost:3003/api/docs
+- Books service: http://localhost:3004/api/docs
 
 ## License
 
