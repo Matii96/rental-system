@@ -4,9 +4,9 @@ import { ClientProxy } from '@nestjs/microservices';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { firstValueFrom } from 'rxjs';
-import { plainToClass } from 'class-transformer';
+import { ClassConstructor, plainToClass } from 'class-transformer';
 import { IUser, UsersMapper } from '@rental-system/domain';
-import { IUserGetByIdMicroserviceQuery, MicroservicesEnum, UsersMessagesEnum } from '@rental-system/microservices';
+import { MicroservicesEnum, UserGetByIdQueryPattern } from '@rental-system/microservices';
 import { AuthUserJwtDto } from '../dto/auth-user-jwt.dto';
 
 @Injectable()
@@ -25,13 +25,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     let user: IUser;
     try {
       user = plainToClass(
-        UsersMapper[payload.type],
-        await firstValueFrom(
-          this.usersClient.send<IUser>(
-            <IUserGetByIdMicroserviceQuery>{ query: UsersMessagesEnum.GET_USER, type: payload.type },
-            payload.userId
-          )
-        )
+        <ClassConstructor<IUser>>UsersMapper[payload.type],
+        await firstValueFrom(this.usersClient.send<IUser>(new UserGetByIdQueryPattern(payload.type), payload.userId))
       );
     } catch (err) {
       this.logger.warn(err);

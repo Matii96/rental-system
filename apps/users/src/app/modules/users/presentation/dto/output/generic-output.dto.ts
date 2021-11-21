@@ -9,6 +9,6 @@ export class UserGenericOutputDto extends UserOutputDto implements IUserGenericO
 
   constructor(user: IUser) {
     super(user);
-    this.type = user.getType();
+    this.type = user.type;
   }
 }

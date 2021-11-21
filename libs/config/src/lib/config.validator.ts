@@ -39,6 +39,10 @@ export class CommonConfig {
 
   @Transform((entry) => entry.value === 'true')
   @IsBoolean()
+  DB_SYNCHRONIZE: boolean;
+
+  @Transform((entry) => entry.value === 'true')
+  @IsBoolean()
   DB_SHOW_LOGS: boolean;
 
   @IsString()

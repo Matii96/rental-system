@@ -7,7 +7,7 @@ export class AuthUserJwtDto {
   readonly exp: number;
 
   constructor(user: IUser) {
-    this.type = user.getType();
+    this.type = user.type;
     this.userId = user.id;
   }
 }

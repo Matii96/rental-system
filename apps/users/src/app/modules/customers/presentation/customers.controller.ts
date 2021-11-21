@@ -9,7 +9,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UserAdminEntity, UserCustomerEntity, UserTypes } from '@rental-system/domain';
-import { IUserGetByIdMicroserviceQuery, UsersMessagesEnum } from '@rental-system/microservices';
+import { UserGetByIdQueryPattern } from '@rental-system/microservices';
 import { RequesterUser, UserAccess } from '@rental-system/auth';
 import { IUserController } from '../../users/presentation/interfaces/controller.interface';
 import { CustomersRepository } from '../infrastructure/database/repositories/customers.repository';
@@ -77,7 +77,7 @@ export class CustomersController implements IUserController<UserCustomerEntity> 
     return new CustomerOutputDto(user);
   }
 
-  @MessagePattern(<IUserGetByIdMicroserviceQuery>{ query: UsersMessagesEnum.GET_USER, type: UserTypes.USER_ADMIN })
+  @MessagePattern(new UserGetByIdQueryPattern(UserTypes.CUSTOMER))
   getEntityById(id: string) {
     return this.repository.findById(id);
   }

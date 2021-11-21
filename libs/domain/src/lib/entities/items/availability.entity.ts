@@ -3,6 +3,7 @@ import { IIdentifiableEntity } from '@rental-system/common';
 import { ItemTypes } from '../../enums/item-types.enum';
 import { NoItemToReturnException } from '../../exceptions/items/no-item-to-return.exception';
 import { ItemNotAvailableException } from '../../exceptions/items/item-not-available.exception';
+import { NotEnoughItemsTotalException } from '../../exceptions/items/not-enough-items-total.exception';
 
 export class AvailabilityEntity extends AggregateRoot implements IIdentifiableEntity<string> {
   constructor(readonly id: string, readonly type: ItemTypes, private total: number, private reserved: number) {
@@ -18,6 +19,9 @@ export class AvailabilityEntity extends AggregateRoot implements IIdentifiableEn
   }
 
   setTotal(total: number) {
+    if (total < this.reserved) {
+      throw new NotEnoughItemsTotalException(this.id, this.reserved);
+    }
     this.total = total;
   }
 

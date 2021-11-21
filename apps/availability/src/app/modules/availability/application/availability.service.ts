@@ -1,4 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { IItem } from '@rental-system/domain';
+import { AvailabilityRepository } from '../infrastructure/database/repositories/availability.repository';
+import { AvailabilityFactory } from './factories/availability.factory';
 
 @Injectable()
-export class AvailabilityService {}
+export class AvailabilityService {
+  constructor(private readonly factory: AvailabilityFactory, private readonly repository: AvailabilityRepository) {}
+
+  async register(item: IItem) {
+    const availability = this.factory.create(item);
+    await this.repository.create(availability);
+    return item;
+  }
+}

@@ -5,8 +5,6 @@ import { Dialect } from 'sequelize/types';
 import { format } from 'sql-formatter';
 
 export const sequelizeFactory = (config: ConfigService): SequelizeModuleOptions => {
-  const debug = config.get<boolean>('DB_SHOW_LOGS');
-
   const sequelize: SequelizeModuleOptions = {
     dialect: config.get<Dialect>('DB_DIALECT'),
     host: config.get<string>('DB_HOST'),
@@ -15,10 +13,10 @@ export const sequelizeFactory = (config: ConfigService): SequelizeModuleOptions 
     password: config.get<string>('DB_PASSWORD'),
     database: config.get<string>('DB_NAME'),
     autoLoadModels: true,
-    synchronize: debug,
+    synchronize: config.get<boolean>('DB_SYNCHRONIZE'),
   };
 
-  if (debug) {
+  if (config.get<boolean>('DB_SHOW_LOGS')) {
     const logger = new Logger('Database');
     sequelize.logging = (msg: string) => logger.debug(format(msg));
   } else {

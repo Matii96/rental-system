@@ -1,4 +1,4 @@
-# Description
+## Description
 
 Production-ready basic managment system for movie and book rental using Nest.js and Nx workspace. Built as a case-study of complex problems related to distributed microservices systems and solutions for them.
 
@@ -26,6 +26,7 @@ DB_HOST=db
 DB_PORT=5432
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
+DB_SYNCHRONIZE=true
 DB_SHOW_LOGS=false
 
 JWT_SECRET=superSecret

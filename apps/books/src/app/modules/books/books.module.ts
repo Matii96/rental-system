@@ -4,7 +4,7 @@ import { BookModel } from './infrastructure/database/models/book.model';
 import { BooksController } from './presentation/books.controller';
 import { BooksRepository } from './infrastructure/database/repositories/books.repository';
 import { BooksModelFactory } from './infrastructure/database/factories/books-model.factory';
-import { BooksFactory } from './application/factories/books-model.factory';
+import { BooksFactory } from './application/factories/books.factory';
 import { BooksService } from './application/books.service';
 
 @Module({

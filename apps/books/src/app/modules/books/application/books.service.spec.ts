@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { bookEntityMock } from '@rental-system/domain-testing';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
-import { BooksFactory } from './factories/books-model.factory';
+import { BooksFactory } from './factories/books.factory';
 import { BooksService } from './books.service';
 
 describe('BooksService', () => {

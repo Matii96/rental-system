@@ -5,6 +5,8 @@ import { CanGetPaidAbility } from './abilities/can-get-paid.ability';
 import { UserEntity } from './user.entity';
 
 export class UserAdminEntity extends CanReceiveNewsletterAbility(CanGetPaidAbility(UserEntity)) implements IUser {
+  readonly type = UserTypes.ADMIN;
+
   constructor(
     id: string,
     createdAt: Date,
@@ -21,7 +23,7 @@ export class UserAdminEntity extends CanReceiveNewsletterAbility(CanGetPaidAbili
   }
 
   getType() {
-    return UserTypes.USER_ADMIN;
+    return UserTypes.ADMIN;
   }
 
   toString(): string {

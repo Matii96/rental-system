@@ -3,7 +3,7 @@ import { FindAllSearchOptions, ICountableData } from '@rental-system/common';
 import { BookEntity } from '@rental-system/domain';
 import { IBookInput } from '@rental-system/dto-interfaces';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
-import { BooksFactory } from './factories/books-model.factory';
+import { BooksFactory } from './factories/books.factory';
 
 @Injectable()
 export class BooksService {
