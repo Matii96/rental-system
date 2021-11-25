@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { BookEntity } from '@rental-system/domain';
 import { FindAllSearchOptions } from '@rental-system/common';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
@@ -9,8 +10,8 @@ import { BooksModelFactory } from '../factories/books-model.factory';
 
 @Injectable()
 export class BooksRepository extends SequelizeGenericRepository<BookEntity, BookModel> {
-  constructor(@InjectModel(BookModel) model: typeof BookModel, modelFactory: BooksModelFactory) {
-    super(model, modelFactory);
+  constructor(sequelize: Sequelize, @InjectModel(BookModel) model: typeof BookModel, modelFactory: BooksModelFactory) {
+    super(sequelize, model, modelFactory);
   }
 
   findAll(options: FindAllSearchOptions = {}) {

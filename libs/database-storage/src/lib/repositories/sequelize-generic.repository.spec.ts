@@ -2,6 +2,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken, InjectModel } from '@nestjs/sequelize';
 import { ValidationError, ValidationErrorItem } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
 import { IEntityModelFactory, IIdentifiableEntity } from '@rental-system/common';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
@@ -17,10 +18,11 @@ class IdentifiableEntity implements IIdentifiableEntity<string> {
 @Injectable()
 class TestRepository extends SequelizeGenericRepository<IdentifiableEntity, IdentifiableModel> {
   constructor(
+    sequelize: Sequelize,
     @InjectModel(IdentifiableModel) model: typeof IdentifiableModel,
     @Inject('MODEL_FACTORY') modelFactory: IEntityModelFactory<IdentifiableEntity, IdentifiableModel>
   ) {
-    super(model, modelFactory);
+    super(sequelize, model, modelFactory);
   }
 }
 
@@ -33,6 +35,10 @@ describe('SequelizeGenericRepository', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         TestRepository,
+        {
+          provide: Sequelize,
+          useValue: { transaction: jest.fn((action: () => any) => action()) },
+        },
         {
           provide: getModelToken(IdentifiableModel),
           useClass: SequelizeMock,

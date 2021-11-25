@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { InvalidLoginException } from '@rental-system/domain';
 import { userAdminEntityMock, userCustomerEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
@@ -19,6 +20,10 @@ describe('UsersRepository', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersRepository,
+        {
+          provide: Sequelize,
+          useValue: { transaction: jest.fn((action: () => any) => action()) },
+        },
         { provide: getModelToken(UserModel), useClass: SequelizeMock },
         {
           provide: UsersModelFactory,

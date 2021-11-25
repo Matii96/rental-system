@@ -12,4 +12,10 @@ export class AvailabilityService {
     await this.repository.create(availability);
     return item;
   }
+
+  async unregister(item: IItem) {
+    const availability = await this.repository.findById(item.id);
+    await this.repository.delete(availability);
+    return availability;
+  }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { FindAllSearchOptions } from '@rental-system/common';
 import { InvalidLoginException, IUser } from '@rental-system/domain';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
@@ -13,8 +14,12 @@ import { UserCustomerModel } from '../../../../customers/infrastructure/database
 export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel> {
   private readonly usersModels = [UserAdminModel, UserCustomerModel];
 
-  constructor(@InjectModel(UserModel) protected readonly model: typeof UserModel, modelFactory: UsersModelFactory) {
-    super(model, modelFactory);
+  constructor(
+    sequelize: Sequelize,
+    @InjectModel(UserModel) protected readonly model: typeof UserModel,
+    modelFactory: UsersModelFactory
+  ) {
+    super(sequelize, model, modelFactory);
   }
 
   async findAll(options: FindAllSearchOptions = {}): Promise<IUser[]> {

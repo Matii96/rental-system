@@ -11,12 +11,12 @@ import { CustomersModelFactory } from '../factories/customers-model.factory';
 @Injectable()
 export class CustomersRepository extends SequelizeGenericRepository<UserCustomerEntity, UserCustomerModel> {
   constructor(
+    sequelize: Sequelize,
     @InjectModel(UserCustomerModel) model: typeof UserCustomerModel,
     modelFactory: CustomersModelFactory,
-    private readonly usersRepository: UsersRepository,
-    private readonly sequelize: Sequelize
+    private readonly usersRepository: UsersRepository
   ) {
-    super(model, modelFactory);
+    super(sequelize, model, modelFactory);
   }
 
   async findById(id: string) {

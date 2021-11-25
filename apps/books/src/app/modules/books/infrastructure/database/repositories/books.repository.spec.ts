@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { bookEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
 import { BooksModelFactory } from '../factories/books-model.factory';
@@ -14,9 +15,10 @@ describe('BooksRepository', () => {
       providers: [
         BooksRepository,
         {
-          provide: getModelToken(BookModel),
-          useClass: SequelizeMock,
+          provide: Sequelize,
+          useValue: { transaction: jest.fn((action: () => any) => action()) },
         },
+        { provide: getModelToken(BookModel), useClass: SequelizeMock },
         {
           provide: BooksModelFactory,
           useValue: { entityToModel: jest.fn(() => bookEntityMock()), modelToEntity: jest.fn(() => bookEntityMock()) },

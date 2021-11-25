@@ -12,9 +12,8 @@ import { UserAdminEntity, UserTypes } from '@rental-system/domain';
 import { RequesterUser, UserAccess } from '@rental-system/auth';
 import { UserGetByIdQueryPattern } from '@rental-system/microservices';
 import { IUserController } from '../../users/presentation/interfaces/controller.interface';
-import { AdminsRepository } from '../infrastructure/database/repositories/admins.repository';
 import { AdminsService } from '../application/admins.service';
-import { AdminsGuard } from '../application/guards/admins.guard';
+import { AdminsGuard } from './guards/admins.guard';
 import { UserNotSelfGuard } from '../../users/application/guards/users-not-self.guard';
 import { RequestUser } from '../../users/presentation/decorators/request-user.decorator';
 import { AdminInputSelfDto } from './dto/input/input-self.dto';
@@ -24,7 +23,7 @@ import { AdminOutputDto } from './dto/output.dto';
 @ApiTags('Users Admins')
 @Controller('v1/admins')
 export class AdminsController implements IUserController<UserAdminEntity> {
-  constructor(private readonly repository: AdminsRepository, private readonly adminsService: AdminsService) {}
+  constructor(private readonly adminsService: AdminsService) {}
 
   @Get(':userId')
   @UserAccess(UserAdminEntity)
@@ -32,8 +31,7 @@ export class AdminsController implements IUserController<UserAdminEntity> {
   @ApiOkResponse({ type: AdminOutputDto })
   @ApiNotFoundResponse()
   async getById(@Param('userId') userId: string) {
-    const user = await this.repository.findById(userId);
-    return new AdminOutputDto(user);
+    return new AdminOutputDto(await this.adminsService.getById(userId));
   }
 
   @Post()
@@ -41,8 +39,7 @@ export class AdminsController implements IUserController<UserAdminEntity> {
   @ApiCreatedResponse({ type: AdminOutputDto })
   @ApiBadRequestResponse()
   async create(@Body() data: AdminInputDto) {
-    const user = await this.adminsService.create(data);
-    return new AdminOutputDto(user);
+    return new AdminOutputDto(await this.adminsService.create(data));
   }
 
   @Put('self')
@@ -73,12 +70,12 @@ export class AdminsController implements IUserController<UserAdminEntity> {
   @ApiOkResponse({ type: AdminOutputDto })
   @ApiNotFoundResponse()
   async delete(@RequestUser() user: UserAdminEntity) {
-    await this.repository.delete(user);
+    await this.adminsService.delete(user);
     return new AdminOutputDto(user);
   }
 
   @MessagePattern(new UserGetByIdQueryPattern(UserTypes.ADMIN))
   getEntityById(id: string) {
-    return this.repository.findById(id);
+    return this.adminsService.getById(id);
   }
 }

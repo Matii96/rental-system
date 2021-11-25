@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
 import { IItem } from '@rental-system/domain';
-import { RegisterAvailabilityCommandPattern } from '@rental-system/microservices';
+import { RegisterAvailabilityCommandPattern, UnregisterAvailabilityCommandPattern } from '@rental-system/microservices';
 import { AvailabilityService } from '../application/availability.service';
 
 @ApiTags('Availability')
@@ -13,5 +13,10 @@ export class AvailabilityController {
   @MessagePattern(new RegisterAvailabilityCommandPattern())
   register(item: IItem) {
     return this.availabilityService.register(item);
+  }
+
+  @MessagePattern(new UnregisterAvailabilityCommandPattern())
+  unregister(item: IItem) {
+    return this.availabilityService.unregister(item);
   }
 }

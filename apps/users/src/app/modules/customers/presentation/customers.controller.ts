@@ -12,9 +12,8 @@ import { UserAdminEntity, UserCustomerEntity, UserTypes } from '@rental-system/d
 import { UserGetByIdQueryPattern } from '@rental-system/microservices';
 import { RequesterUser, UserAccess } from '@rental-system/auth';
 import { IUserController } from '../../users/presentation/interfaces/controller.interface';
-import { CustomersRepository } from '../infrastructure/database/repositories/customers.repository';
 import { CustomersService } from '../application/customers.service';
-import { CustomersGuard } from '../application/guards/customers.guard';
+import { CustomersGuard } from './guards/customers.guard';
 import { UserNotSelfGuard } from '../../users/application/guards/users-not-self.guard';
 import { RequestUser } from '../../users/presentation/decorators/request-user.decorator';
 import { CustomerInputSelfDto } from './dto/input/input-self.dto';
@@ -24,7 +23,7 @@ import { CustomerOutputDto } from './dto/output.dto';
 @ApiTags('Users Customers')
 @Controller('v1/customers')
 export class CustomersController implements IUserController<UserCustomerEntity> {
-  constructor(private readonly repository: CustomersRepository, private readonly customersService: CustomersService) {}
+  constructor(private readonly customersService: CustomersService) {}
 
   @Get(':userId')
   @UserAccess(UserAdminEntity)
@@ -32,8 +31,7 @@ export class CustomersController implements IUserController<UserCustomerEntity> 
   @ApiOkResponse({ type: CustomerOutputDto })
   @ApiNotFoundResponse()
   async getById(@Param('userId') userId: string) {
-    const user = await this.repository.findById(userId);
-    return new CustomerOutputDto(user);
+    return new CustomerOutputDto(await this.customersService.getById(userId));
   }
 
   @Post()
@@ -41,8 +39,7 @@ export class CustomersController implements IUserController<UserCustomerEntity> 
   @ApiCreatedResponse({ type: CustomerOutputDto })
   @ApiBadRequestResponse()
   async create(@Body() data: CustomerInputDto) {
-    const user = await this.customersService.create(data);
-    return new CustomerOutputDto(user);
+    return new CustomerOutputDto(await this.customersService.create(data));
   }
 
   @Put('self')
@@ -73,12 +70,12 @@ export class CustomersController implements IUserController<UserCustomerEntity> 
   @ApiOkResponse({ type: CustomerOutputDto })
   @ApiNotFoundResponse()
   async delete(@RequestUser() user: UserCustomerEntity) {
-    await this.repository.delete(user);
+    await this.customersService.delete(user);
     return new CustomerOutputDto(user);
   }
 
   @MessagePattern(new UserGetByIdQueryPattern(UserTypes.CUSTOMER))
   getEntityById(id: string) {
-    return this.repository.findById(id);
+    return this.customersService.getById(id);
   }
 }

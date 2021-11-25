@@ -14,6 +14,10 @@ export class AdminsService {
     private readonly repository: AdminsRepository
   ) {}
 
+  getById(id: string) {
+    return this.repository.findById(id);
+  }
+
   async create(data: IAdminInput): Promise<UserAdminEntity> {
     const user = this.factory.create(data);
     await this.repository.create(user);
@@ -38,5 +42,9 @@ export class AdminsService {
     data.agreedToNewsletter ? user.agreeToNewsletter() : user.disagreeToNewsletter();
     await this.repository.update(user);
     return user;
+  }
+
+  async delete(user: UserAdminEntity) {
+    await this.repository.delete(user);
   }
 }

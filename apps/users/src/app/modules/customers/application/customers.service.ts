@@ -13,6 +13,10 @@ export class CustomersService {
     private readonly repository: CustomersRepository
   ) {}
 
+  getById(id: string) {
+    return this.repository.findById(id);
+  }
+
   async create(data: ICustomerInput): Promise<UserCustomerEntity> {
     const user = this.factory.create(data);
     await this.repository.create(user);
@@ -36,5 +40,9 @@ export class CustomersService {
     data.agreedToNewsletter ? user.agreeToNewsletter() : user.disagreeToNewsletter();
     await this.repository.update(user);
     return user;
+  }
+
+  async delete(user: UserCustomerEntity) {
+    await this.repository.delete(user);
   }
 }

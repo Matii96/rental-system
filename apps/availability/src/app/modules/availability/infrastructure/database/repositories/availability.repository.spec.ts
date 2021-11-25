@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { availabilityEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
 import { AvailabilityModelFactory } from '../factories/availability-model.factory';
@@ -13,6 +14,10 @@ describe('AvailabilityRepository', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AvailabilityRepository,
+        {
+          provide: Sequelize,
+          useValue: { transaction: jest.fn((action: () => any) => action()) },
+        },
         {
           provide: getModelToken(AvailabilityModel),
           useClass: SequelizeMock,

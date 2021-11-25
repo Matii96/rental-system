@@ -18,6 +18,10 @@ describe('AdminsRepository', () => {
       providers: [
         AdminsRepository,
         {
+          provide: Sequelize,
+          useValue: { transaction: jest.fn((action: () => any) => action()) },
+        },
+        {
           provide: getModelToken(UserAdminModel),
           useClass: SequelizeMock,
         },
@@ -31,10 +35,6 @@ describe('AdminsRepository', () => {
         {
           provide: UsersRepository,
           useValue: { create: jest.fn(), update: jest.fn() },
-        },
-        {
-          provide: Sequelize,
-          useValue: { transaction: jest.fn((action: () => any) => action()) },
         },
       ],
     }).compile();

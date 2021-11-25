@@ -1,15 +1,22 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { FindAllOptions, IEntityModelFactory, IIdentifiableEntity, IRepository } from '@rental-system/common';
+import {
+  FindAllOptions,
+  IEntityModelFactory,
+  IIdentifiableEntity,
+  ITransactionalRepository,
+} from '@rental-system/common';
 import { Transaction, ValidationError, WhereOptions } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
 
 export abstract class SequelizeGenericRepository<
   TEntity extends IIdentifiableEntity<string>,
   TModel extends IdentifiableModel
-> implements IRepository<TEntity>
+> implements ITransactionalRepository<TEntity, Transaction>
 {
   constructor(
+    protected readonly sequelize: Sequelize,
     protected readonly model: typeof IdentifiableModel,
     protected readonly modelFactory: IEntityModelFactory<TEntity, TModel>
   ) {}
@@ -87,5 +94,9 @@ export abstract class SequelizeGenericRepository<
       throw err;
     }
     throw new BadRequestException(err.errors[0].message);
+  }
+
+  transaction<TTransactionResult>(action: (t: Transaction) => TTransactionResult | Promise<TTransactionResult>) {
+    return this.sequelize.transaction<TTransactionResult>(async (t) => action(t));
   }
 }
