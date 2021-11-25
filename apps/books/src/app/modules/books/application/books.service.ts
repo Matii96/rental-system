@@ -20,6 +20,10 @@ export class BooksService {
     private readonly repository: BooksRepository
   ) {}
 
+  getById(id: string) {
+    return this.repository.findById(id);
+  }
+
   async getAll(options: FindAllSearchOptions): Promise<ICountableData<BookEntity>> {
     const [data, total] = await Promise.all([this.repository.findAll(options), this.repository.count()]);
     return { data, total };

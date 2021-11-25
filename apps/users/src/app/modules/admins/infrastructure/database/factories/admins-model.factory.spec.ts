@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
-import { userModelMock } from '../../../../users/users.fixtures';
-import { userAdminModelMock } from '../../../admins.fixtures';
+import { userModelMock } from '../../../../users/users.mocks';
+import { userAdminModelMock } from '../../../admins.mocks';
 import { AdminsModelFactory } from './admins-model.factory';
 
 describe('AdminsModelFactory', () => {

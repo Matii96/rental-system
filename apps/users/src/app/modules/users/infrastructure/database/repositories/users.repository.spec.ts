@@ -6,7 +6,7 @@ import { userAdminEntityMock, userCustomerEntityMock } from '@rental-system/doma
 import { SequelizeMock } from '@rental-system/database-storage';
 import { AdminsModelFactory } from '../../../../admins/infrastructure/database/factories/admins-model.factory';
 import { CustomersModelFactory } from '../../../../customers/infrastructure/database/factories/customers-model.factory';
-import { userModelMock } from '../../../users.fixtures';
+import { userModelMock } from '../../../users.mocks';
 import { UserModel } from '../models/user.model';
 import { UsersModelFactory } from '../factories/users-model.factory';
 import { UsersRepository } from './users.repository';

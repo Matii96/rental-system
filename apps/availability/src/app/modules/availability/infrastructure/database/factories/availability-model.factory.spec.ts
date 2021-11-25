@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { availabilityEntityMock } from '@rental-system/domain-testing';
-import { availabilityModelObjectMock } from '../../../availability.fixtures';
+import { availabilityModelObjectMock } from '../../../availability.mocks';
 import { AvailabilityModelFactory } from './availability-model.factory';
 
 describe('AvailabilityModelFactory', () => {

@@ -14,7 +14,7 @@ import { BooksGuard } from './guards/books.guard';
 @ApiTags('Books')
 @Controller('v1/books')
 export class BooksController {
-  constructor(private readonly repository: BooksRepository, private readonly booksService: BooksService) {}
+  constructor(private readonly booksService: BooksService) {}
 
   @Get()
   @ApiOkResponse({ type: [BookOutputDto] })
@@ -27,7 +27,7 @@ export class BooksController {
   @Get(':bookId')
   @ApiOkResponse({ type: BookOutputDto })
   async getById(@Param('bookId') id: string) {
-    return new BookOutputDto(await this.repository.findById(id));
+    return new BookOutputDto(await this.booksService.getById(id));
   }
 
   @Post()

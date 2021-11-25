@@ -3,7 +3,7 @@ import { userAdminEntityMock, userCustomerEntityMock } from '@rental-system/doma
 import { AdminsModelFactory } from '../../../../admins/infrastructure/database/factories/admins-model.factory';
 import { CustomersModelFactory } from '../../../../customers/infrastructure/database/factories/customers-model.factory';
 import { InvalidUserClassException } from '../../exceptions/invalid-user-class.exception';
-import { userModelMock } from '../../../users.fixtures';
+import { userModelMock } from '../../../users.mocks';
 import { UsersModelFactory } from './users-model.factory';
 
 describe('UsersModelFactory', () => {

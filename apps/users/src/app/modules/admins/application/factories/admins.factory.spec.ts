@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
-import { userAdminEntityMock } from '@rental-system/domain-testing';
-import { userAdminInputMock } from '../../admins.fixtures';
+import { userAdminInputMock } from '@rental-system/dto-interfaces';
 import { AdminsFactory } from './admins.factory';
 
 describe('AdminsFactory', () => {
@@ -17,8 +16,8 @@ describe('AdminsFactory', () => {
   });
 
   it('should create new entity', () => {
-    const admin = userAdminEntityMock();
-    const result = factory.create(userAdminInputMock(admin));
-    expect({ name: result.name, email: result.email }).toEqual({ name: admin.name, email: admin.email });
+    const adminData = userAdminInputMock();
+    const result = factory.create(adminData);
+    expect({ name: result.name, email: result.email }).toEqual({ name: adminData.name, email: adminData.email });
   });
 });

@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { bookEntityMock } from '@rental-system/domain-testing';
-import { bookInputMock } from '../../books.fixtures';
+import { bookInputMock } from '@rental-system/dto-interfaces';
 import { BooksFactory } from './books.factory';
 
 describe('BooksFactory', () => {
@@ -15,12 +14,12 @@ describe('BooksFactory', () => {
   });
 
   it('should create new entity', () => {
-    const book = bookEntityMock();
-    const result = factory.create(bookInputMock(book));
+    const bookData = bookInputMock();
+    const result = factory.create(bookData);
     expect({ name: result.name, author: result.author, pagesCount: result.pagesCount }).toEqual({
-      name: book.name,
-      author: book.author,
-      pagesCount: book.pagesCount,
+      name: bookData.name,
+      author: bookData.author,
+      pagesCount: bookData.pagesCount,
     });
   });
 });

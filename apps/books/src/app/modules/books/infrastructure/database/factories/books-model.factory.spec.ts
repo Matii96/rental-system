@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { bookEntityMock } from '@rental-system/domain-testing';
-import { bookModelObjectMock } from '../../../books.fixtures';
+import { bookModelObjectMock } from '../../../books.mocks';
 import { BooksModelFactory } from './books-model.factory';
 
 describe('BooksModelFactory', () => {
