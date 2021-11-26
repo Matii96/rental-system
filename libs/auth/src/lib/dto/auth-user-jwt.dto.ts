@@ -8,6 +8,6 @@ export class AuthUserJwtDto {
 
   constructor(user: IUser) {
     this.type = user.type;
-    this.userId = user.id;
+    this.userId = user.id.toString();
   }
 }

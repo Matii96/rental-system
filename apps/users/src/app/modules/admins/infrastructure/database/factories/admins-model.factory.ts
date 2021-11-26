@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserAdminEntity } from '@rental-system/domain';
-import { IEntityModelFactory } from '@rental-system/common';
+import { AggregateId, IEntityModelFactory } from '@rental-system/common';
 import { UserModel } from '../../../../users/infrastructure/database/models/user.model';
 import { UserAdminModel } from '../models/admin.model';
 
@@ -8,7 +8,7 @@ import { UserAdminModel } from '../models/admin.model';
 export class AdminsModelFactory implements IEntityModelFactory<UserAdminEntity, UserAdminModel> {
   entityToModel(user: UserAdminEntity): UserAdminModel {
     return <UserAdminModel>{
-      id: user.id,
+      id: user.id.toString(),
       base: null,
       agreedToNewsletter: user.agreedToNewsletter,
       salary: user.salary,
@@ -17,7 +17,7 @@ export class AdminsModelFactory implements IEntityModelFactory<UserAdminEntity, 
 
   modelToEntity(adminModel: UserAdminModel, baseModel: UserModel): UserAdminEntity {
     return new UserAdminEntity(
-      baseModel.id,
+      new AggregateId(baseModel.id),
       baseModel.createdAt,
       baseModel.name,
       baseModel.email,

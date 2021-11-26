@@ -11,7 +11,7 @@ import { AvailabilityModel } from './infrastructure/database/models/availability
 
 export const availabilityModelObjectMock = (availability: AvailabilityEntity) =>
   <AvailabilityModel>{
-    id: availability.id,
+    id: availability.id.toString(),
     type: availability.type,
     total: availability.getTotal(),
     reserved: availability.getReserved(),

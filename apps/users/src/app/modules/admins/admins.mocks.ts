@@ -3,7 +3,7 @@ import { UserAdminModel } from './infrastructure/database/models/admin.model';
 
 export const userAdminModelMock = (user = userAdminEntityMock()) =>
   <UserAdminModel>{
-    id: user.id,
+    id: user.id.toString(),
     base: null,
     agreedToNewsletter: user.agreedToNewsletter,
     salary: user.salary,

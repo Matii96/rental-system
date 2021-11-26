@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { SequelizeGenericRepository } from '@rental-system/database-storage';
+import { AggregateId } from '@rental-system/common';
 import { UserCustomerEntity } from '@rental-system/domain';
+import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { UserModel } from '../../../../users/infrastructure/database/models/user.model';
 import { UsersRepository } from '../../../../users/infrastructure/database/repositories/users.repository';
 import { UserCustomerModel } from '../models/user-customer.model';
@@ -19,8 +20,8 @@ export class CustomersRepository extends SequelizeGenericRepository<UserCustomer
     super(sequelize, model, modelFactory);
   }
 
-  async findById(id: string) {
-    const user = <UserCustomerModel>await this.model.findByPk(id, { include: [{ model: UserModel }] });
+  async findById(id: AggregateId) {
+    const user = <UserCustomerModel>await this.model.findByPk(id.toString(), { include: [{ model: UserModel }] });
     if (!user) throw new NotFoundException();
     return this.modelFactory.modelToEntity(user, user.base);
   }

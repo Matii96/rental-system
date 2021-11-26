@@ -8,6 +8,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { AggregateId } from '@rental-system/common';
 import { UserAdminEntity, UserCustomerEntity, UserTypes } from '@rental-system/domain';
 import { UserGetByIdQueryPattern } from '@rental-system/microservices';
 import { RequesterUser, UserAccess } from '@rental-system/auth';
@@ -30,8 +31,8 @@ export class CustomersController implements IUserController<UserCustomerEntity> 
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: CustomerOutputDto })
   @ApiNotFoundResponse()
-  async getById(@Param('userId') userId: string) {
-    return new CustomerOutputDto(await this.customersService.getById(userId));
+  async getById(@Param('userId') id: string) {
+    return new CustomerOutputDto(await this.customersService.getById(new AggregateId(id)));
   }
 
   @Post()
@@ -76,6 +77,6 @@ export class CustomersController implements IUserController<UserCustomerEntity> 
 
   @MessagePattern(new UserGetByIdQueryPattern(UserTypes.CUSTOMER))
   getEntityById(id: string) {
-    return this.customersService.getById(id);
+    return this.customersService.getById(new AggregateId(id));
   }
 }

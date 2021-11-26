@@ -1,5 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import {
+  AggregateId,
   FindAllOptions,
   IEntityModelFactory,
   IIdentifiableEntity,
@@ -10,10 +11,8 @@ import { Sequelize } from 'sequelize-typescript';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
 
-export abstract class SequelizeGenericRepository<
-  TEntity extends IIdentifiableEntity<string>,
-  TModel extends IdentifiableModel
-> implements ITransactionalRepository<TEntity, Transaction>
+export abstract class SequelizeGenericRepository<TEntity extends IIdentifiableEntity, TModel extends IdentifiableModel>
+  implements ITransactionalRepository<TEntity, Transaction>
 {
   constructor(
     protected readonly sequelize: Sequelize,
@@ -21,13 +20,13 @@ export abstract class SequelizeGenericRepository<
     protected readonly modelFactory: IEntityModelFactory<TEntity, TModel>
   ) {}
 
-  async findById(id: string, transaction?: Transaction) {
+  async findById(id: AggregateId, transaction?: Transaction) {
     const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-    if (!regexExp.test(id)) {
+    if (!regexExp.test(id.toString())) {
       throw new InvalidIdException();
     }
 
-    const data = await this.model.findByPk(id, { transaction });
+    const data = await this.model.findByPk(id.toString(), { transaction });
     if (!data) throw new NotFoundException();
     return this.modelFactory.modelToEntity(<TModel>data);
   }
@@ -67,7 +66,7 @@ export abstract class SequelizeGenericRepository<
   }
 
   async delete(entity: TEntity, transaction?: Transaction) {
-    const data = await this.model.findByPk(entity.id, { transaction });
+    const data = await this.model.findByPk(entity.id.toString(), { transaction });
     if (!data) throw new NotFoundException();
     await data.destroy({ transaction });
     return entity;

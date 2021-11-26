@@ -3,7 +3,7 @@ import { UserCustomerModel } from './infrastructure/database/models/user-custome
 
 export const userCustomerModelMock = (user = userCustomerEntityMock()) =>
   <UserCustomerModel>{
-    id: user.id,
+    id: user.id.toString(),
     base: null,
     agreedToNewsletter: user.agreedToNewsletter,
   };

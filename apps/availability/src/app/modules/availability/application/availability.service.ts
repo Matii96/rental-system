@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IItem } from '@rental-system/domain';
+import { IItemAvailability } from '@rental-system/dto-interfaces';
 import { AvailabilityRepository } from '../infrastructure/database/repositories/availability.repository';
 import { AvailabilityFactory } from './factories/availability.factory';
 
@@ -7,14 +7,14 @@ import { AvailabilityFactory } from './factories/availability.factory';
 export class AvailabilityService {
   constructor(private readonly factory: AvailabilityFactory, private readonly repository: AvailabilityRepository) {}
 
-  async register(item: IItem) {
-    const availability = this.factory.create(item);
+  async register(data: IItemAvailability) {
+    const availability = this.factory.create(data);
     await this.repository.create(availability);
-    return item;
+    return availability;
   }
 
-  async unregister(item: IItem) {
-    const availability = await this.repository.findById(item.id);
+  async unregister(data: IItemAvailability) {
+    const availability = await this.repository.findById(data.id);
     await this.repository.delete(availability);
     return availability;
   }

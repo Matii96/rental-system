@@ -8,6 +8,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { AggregateId } from '@rental-system/common';
 import { UserAdminEntity, UserTypes } from '@rental-system/domain';
 import { RequesterUser, UserAccess } from '@rental-system/auth';
 import { UserGetByIdQueryPattern } from '@rental-system/microservices';
@@ -30,8 +31,8 @@ export class AdminsController implements IUserController<UserAdminEntity> {
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: AdminOutputDto })
   @ApiNotFoundResponse()
-  async getById(@Param('userId') userId: string) {
-    return new AdminOutputDto(await this.adminsService.getById(userId));
+  async getById(@Param('userId') id: string) {
+    return new AdminOutputDto(await this.adminsService.getById(new AggregateId(id)));
   }
 
   @Post()
@@ -76,6 +77,6 @@ export class AdminsController implements IUserController<UserAdminEntity> {
 
   @MessagePattern(new UserGetByIdQueryPattern(UserTypes.ADMIN))
   getEntityById(id: string) {
-    return this.adminsService.getById(id);
+    return this.adminsService.getById(new AggregateId(id));
   }
 }

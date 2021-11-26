@@ -1,11 +1,11 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { hashSync, compareSync } from 'bcryptjs';
-import { IIdentifiableEntity } from '@rental-system/common';
+import { AggregateId, IIdentifiableEntity } from '@rental-system/common';
 import { InvalidLoginException } from '../../exceptions/users/invalid-login.exception';
 
-export class UserEntity extends AggregateRoot implements IIdentifiableEntity<string> {
+export class UserEntity extends AggregateRoot implements IIdentifiableEntity {
   constructor(
-    public readonly id: string,
+    public readonly id: AggregateId,
     public readonly createdAt: Date,
     public name: string,
     public email: string,

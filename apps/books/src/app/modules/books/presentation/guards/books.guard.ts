@@ -8,7 +8,7 @@ import { IBookRequest } from '../interfaces/user-request.interface';
 export class BooksGuard implements CanActivate {
   constructor(private readonly repository: BooksRepository) {}
 
-  private getUser(user: IUser, bookId: string) {
+  private getUser(user: IUser, bookid: AggregateId) {
     return this.repository.findById(bookId);
   }
 

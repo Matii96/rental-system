@@ -1,3 +1,4 @@
+import { AggregateId } from '@rental-system/common';
 import { UserTypes } from '../../enums/user-types.enum';
 import { IUser } from '../../interfaces/user.interface';
 import { CanReceiveNewsletterAbility } from './abilities/can-receive-newsletter.ability';
@@ -8,7 +9,7 @@ export class UserAdminEntity extends CanReceiveNewsletterAbility(CanGetPaidAbili
   readonly type = UserTypes.ADMIN;
 
   constructor(
-    id: string,
+    id: AggregateId,
     createdAt: Date,
     name: string,
     email: string,

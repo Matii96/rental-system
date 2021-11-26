@@ -17,7 +17,7 @@ export abstract class UserOutputDto implements IUserOutput {
   active: boolean;
 
   constructor(user: IUser) {
-    this.id = user.id;
+    this.id = user.id.toString();
     this.name = user.name;
     this.email = user.email;
     this.active = user.isActive();

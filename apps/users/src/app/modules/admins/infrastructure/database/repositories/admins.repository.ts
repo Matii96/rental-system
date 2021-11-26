@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { AggregateId } from '@rental-system/common';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { UserAdminEntity } from '@rental-system/domain';
 import { UsersRepository } from '../../../../users/infrastructure/database/repositories/users.repository';
@@ -19,8 +20,8 @@ export class AdminsRepository extends SequelizeGenericRepository<UserAdminEntity
     super(sequelize, model, modelFactory);
   }
 
-  async findById(id: string) {
-    const user = <UserAdminModel>await this.model.findByPk(id, { include: [{ model: UserModel }] });
+  async findById(id: AggregateId) {
+    const user = <UserAdminModel>await this.model.findByPk(id.toString(), { include: [{ model: UserModel }] });
     if (!user) throw new NotFoundException();
     return this.modelFactory.modelToEntity(user, user.base);
   }

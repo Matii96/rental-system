@@ -3,7 +3,7 @@ import { BookModel } from './infrastructure/database/models/book.model';
 
 export const bookModelObjectMock = (book: BookEntity) =>
   <BookModel>{
-    id: book.id,
+    id: book.id.toString(),
     name: book.name,
     author: book.author,
     pagesCount: book.pagesCount,

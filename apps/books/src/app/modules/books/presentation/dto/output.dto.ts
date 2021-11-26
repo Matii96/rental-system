@@ -19,7 +19,7 @@ export class BookOutputDto implements IBookOutput {
   pagesCount: number;
 
   constructor(book: BookEntity) {
-    this.id = book.id;
+    this.id = book.id.toString();
     this.createdAt = book.createdAt;
     this.name = book.name;
     this.author = book.author;

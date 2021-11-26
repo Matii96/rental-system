@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserCustomerEntity } from '@rental-system/domain';
-import { IEntityModelFactory } from '@rental-system/common';
+import { AggregateId, IEntityModelFactory } from '@rental-system/common';
 import { UserModel } from '../../../../users/infrastructure/database/models/user.model';
 import { UserCustomerModel } from '../models/user-customer.model';
 
@@ -8,7 +8,7 @@ import { UserCustomerModel } from '../models/user-customer.model';
 export class CustomersModelFactory implements IEntityModelFactory<UserCustomerEntity, UserCustomerModel> {
   entityToModel(user: UserCustomerEntity): UserCustomerModel {
     return <UserCustomerModel>{
-      id: user.id,
+      id: user.id.toString(),
       base: null,
       agreedToNewsletter: user.agreedToNewsletter,
     };
@@ -16,7 +16,7 @@ export class CustomersModelFactory implements IEntityModelFactory<UserCustomerEn
 
   modelToEntity(customerModel: UserCustomerModel, baseModel: UserModel): UserCustomerEntity {
     return new UserCustomerEntity(
-      baseModel.id,
+      new AggregateId(baseModel.id),
       baseModel.createdAt,
       baseModel.name,
       baseModel.email,

@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AvailabilityEntity } from '@rental-system/domain';
-import { availabilityEntityMock } from '@rental-system/domain-testing';
 import { AvailabilityFactory } from './availability.factory';
 
 describe('AvailabilityFactory', () => {
@@ -16,6 +15,6 @@ describe('AvailabilityFactory', () => {
 
   it('should create new entity', () => {
     // @ts-ignore
-    expect(factory.create({ id: 'id', getType: jest.fn(() => 'ITEM') })).toBeInstanceOf(AvailabilityEntity);
+    expect(factory.create({ id: 'id', type: 'ITEM' })).toBeInstanceOf(AvailabilityEntity);
   });
 });

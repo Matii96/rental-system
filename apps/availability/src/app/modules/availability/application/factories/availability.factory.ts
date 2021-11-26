@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { AvailabilityEntity, IItem } from '@rental-system/domain';
+import { AvailabilityEntity } from '@rental-system/domain';
 import { IEntityFactory } from '@rental-system/common';
+import { IItemAvailability } from '@rental-system/dto-interfaces';
 
 @Injectable()
 export class AvailabilityFactory implements IEntityFactory<AvailabilityEntity> {
-  create(item: IItem) {
-    return new AvailabilityEntity(item.id, item.type, 0, 0);
+  create(data: IItemAvailability) {
+    return new AvailabilityEntity(data.id, data.type, 0, 0);
   }
 }

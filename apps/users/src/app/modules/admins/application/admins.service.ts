@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AggregateId } from '@rental-system/common';
 import { UserAdminEntity } from '@rental-system/domain';
 import { IAdminInput } from '@rental-system/dto-interfaces';
 import { AdminsRepository } from '../infrastructure/database/repositories/admins.repository';
@@ -14,7 +15,7 @@ export class AdminsService {
     private readonly repository: AdminsRepository
   ) {}
 
-  getById(id: string) {
+  getById(id: AggregateId) {
     return this.repository.findById(id);
   }
 

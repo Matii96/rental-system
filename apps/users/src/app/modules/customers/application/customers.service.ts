@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AggregateId } from '@rental-system/common';
 import { UserCustomerEntity } from '@rental-system/domain';
 import { ICustomerInput, ICustomerInputSelf } from '@rental-system/dto-interfaces';
 import { CustomersFactory } from './factories/customers.factory';
@@ -13,7 +14,7 @@ export class CustomersService {
     private readonly repository: CustomersRepository
   ) {}
 
-  getById(id: string) {
+  getById(id: AggregateId) {
     return this.repository.findById(id);
   }
 
