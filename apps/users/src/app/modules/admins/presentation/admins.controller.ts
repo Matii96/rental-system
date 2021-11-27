@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import {
   ApiBadRequestResponse,
@@ -31,8 +31,8 @@ export class AdminsController implements IUserController<UserAdminEntity> {
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: AdminOutputDto })
   @ApiNotFoundResponse()
-  async getById(@Param('userId') id: string) {
-    return new AdminOutputDto(await this.adminsService.getById(new AggregateId(id)));
+  getById(@RequestUser() user: UserAdminEntity) {
+    return new AdminOutputDto(user);
   }
 
   @Post()

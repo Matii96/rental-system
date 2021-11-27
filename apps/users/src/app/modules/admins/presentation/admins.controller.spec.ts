@@ -34,10 +34,7 @@ describe('AdminsController', () => {
 
   it('should get user by id', async () => {
     const user = userAdminEntityMock();
-    jest.spyOn(adminsServiceMock, 'getById').mockResolvedValueOnce(user);
-
-    expect(await controller.getById('id')).toEqual(new AdminOutputDto(user));
-    expect(adminsServiceMock.getById).toHaveBeenCalledTimes(1);
+    expect(controller.getById(user)).toEqual(new AdminOutputDto(user));
   });
 
   it('should create new admin user', async () => {

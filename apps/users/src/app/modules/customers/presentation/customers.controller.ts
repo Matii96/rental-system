@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import {
   ApiBadRequestResponse,
@@ -31,8 +31,8 @@ export class CustomersController implements IUserController<UserCustomerEntity> 
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: CustomerOutputDto })
   @ApiNotFoundResponse()
-  async getById(@Param('userId') id: string) {
-    return new CustomerOutputDto(await this.customersService.getById(new AggregateId(id)));
+  getById(@RequestUser() user: UserCustomerEntity) {
+    return new CustomerOutputDto(user);
   }
 
   @Post()

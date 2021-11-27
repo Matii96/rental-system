@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { BookEntity, ItemTypes } from '@rental-system/domain';
-import { IItemAvailability } from '@rental-system/dto-interfaces';
+import { IChangeStateAvailabilityInput } from '@rental-system/dto-interfaces';
 import {
   MicroservicesEnum,
   RegisterAvailabilityCommandPattern,
@@ -15,7 +15,7 @@ export class BooksMicroservicesSender {
 
   registerAvailability(book: BookEntity) {
     return firstValueFrom(
-      this.availabilityClient.send<'ok'>(new RegisterAvailabilityCommandPattern(), <IItemAvailability>{
+      this.availabilityClient.send<'ok'>(new RegisterAvailabilityCommandPattern(), <IChangeStateAvailabilityInput>{
         id: book.id.toString(),
         type: ItemTypes.BOOK,
       })
@@ -24,7 +24,7 @@ export class BooksMicroservicesSender {
 
   unregisterAvailability(book: BookEntity) {
     return firstValueFrom(
-      this.availabilityClient.send<'ok'>(new UnregisterAvailabilityCommandPattern(), <IItemAvailability>{
+      this.availabilityClient.send<'ok'>(new UnregisterAvailabilityCommandPattern(), <IChangeStateAvailabilityInput>{
         id: book.id.toString(),
         type: ItemTypes.BOOK,
       })

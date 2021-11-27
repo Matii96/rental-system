@@ -1,6 +1,6 @@
 import { ItemTypes } from '@rental-system/domain';
 
-export interface IItemAvailability {
+export interface IChangeStateAvailabilityInput {
   id: string;
   type: ItemTypes;
 }

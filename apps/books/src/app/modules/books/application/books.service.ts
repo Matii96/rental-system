@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AggregateId, FindAllSearchOptions, ICountableData } from '@rental-system/common';
+import { FindAllSearchOptions, ICountableData } from '@rental-system/common';
 import { BookEntity } from '@rental-system/domain';
 import { IBookInput } from '@rental-system/dto-interfaces';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
@@ -13,10 +13,6 @@ export class BooksService {
     private readonly repository: BooksRepository,
     private readonly microservicesSenders: BooksMicroservicesSender
   ) {}
-
-  getById(id: AggregateId) {
-    return this.repository.findById(id);
-  }
 
   async getAll(options: FindAllSearchOptions): Promise<ICountableData<BookEntity>> {
     const [data, total] = await Promise.all([this.repository.findAll(options), this.repository.count()]);

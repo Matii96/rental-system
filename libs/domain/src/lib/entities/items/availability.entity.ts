@@ -26,17 +26,19 @@ export class AvailabilityEntity extends AggregateRoot implements IIdentifiableEn
   }
 
   reserveItem() {
-    if (this.reserved >= this.total) {
+    const newReserved = this.reserved + 1;
+    if (newReserved > this.total) {
       throw new ItemNotAvailableException(this.id);
     }
-    this.reserved++;
+    this.reserved = newReserved;
   }
 
   returnItem() {
-    if (this.reserved === 0) {
+    const newReserved = this.reserved - 1;
+    if (newReserved <= 0) {
       throw new NoItemToReturnException();
     }
-    this.reserved--;
+    this.reserved = newReserved;
   }
 
   toString(): string {

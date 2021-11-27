@@ -34,10 +34,7 @@ describe('CustomersController', () => {
 
   it('should get user by id', async () => {
     const user = userCustomerEntityMock();
-    jest.spyOn(customersServiceMock, 'getById').mockResolvedValueOnce(user);
-
-    expect(await controller.getById('id')).toEqual(new CustomerOutputDto(user));
-    expect(customersServiceMock.getById).toHaveBeenCalledTimes(1);
+    expect(controller.getById(user)).toEqual(new CustomerOutputDto(user));
   });
 
   it('should create new customer user', async () => {
