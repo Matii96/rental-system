@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { of } from 'rxjs';
 import { bookEntityMock } from '@rental-system/domain-testing';
-import { MicroservicesEnum } from '@rental-system/microservices';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
+import { BooksMicroservicesSender } from '../infrastructure/microservices-senders/books.microservices-sender';
 import { BooksFactory } from './factories/books.factory';
 import { BooksService } from './books.service';
 
@@ -14,10 +13,6 @@ describe('BooksService', () => {
       providers: [
         BooksService,
         {
-          provide: MicroservicesEnum.AVAILABILITY,
-          useValue: { send: jest.fn(() => of()) },
-        },
-        {
           provide: BooksFactory,
           useValue: { create: jest.fn(() => bookEntityMock()) },
         },
@@ -25,10 +20,14 @@ describe('BooksService', () => {
           provide: BooksRepository,
           useValue: {},
         },
+        {
+          provide: BooksMicroservicesSender,
+          useValue: { registerAvailability: jest.fn(), unregisterAvailability: jest.fn() },
+        },
       ],
     }).compile();
 
-    service = module.get<BooksService>(BooksService);
+    service = module.get(BooksService);
   });
 
   it('should be defined', () => {

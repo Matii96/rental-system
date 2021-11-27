@@ -1,23 +1,17 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
+import { Injectable } from '@nestjs/common';
 import { AggregateId, FindAllSearchOptions, ICountableData } from '@rental-system/common';
-import { BookEntity, ItemTypes } from '@rental-system/domain';
-import { IBookInput, IItemAvailability } from '@rental-system/dto-interfaces';
-import {
-  MicroservicesEnum,
-  RegisterAvailabilityCommandPattern,
-  UnregisterAvailabilityCommandPattern,
-} from '@rental-system/microservices';
+import { BookEntity } from '@rental-system/domain';
+import { IBookInput } from '@rental-system/dto-interfaces';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
+import { BooksMicroservicesSender } from '../infrastructure/microservices-senders/books.microservices-sender';
 import { BooksFactory } from './factories/books.factory';
 
 @Injectable()
 export class BooksService {
   constructor(
-    @Inject(MicroservicesEnum.AVAILABILITY) private readonly availabilityClient: ClientProxy,
     private readonly factory: BooksFactory,
-    private readonly repository: BooksRepository
+    private readonly repository: BooksRepository,
+    private readonly microservicesSenders: BooksMicroservicesSender
   ) {}
 
   getById(id: AggregateId) {
@@ -33,12 +27,7 @@ export class BooksService {
     const book = this.factory.create(data);
     await this.repository.transaction(async (t) => {
       await this.repository.create(book, t);
-      await firstValueFrom(
-        this.availabilityClient.send(new RegisterAvailabilityCommandPattern(), <IItemAvailability>{
-          id: book.id,
-          type: ItemTypes.BOOK,
-        })
-      );
+      await this.microservicesSenders.registerAvailability(book);
     });
     return book;
   }
@@ -54,12 +43,7 @@ export class BooksService {
   async delete(book: BookEntity) {
     await this.repository.transaction(async (t) => {
       await this.repository.delete(book, t);
-      await firstValueFrom(
-        this.availabilityClient.send(new UnregisterAvailabilityCommandPattern(), <IItemAvailability>{
-          id: book.id,
-          type: ItemTypes.BOOK,
-        })
-      );
+      await this.microservicesSenders.unregisterAvailability(book);
     });
     return book;
   }

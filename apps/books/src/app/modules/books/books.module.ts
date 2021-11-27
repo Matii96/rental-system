@@ -9,6 +9,7 @@ import { BookModel } from './infrastructure/database/models/book.model';
 import { BooksController } from './presentation/books.controller';
 import { BooksRepository } from './infrastructure/database/repositories/books.repository';
 import { BooksModelFactory } from './infrastructure/database/factories/books-model.factory';
+import { BooksMicroservicesSender } from './infrastructure/microservices-senders/books.microservices-sender';
 import { BooksFactory } from './application/factories/books.factory';
 import { BooksService } from './application/books.service';
 
@@ -25,6 +26,6 @@ import { BooksService } from './application/books.service';
     AuthModule,
   ],
   controllers: [BooksController],
-  providers: [BooksFactory, BooksModelFactory, BooksRepository, BooksService],
+  providers: [BooksFactory, BooksModelFactory, BooksRepository, BooksMicroservicesSender, BooksService],
 })
 export class BooksModule {}
