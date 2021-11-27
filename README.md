@@ -1,3 +1,11 @@
+# Rental system
+
+<div align="center">
+
+![ci](https://github.com/Matii96/rental-system/actions/workflows/ci.yml/badge.svg) [![MIT Licensed](https://img.shields.io/badge/License-MIT-brightgreen)](/LICENSE)
+
+</div>
+
 ## Description
 
 Production-ready basic managment system for items (currently movies and books) rental using [Nest.js](https://nestjs.com) and [Nx workspace](https://nx.dev). Built as a case-study of complex problems related to distributed microservices systems and solutions for them.
