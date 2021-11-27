@@ -7,8 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { AggregateId, IEntityModelFactory, IIdentifiableEntity } from '@rental-system/common';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
-import { SequelizeMock } from '../fixtures/sequelize.mock';
-import { IdentifiableModelMock } from '../fixtures/identifiable-model.mock';
+import { SequelizeMock } from '../mocks/sequelize.mock';
+import { IdentifiableModelMock } from '../mocks/identifiable-model.mock';
 import { SequelizeGenericRepository } from './sequelize-generic.repository';
 
 class IdentifiableEntity implements IIdentifiableEntity {
@@ -65,7 +65,7 @@ describe('SequelizeGenericRepository', () => {
     });
 
     it('should fail to find by id - invalid id', async () => {
-      await expect(repository.findById('not-id')).rejects.toThrow(InvalidIdException);
+      await expect(repository.findById(new AggregateId('not-id'))).rejects.toThrow(InvalidIdException);
     });
   });
 
@@ -83,7 +83,9 @@ describe('SequelizeGenericRepository', () => {
       new IdentifiableEntity(new AggregateId(uuidv4())),
     ];
     entities.forEach(async (entity) => await dbModelMock.create(new IdentifiableModelMock(entity.id)));
-    jest.spyOn(modelFactoryMock, 'modelToEntity').mockImplementation((model: IdentifiableModel) => model);
+    jest
+      .spyOn(modelFactoryMock, 'modelToEntity')
+      .mockImplementation((model: IdentifiableModel) => ({ ...model, id: new AggregateId(model.id) }));
 
     expect(await repository.findAll()).toEqual(entities);
   });
@@ -95,7 +97,7 @@ describe('SequelizeGenericRepository', () => {
 
   it('should update entity in database', async () => {
     const entity = new IdentifiableEntity(new AggregateId(uuidv4()));
-    jest.spyOn(modelFactoryMock, 'entityToModel').mockReturnValueOnce(<IdentifiableModel>{ id: entity.id });
+    jest.spyOn(modelFactoryMock, 'entityToModel').mockReturnValueOnce(<IdentifiableModel>{ id: entity.id.toString() });
     expect(await repository.update(entity)).toEqual(entity);
   });
 

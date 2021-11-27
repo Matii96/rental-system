@@ -5,10 +5,10 @@ import { Sequelize } from 'sequelize-typescript';
 import { FindAllSearchOptions } from '@rental-system/common';
 import { InvalidLoginException, IUser } from '@rental-system/domain';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
-import { UserModel } from '../models/user.model';
-import { UsersModelFactory } from '../factories/users-model.factory';
 import { UserAdminModel } from '../../../../admins/infrastructure/database/models/admin.model';
 import { UserCustomerModel } from '../../../../customers/infrastructure/database/models/user-customer.model';
+import { UsersModelFactory } from '../factories/users-model.factory';
+import { UserModel } from '../models/user.model';
 
 @Injectable()
 export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel> {
@@ -25,10 +25,6 @@ export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel
   async findAll(options: FindAllSearchOptions = {}): Promise<IUser[]> {
     const search = { [Op.like]: `%${options.search || ''}%` };
     const query: Record<string, unknown>[] = [{ name: search }, { email: search }];
-
-    if (parseInt(options.search)) {
-      query.push({ '$adminData.salary$': parseInt(options.search) });
-    }
 
     const users = await this.model.findAll({
       include: this.usersModels.map((model) => ({ model, required: false })),
