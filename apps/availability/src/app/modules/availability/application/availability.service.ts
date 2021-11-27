@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AggregateId } from '@rental-system/common';
 import { IItemAvailability } from '@rental-system/dto-interfaces';
 import { AvailabilityRepository } from '../infrastructure/database/repositories/availability.repository';
 import { AvailabilityFactory } from './factories/availability.factory';
@@ -14,7 +15,7 @@ export class AvailabilityService {
   }
 
   async unregister(data: IItemAvailability) {
-    const availability = await this.repository.findById(data.id);
+    const availability = await this.repository.findById(new AggregateId(data.id));
     await this.repository.delete(availability);
     return availability;
   }

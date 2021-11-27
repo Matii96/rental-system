@@ -16,7 +16,7 @@ export class BooksMicroservicesSender {
   registerAvailability(book: BookEntity) {
     return firstValueFrom(
       this.availabilityClient.send<'ok'>(new RegisterAvailabilityCommandPattern(), <IItemAvailability>{
-        id: book.id,
+        id: book.id.toString(),
         type: ItemTypes.BOOK,
       })
     );
@@ -25,7 +25,7 @@ export class BooksMicroservicesSender {
   unregisterAvailability(book: BookEntity) {
     return firstValueFrom(
       this.availabilityClient.send<'ok'>(new UnregisterAvailabilityCommandPattern(), <IItemAvailability>{
-        id: book.id,
+        id: book.id.toString(),
         type: ItemTypes.BOOK,
       })
     );
