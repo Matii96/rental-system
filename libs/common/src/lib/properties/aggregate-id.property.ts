@@ -1,7 +1,7 @@
 export class AggregateId {
-  constructor(private readonly id: string) {}
+  constructor(private readonly value: string) {}
 
   toString(): string {
-    return this.id;
+    return this.value;
   }
 }

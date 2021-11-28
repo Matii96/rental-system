@@ -1,8 +1,12 @@
 import { BadRequestException } from '@nestjs/common';
-import { AggregateId } from '@rental-system/common';
+import { AvailabilityEntity } from '../../entities/items/availability.entity';
 
 export class NotEnoughItemsTotalException extends BadRequestException {
-  constructor(id: AggregateId, reserved: number) {
-    super(`Total availability of item id=${id} can't be lower than currently reserved (${reserved})`);
+  constructor(availability: AvailabilityEntity) {
+    super(
+      `Total availability of Item id=${
+        availability.id
+      } can't be lower than currently reserved (${availability.getReserved()})`
+    );
   }
 }

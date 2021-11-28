@@ -18,6 +18,20 @@ services:
       - redis
       - db
 
+  reservations:
+    image: node:16-alpine
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ./node_modules/.bin/nx serve reservations
+    environment: *node-variables
+    ports:
+      - 3002:3000
+      - 9231:9229
+    depends_on:
+      - redis
+      - db
+
   availability:
     image: node:16-alpine
     volumes:

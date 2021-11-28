@@ -12,6 +12,16 @@
       "restart": true
     },
     {
+      "name": "reservations",
+      "type": "node",
+      "request": "attach",
+      "port": 9231,
+      "address": "localhost",
+      "localRoot": "${workspaceRoot}",
+      "remoteRoot": "/app",
+      "restart": true
+    },
+    {
       "name": "availability",
       "type": "node",
       "request": "attach",

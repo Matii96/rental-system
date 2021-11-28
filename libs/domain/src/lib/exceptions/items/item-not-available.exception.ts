@@ -1,8 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
-import { AggregateId } from '@rental-system/common';
+import { AvailabilityEntity } from '../../entities/items/availability.entity';
 
 export class ItemNotAvailableException extends BadRequestException {
-  constructor(id: AggregateId) {
-    super(`Item id=${id} is not available to reserve`);
+  constructor(availability: AvailabilityEntity) {
+    super(`Item id=${availability.id} is not available to reserve`);
   }
 }

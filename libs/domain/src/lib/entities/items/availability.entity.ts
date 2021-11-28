@@ -20,7 +20,7 @@ export class AvailabilityEntity extends AggregateRoot implements IIdentifiableEn
 
   setTotal(total: number) {
     if (total < this.reserved) {
-      throw new NotEnoughItemsTotalException(this.id, this.reserved);
+      throw new NotEnoughItemsTotalException(this);
     }
     this.total = total;
   }
@@ -28,7 +28,7 @@ export class AvailabilityEntity extends AggregateRoot implements IIdentifiableEn
   reserveItem() {
     const newReserved = this.reserved + 1;
     if (newReserved > this.total) {
-      throw new ItemNotAvailableException(this.id);
+      throw new ItemNotAvailableException(this);
     }
     this.reserved = newReserved;
   }
