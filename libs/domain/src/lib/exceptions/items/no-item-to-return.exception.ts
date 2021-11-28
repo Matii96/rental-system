@@ -1,6 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
-
-export class NoItemToReturnException extends BadRequestException {
+export class NoItemToReturnException extends Error {
   constructor() {
     super('No item to return');
   }

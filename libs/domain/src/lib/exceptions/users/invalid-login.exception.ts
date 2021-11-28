@@ -1,6 +1,4 @@
-import { UnauthorizedException } from '@nestjs/common';
-
-export class InvalidLoginException extends UnauthorizedException {
+export class InvalidLoginException extends Error {
   constructor() {
     super('Invalid login');
   }

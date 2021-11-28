@@ -1,6 +1,6 @@
-import { AggregateId } from '@rental-system/common';
+import { LibraryCardEntity } from '../entities/reservations/library-card.entity';
 import { RentalEntity } from '../entities/reservations/rental.entity';
 
 export interface IRentalPolicy {
-  canRent(activeRentals: AggregateId[], newRental: RentalEntity): boolean;
+  canRent(card: LibraryCardEntity, newRental: RentalEntity): boolean;
 }

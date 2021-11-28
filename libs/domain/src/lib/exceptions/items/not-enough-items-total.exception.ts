@@ -1,7 +1,6 @@
-import { BadRequestException } from '@nestjs/common';
 import { AvailabilityEntity } from '../../entities/items/availability.entity';
 
-export class NotEnoughItemsTotalException extends BadRequestException {
+export class NotEnoughItemsTotalException extends Error {
   constructor(availability: AvailabilityEntity) {
     super(
       `Total availability of Item id=${

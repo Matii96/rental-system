@@ -1,9 +1,8 @@
-import { AggregateRoot } from '@nestjs/cqrs';
 import { AggregateId } from '@rental-system/common';
 import { MaxProlongationsExceededException } from '../../exceptions/reservations/max-prolongations-exceeded.exception';
 import { OverdueRentalException } from '../../exceptions/reservations/overdue-rental.exception';
 
-export class RentalEntity extends AggregateRoot {
+export class RentalEntity {
   private maxProlongations = 2;
 
   constructor(
@@ -13,9 +12,7 @@ export class RentalEntity extends AggregateRoot {
     private returnDate: Date,
     private expectedReturnDate: Date,
     private prolongCounter: number
-  ) {
-    super();
-  }
+  ) {}
 
   getReturnDate() {
     return this.returnDate;
@@ -29,16 +26,18 @@ export class RentalEntity extends AggregateRoot {
     return this.prolongCounter;
   }
 
+  get isClosed(): boolean {
+    return Boolean(this.returnDate);
+  }
+
   prolong(to: Date) {
     const now = new Date();
     if (now > this.expectedReturnDate) {
       throw new OverdueRentalException(this);
     }
-
     if (this.prolongCounter === this.maxProlongations) {
       throw new MaxProlongationsExceededException(this);
     }
-
     this.expectedReturnDate = to;
     this.prolongCounter++;
   }
