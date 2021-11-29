@@ -15,13 +15,4 @@ export class AvailabilityRepository extends SequelizeGenericRepository<Availabil
   ) {
     super(sequelize, model, modelFactory);
   }
-
-  // findAll(options: FindAllSearchOptions = {}) {
-  //   const search = { [Op.like]: `%${options.search || ''}%` };
-  //   const query: Record<string, unknown>[] = [{ name: search }, { author: search }];
-  //   if (parseInt(options.search)) {
-  //     query.push({ pagesCount: parseInt(options.search) });
-  //   }
-  //   return super.findAll(options, { [Op.or]: query });
-  // }
 }

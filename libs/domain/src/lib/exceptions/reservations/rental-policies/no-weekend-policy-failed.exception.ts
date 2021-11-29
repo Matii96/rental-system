@@ -1,7 +1,7 @@
-import { LibraryCardEntity } from '../../../entities/reservations/library-card.entity';
+import { RentalCardEntity } from '../../../entities/reservations/rental-card.entity';
 
 export class RentalNoWeekendPolicyFailedException extends Error {
-  constructor(card: LibraryCardEntity) {
+  constructor(card: RentalCardEntity) {
     super(`Can't rent on weekend for ${card}`);
   }
 }

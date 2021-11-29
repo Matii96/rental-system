@@ -3,6 +3,7 @@ import { getModelToken } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { availabilityEntityMock } from '@rental-system/domain-testing';
 import { SequelizeMock } from '@rental-system/database-storage';
+import { availabilityModelMock } from '../../../availability.mocks';
 import { AvailabilityModelFactory } from '../factories/availability-model.factory';
 import { AvailabilityModel } from '../models/availability.model';
 import { AvailabilityRepository } from './availability.repository';
@@ -25,7 +26,7 @@ describe('AvailabilityRepository', () => {
         {
           provide: AvailabilityModelFactory,
           useValue: {
-            entityToModel: jest.fn(() => availabilityEntityMock()),
+            entityToModel: jest.fn(() => availabilityModelMock(availabilityEntityMock())),
             modelToEntity: jest.fn(() => availabilityEntityMock()),
           },
         },

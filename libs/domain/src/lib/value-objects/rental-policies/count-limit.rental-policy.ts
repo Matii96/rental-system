@@ -1,15 +1,14 @@
 import { IRentalPolicy } from '../../interfaces/reservations/rental-policy.interface';
-import { RentalNoWeekendPolicyFailedException } from '../../exceptions/reservations/rental-policies/no-weekend-policy-failed.exception';
+import { RentalCountLimitPolicyFailedException } from '../../exceptions/reservations/rental-policies/count-limit-policy-failed.exception';
 import { IRentalPolicyConfig } from '../../interfaces/reservations/rental-policy-config.interface';
 import { RentalCardEntity } from '../../entities/reservations/rental-card.entity';
 
-export class NoWeekendRentalPolicy implements IRentalPolicy {
+export class CountLimitRentalPolicy implements IRentalPolicy {
   constructor(readonly config: IRentalPolicyConfig) {}
 
   canRent(card: RentalCardEntity) {
-    const now = new Date();
-    if (now.getDay() === 6 || now.getDay() === 0) {
-      throw new RentalNoWeekendPolicyFailedException(card);
+    if (card.activeRentals.length >= this.config.countLimit) {
+      throw new RentalCountLimitPolicyFailedException(card);
     }
     return true;
   }

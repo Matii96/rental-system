@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { CommonConfig, sequelizeFactory } from '@rental-system/config';
-import { ReservationsModule } from './modules/reservations/availability.module';
+import { sequelizeFactory } from '@rental-system/config';
+import { ReservationsConfig } from './infrastructure/config/config.validator';
+import { RentalCardsModule } from './modules/rental-cards/rental-cards.module';
 import { AppController } from './presentation/app.controller';
 
 @Module({
@@ -10,13 +11,13 @@ import { AppController } from './presentation/app.controller';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env', 'apps/reservations/.env'],
-      validate: CommonConfig.validate,
+      validate: ReservationsConfig.validate,
     }),
     SequelizeModule.forRootAsync({
       inject: [ConfigService],
       useFactory: sequelizeFactory,
     }),
-    ReservationsModule,
+    RentalCardsModule,
   ],
   controllers: [AppController],
 })

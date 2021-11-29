@@ -1,7 +1,7 @@
 import { RentalCardEntity } from '../../../entities/reservations/rental-card.entity';
 
-export class RentalPolicyFailedException extends Error {
+export class RentalCountLimitPolicyFailedException extends Error {
   constructor(card: RentalCardEntity) {
-    super(`Rental policy for ${card} failed`);
+    super(`Can't rent more than 5 items for ${card}`);
   }
 }
