@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { IUserInputSelf } from '@rental-system/dto-interfaces';
+import { IUserInputSelf } from '@rental-system/interfaces';
 
 export abstract class UserInputSelfDto implements IUserInputSelf {
   @ApiProperty({ example: 'John Smith' })

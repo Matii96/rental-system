@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindAllSearchOptions, ICountableData } from '@rental-system/common';
 import { BookEntity } from '@rental-system/domain';
-import { IBookInput } from '@rental-system/dto-interfaces';
+import { IBookInput } from '@rental-system/interfaces';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
 import { BooksMicroservicesSender } from '../infrastructure/microservices-senders/books.microservices-sender';
 import { BooksFactory } from './factories/books.factory';

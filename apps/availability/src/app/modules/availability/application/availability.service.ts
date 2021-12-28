@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AggregateId } from '@rental-system/common';
 import { AvailabilityEntity } from '@rental-system/domain';
-import { IAvailabilityTotalInput, IChangeStateAvailabilityInput } from '@rental-system/dto-interfaces';
+import { IAvailabilityTotalInput, IChangeStateAvailabilityInput } from '@rental-system/interfaces';
 import { AvailabilityRepository } from '../infrastructure/database/repositories/availability.repository';
 import { AvailabilityFactory } from './factories/availability.factory';
 

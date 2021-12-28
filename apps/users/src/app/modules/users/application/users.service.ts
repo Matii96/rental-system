@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { FindAllSearchOptions, ICountableData } from '@rental-system/common';
 import { IUser } from '@rental-system/domain';
 import { AuthUserJwtDto } from '@rental-system/auth';
-import { IUserLoginInput } from '@rental-system/dto-interfaces';
+import { IUserLoginInput } from '@rental-system/interfaces';
 import { UsersRepository } from '../infrastructure/database/repositories/users.repository';
 
 @Injectable()

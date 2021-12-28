@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { BookEntity, ItemTypes } from '@rental-system/domain';
-import { IChangeStateAvailabilityInput } from '@rental-system/dto-interfaces';
+import { IChangeStateAvailabilityInput } from '@rental-system/interfaces';
 import {
   MicroservicesEnum,
   RegisterAvailabilityCommandPattern,

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
-import { userAdminInputMock } from '@rental-system/dto-interfaces';
+import { userAdminInputMock } from '@rental-system/interfaces';
 import { AdminsService } from '../application/admins.service';
 import { AdminsRepository } from '../infrastructure/database/repositories/admins.repository';
 import { AdminsController } from './admins.controller';

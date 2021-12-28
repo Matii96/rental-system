@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AggregateId } from '@rental-system/common';
 import { UserCustomerEntity } from '@rental-system/domain';
-import { ICustomerInput, ICustomerInputSelf } from '@rental-system/dto-interfaces';
+import { ICustomerInput, ICustomerInputSelf } from '@rental-system/interfaces';
 import { CustomersFactory } from './factories/customers.factory';
 import { CustomersRepository } from '../infrastructure/database/repositories/customers.repository';
 

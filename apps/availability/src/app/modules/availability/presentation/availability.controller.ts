@@ -3,7 +3,7 @@ import { MessagePattern } from '@nestjs/microservices';
 import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { UserAccess } from '@rental-system/auth';
 import { AvailabilityEntity, UserAdminEntity } from '@rental-system/domain';
-import { IChangeStateAvailabilityInput } from '@rental-system/dto-interfaces';
+import { IChangeStateAvailabilityInput } from '@rental-system/interfaces';
 import { RegisterAvailabilityCommandPattern, UnregisterAvailabilityCommandPattern } from '@rental-system/microservices';
 import { AvailabilityService } from '../application/availability.service';
 import { RequestAvailability } from './decorators/request-availability.decorator';

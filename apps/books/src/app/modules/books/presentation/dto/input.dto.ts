@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsString } from 'class-validator';
-import { IBookInput } from '@rental-system/dto-interfaces';
+import { IBookInput } from '@rental-system/interfaces';
 
 export class BookInputDto implements IBookInput {
   @ApiProperty()

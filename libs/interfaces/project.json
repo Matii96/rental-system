@@ -1,20 +1,20 @@
 {
-  "root": "libs/dto-interfaces",
-  "sourceRoot": "libs/dto-interfaces/src",
+  "root": "libs/interfaces",
+  "sourceRoot": "libs/interfaces/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/dto-interfaces/**/*.ts"]
+        "lintFilePatterns": ["libs/interfaces/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dto-interfaces"],
+      "outputs": ["coverage/libs/interfaces"],
       "options": {
-        "jestConfig": "libs/dto-interfaces/jest.config.js",
+        "jestConfig": "libs/interfaces/jest.config.js",
         "passWithNoTests": true
       }
     }

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
-import { userCustomerInputMock } from '@rental-system/dto-interfaces';
+import { userCustomerInputMock } from '@rental-system/interfaces';
 import { CustomersFactory } from './customers.factory';
 
 describe('CustomersFactory', () => {

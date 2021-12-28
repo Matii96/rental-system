@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserAdminEntity } from '@rental-system/domain';
-import { IAdminOutput } from '@rental-system/dto-interfaces';
+import { IAdminOutput } from '@rental-system/interfaces';
 import { UserOutputDto } from '../../../users/presentation/dto/output/output.dto';
 
 export class AdminOutputDto extends UserOutputDto implements IAdminOutput {

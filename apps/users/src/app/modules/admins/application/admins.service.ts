@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AggregateId } from '@rental-system/common';
 import { UserAdminEntity } from '@rental-system/domain';
-import { IAdminInput } from '@rental-system/dto-interfaces';
+import { IAdminInput } from '@rental-system/interfaces';
 import { AdminsRepository } from '../infrastructure/database/repositories/admins.repository';
 import { AdminInputSelfDto } from '../presentation/dto/input/input-self.dto';
 import { AdminsFactory } from './factories/admins.factory';

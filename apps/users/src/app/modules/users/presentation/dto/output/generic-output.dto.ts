@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IUser, UserTypes } from '@rental-system/domain';
-import { IUserGenericOutput } from '@rental-system/dto-interfaces';
+import { IUserGenericOutput } from '@rental-system/interfaces';
 import { UserOutputDto } from './output.dto';
 
 export class UserGenericOutputDto extends UserOutputDto implements IUserGenericOutput {

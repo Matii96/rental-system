@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { v4 as uuidv4 } from 'uuid';
 import { IUser } from '@rental-system/domain';
-import { IUserOutput } from '@rental-system/dto-interfaces';
+import { IUserOutput } from '@rental-system/interfaces';
 
 export abstract class UserOutputDto implements IUserOutput {
   @ApiProperty({ example: uuidv4() })

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { bookInputMock } from '@rental-system/dto-interfaces';
+import { bookInputMock } from '@rental-system/interfaces';
 import { BooksFactory } from './books.factory';
 
 describe('BooksFactory', () => {

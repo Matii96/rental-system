@@ -29,7 +29,8 @@
     "serve": {
       "executor": "@nrwl/node:execute",
       "options": {
-        "buildTarget": "availability:build"
+        "buildTarget": "availability:build",
+        "host": "0.0.0.0"
       }
     },
     "lint": {

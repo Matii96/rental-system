@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AvailabilityEntity } from '@rental-system/domain';
-import { IAvailabilityOutput } from '@rental-system/dto-interfaces';
+import { IAvailabilityOutput } from '@rental-system/interfaces';
 
 export class AvailabilityOutputDto implements IAvailabilityOutput {
   @ApiProperty()

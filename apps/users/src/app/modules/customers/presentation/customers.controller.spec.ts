@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { userCustomerEntityMock } from '@rental-system/domain-testing';
-import { userCustomerInputMock } from '@rental-system/dto-interfaces';
+import { userCustomerInputMock } from '@rental-system/interfaces';
 import { CustomersService } from '../application/customers.service';
 import { CustomersRepository } from '../infrastructure/database/repositories/customers.repository';
 import { CustomersController } from './customers.controller';
