@@ -1,4 +1,5 @@
 export enum MicroservicesEnum {
   USERS = 'USERS',
+  RESERVATIONS = 'RESERVATIONS',
   AVAILABILITY = 'AVAILABILITY',
 }

@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { jwtFactory } from '@rental-system/config';
 import { AuthModule } from '@rental-system/auth';
+import { MicroservicesModule } from '@rental-system/microservices';
 import { UserModel } from './infrastructure/database/models/user.model';
 import { UsersController } from './presentation/users.controller';
 import { UsersModelFactory } from './infrastructure/database/factories/users-model.factory';
@@ -20,11 +21,12 @@ import { CustomersModule } from '../customers/customers.module';
     }),
     SequelizeModule.forFeature([UserModel]),
     AuthModule,
+    MicroservicesModule,
     AdminsModule,
     CustomersModule,
   ],
   controllers: [UsersController],
   providers: [UsersModelFactory, UsersRepository, UsersService],
-  exports: [UsersRepository],
+  exports: [UsersRepository, UsersService],
 })
 export class UsersModule {}

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { FindAllSearchOptions, ICountableData } from '@rental-system/common';
 import { BookEntity } from '@rental-system/domain';
 import { IBookInput } from '@rental-system/interfaces';
+import { AvailabilityMicroserviceClient } from '@rental-system/microservices';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
-import { BooksMicroservicesSender } from '../infrastructure/microservices-senders/books.microservices-sender';
 import { BooksFactory } from './factories/books.factory';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class BooksService {
   constructor(
     private readonly factory: BooksFactory,
     private readonly repository: BooksRepository,
-    private readonly microservicesSenders: BooksMicroservicesSender
+    private readonly availabilityClient: AvailabilityMicroserviceClient
   ) {}
 
   async getAll(options: FindAllSearchOptions): Promise<ICountableData<BookEntity>> {
@@ -23,7 +23,7 @@ export class BooksService {
     const book = this.factory.create(data);
     await this.repository.transaction(async (t) => {
       await this.repository.create(book, t);
-      await this.microservicesSenders.registerAvailability(book);
+      await this.availabilityClient.registerAvailability(book);
     });
     return book;
   }
@@ -39,7 +39,7 @@ export class BooksService {
   async delete(book: BookEntity) {
     await this.repository.transaction(async (t) => {
       await this.repository.delete(book, t);
-      await this.microservicesSenders.unregisterAvailability(book);
+      await this.availabilityClient.unregisterAvailability(book);
     });
     return book;
   }

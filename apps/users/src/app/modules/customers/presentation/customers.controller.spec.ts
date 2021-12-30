@@ -68,12 +68,4 @@ describe('CustomersController', () => {
     expect(await controller.delete(user)).toEqual(new CustomerOutputDto(user));
     expect(customersServiceMock.delete).toHaveBeenCalledTimes(1);
   });
-
-  it('should get user entity by id', async () => {
-    const user = userCustomerEntityMock();
-    jest.spyOn(customersServiceMock, 'getById').mockResolvedValueOnce(user);
-
-    expect(await controller.getEntityById('id')).toEqual(user);
-    expect(customersServiceMock.getById).toHaveBeenCalledTimes(1);
-  });
 });

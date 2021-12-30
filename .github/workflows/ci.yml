@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        apps: [database-storage, auth, users, books, availability]
+        apps: [database-storage, auth, microservices, users, books, availability]
     steps:
       - uses: actions/checkout@v2
       - name: Load node modules
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        apps: [database-storage, auth, users, books, availability]
+        apps: [database-storage, auth, microservices, users, books, availability]
     steps:
       - uses: actions/checkout@v2
       - name: Load node modules

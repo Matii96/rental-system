@@ -2,15 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { bookEntityMock } from '@rental-system/domain-testing';
 import { MicroservicesEnum } from '@rental-system/microservices';
 import { of } from 'rxjs';
-import { BooksMicroservicesSender } from './books.microservices-sender';
+import { AvailabilityMicroserviceClient } from './availability.microservice-client';
 
-describe('BooksMicroservicesSenders', () => {
-  let sender: BooksMicroservicesSender;
+describe('AvailabilityMicroserviceClient', () => {
+  let client: AvailabilityMicroserviceClient;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        BooksMicroservicesSender,
+        AvailabilityMicroserviceClient,
         {
           provide: MicroservicesEnum.AVAILABILITY,
           useValue: { send: jest.fn(() => of('ok')) },
@@ -18,14 +18,14 @@ describe('BooksMicroservicesSenders', () => {
       ],
     }).compile();
 
-    sender = module.get(BooksMicroservicesSender);
+    client = module.get(AvailabilityMicroserviceClient);
   });
 
   it('should send register availability message', async () => {
-    expect(await sender.registerAvailability(bookEntityMock())).toBe('ok');
+    expect(await client.registerAvailability(bookEntityMock())).toBe('ok');
   });
 
   it('should send unregister availability message', async () => {
-    expect(await sender.unregisterAvailability(bookEntityMock())).toBe('ok');
+    expect(await client.unregisterAvailability(bookEntityMock())).toBe('ok');
   });
 });

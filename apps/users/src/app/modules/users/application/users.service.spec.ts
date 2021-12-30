@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ICountableData } from '@rental-system/common';
 import { InvalidLoginException, IUser } from '@rental-system/domain';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
+import { ReservationsMicroserviceClient } from '@rental-system/microservices';
 import { UsersRepository } from '../infrastructure/database/repositories/users.repository';
 import { UsersService } from './users.service';
 
@@ -17,7 +18,17 @@ describe('UsersService', () => {
         UsersService,
         {
           provide: UsersRepository,
-          useValue: { findAll: jest.fn(() => []), count: jest.fn(() => 0), findByLogin: jest.fn() },
+          useValue: {
+            transaction: jest.fn((action: () => any) => action()),
+            findAll: jest.fn(() => []),
+            count: jest.fn(() => 0),
+            findByLogin: jest.fn(),
+            delete: jest.fn(),
+          },
+        },
+        {
+          provide: ReservationsMicroserviceClient,
+          useValue: { unregisterCard: jest.fn().mockResolvedValue('ok') },
         },
       ],
     }).compile();
@@ -58,5 +69,10 @@ describe('UsersService', () => {
         })
       ).rejects.toThrow(InvalidLoginException);
     });
+  });
+
+  it('should remove user', async () => {
+    const user = userAdminEntityMock();
+    expect(await service.delete(user)).toEqual(user);
   });
 });

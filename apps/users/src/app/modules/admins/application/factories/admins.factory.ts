@@ -20,7 +20,7 @@ export class AdminsFactory implements IEntityFactory<UserAdminEntity> {
       data.salary,
       data.agreedToNewsletter
     );
-    user.setPassword(data.password, parseInt(this.config.get<string>('PASSWORD_SALT')));
+    user.setPassword(data.password, this.config.get<number>('PASSWORD_SALT'));
     return user;
   }
 }

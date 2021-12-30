@@ -1,15 +1,17 @@
 import { Body, Controller, Get, Put, UseGuards } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { plainToClass } from 'class-transformer';
+import { AggregateId } from '@rental-system/common';
 import { UserAccess } from '@rental-system/auth';
 import { AvailabilityEntity, UserAdminEntity } from '@rental-system/domain';
-import { IChangeStateAvailabilityInput } from '@rental-system/interfaces';
+import { ICreateAvailabilityInput } from '@rental-system/interfaces';
 import { RegisterAvailabilityCommandPattern, UnregisterAvailabilityCommandPattern } from '@rental-system/microservices';
 import { AvailabilityService } from '../application/availability.service';
+import { AvailabilityGuard } from './guards/availability.guard';
 import { RequestAvailability } from './decorators/request-availability.decorator';
 import { AvailabilityTotalInputDto } from './dto/total-input.dto';
 import { AvailabilityOutputDto } from './dto/output.dto';
-import { AvailabilityGuard } from './guards/availability.guard';
 
 @ApiTags('Availability')
 @Controller('availability')
@@ -35,14 +37,14 @@ export class AvailabilityController {
   }
 
   @MessagePattern(new RegisterAvailabilityCommandPattern())
-  async register(data: IChangeStateAvailabilityInput) {
+  async register(data: ICreateAvailabilityInput) {
     await this.availabilityService.register(data);
     return 'ok';
   }
 
   @MessagePattern(new UnregisterAvailabilityCommandPattern())
-  async unregister(data: IChangeStateAvailabilityInput) {
-    await this.availabilityService.unregister(data);
+  async unregister(itemId: AggregateId) {
+    await this.availabilityService.unregister(plainToClass(AggregateId, itemId));
     return 'ok';
   }
 }

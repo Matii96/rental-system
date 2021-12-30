@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Op } from 'sequelize';
+import { Op, Transaction } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { FindAllSearchOptions } from '@rental-system/common';
+import { AggregateId, FindAllSearchOptions } from '@rental-system/common';
 import { InvalidLoginException, IUser } from '@rental-system/domain';
 import { SequelizeGenericRepository } from '@rental-system/database-storage';
 import { UserAdminModel } from '../../../../admins/infrastructure/database/models/admin.model';
@@ -20,6 +20,13 @@ export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel
     modelFactory: UsersModelFactory
   ) {
     super(sequelize, model, modelFactory);
+  }
+
+  async findById(id: AggregateId, transaction?: Transaction): Promise<IUser> {
+    const user = await this.model.findByPk(id.toString(), {
+      include: this.usersModels.map((model) => ({ model, required: false })),
+    });
+    return this.modelFactory.modelToEntity(user);
   }
 
   async findAll(options: FindAllSearchOptions = {}): Promise<IUser[]> {

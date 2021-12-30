@@ -10,7 +10,7 @@ export class RentalCardEntity extends AggregateRoot {
     readonly id: AggregateId,
     readonly ownerId: AggregateId,
     readonly activeRentals: AggregateId[],
-    readonly rentalPolicy: IRentalPolicy
+    public rentalPolicy: IRentalPolicy
   ) {
     super();
   }

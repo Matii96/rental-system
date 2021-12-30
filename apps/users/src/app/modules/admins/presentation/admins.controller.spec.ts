@@ -68,12 +68,4 @@ describe('AdminsController', () => {
     expect(await controller.delete(user)).toEqual(new AdminOutputDto(user));
     expect(adminsServiceMock.delete).toHaveBeenCalledTimes(1);
   });
-
-  it('should get user entity by id', async () => {
-    const user = userAdminEntityMock();
-    jest.spyOn(adminsServiceMock, 'getById').mockResolvedValueOnce(user);
-
-    expect(await controller.getEntityById('id')).toEqual(user);
-    expect(adminsServiceMock.getById).toHaveBeenCalledTimes(1);
-  });
 });

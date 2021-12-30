@@ -1,12 +1,16 @@
-import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, UnauthorizedException } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { MessagePattern } from '@nestjs/microservices';
 import { Request } from 'express';
-import { UserAdminEntity } from '@rental-system/domain';
+import { plainToClass } from 'class-transformer';
+import { AggregateId } from '@rental-system/common';
+import { InvalidLoginException, UserAdminEntity } from '@rental-system/domain';
 import { ReactAdminQueryDto } from '@rental-system/dto';
 import { UserAccess } from '@rental-system/auth';
+import { UserGetByIdQueryPattern } from '@rental-system/microservices';
+import { UsersService } from '../application/users.service';
 import { UserLoginOutputDto } from './dto/output/login-output.dto';
 import { UserLoginInputDto } from './dto/input/login-input.dto';
-import { UsersService } from '../application/users.service';
 import { UserGenericOutputDto } from './dto/output/generic-output.dto';
 
 @ApiTags('Users')
@@ -26,7 +30,19 @@ export class UsersController {
   @Post('login')
   @ApiOkResponse({ type: UserLoginOutputDto })
   async login(@Body() data: UserLoginInputDto) {
-    const { user, jwt } = await this.usersService.login(data);
-    return new UserLoginOutputDto(user, jwt);
+    try {
+      const { user, jwt } = await this.usersService.login(data);
+      return new UserLoginOutputDto(user, jwt);
+    } catch (err) {
+      if (err instanceof InvalidLoginException) {
+        throw new UnauthorizedException();
+      }
+      throw err;
+    }
+  }
+
+  @MessagePattern(new UserGetByIdQueryPattern())
+  async getById(userId: AggregateId) {
+    return new UserGenericOutputDto(await this.usersService.getById(plainToClass(AggregateId, userId)));
   }
 }

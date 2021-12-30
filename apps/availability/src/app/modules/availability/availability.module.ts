@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { AuthModule } from '@rental-system/auth';
 import { AvailabilityService } from './application/availability.service';
 import { AvailabilityFactory } from './application/factories/availability.factory';
 import { AvailabilityModelFactory } from './infrastructure/database/factories/availability-model.factory';
@@ -8,7 +9,7 @@ import { AvailabilityRepository } from './infrastructure/database/repositories/a
 import { AvailabilityController } from './presentation/availability.controller';
 
 @Module({
-  imports: [SequelizeModule.forFeature([AvailabilityModel])],
+  imports: [SequelizeModule.forFeature([AvailabilityModel]), AuthModule],
   controllers: [AvailabilityController],
   providers: [AvailabilityFactory, AvailabilityModelFactory, AvailabilityRepository, AvailabilityService],
 })

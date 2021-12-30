@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -8,11 +7,8 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { AggregateId } from '@rental-system/common';
-import { UserAdminEntity, UserCustomerEntity, UserTypes } from '@rental-system/domain';
-import { UserGetByIdQueryPattern } from '@rental-system/microservices';
+import { UserAdminEntity, UserCustomerEntity } from '@rental-system/domain';
 import { RequesterUser, UserAccess } from '@rental-system/auth';
-import { IUserController } from '../../users/presentation/interfaces/controller.interface';
 import { CustomersService } from '../application/customers.service';
 import { CustomersGuard } from './guards/customers.guard';
 import { UserNotSelfGuard } from '../../users/application/guards/users-not-self.guard';
@@ -23,7 +19,7 @@ import { CustomerOutputDto } from './dto/output.dto';
 
 @ApiTags('Users Customers')
 @Controller('v1/customers')
-export class CustomersController implements IUserController<UserCustomerEntity> {
+export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
   @Get(':userId')
@@ -73,10 +69,5 @@ export class CustomersController implements IUserController<UserCustomerEntity> 
   async delete(@RequestUser() user: UserCustomerEntity) {
     await this.customersService.delete(user);
     return new CustomerOutputDto(user);
-  }
-
-  @MessagePattern(new UserGetByIdQueryPattern(UserTypes.CUSTOMER))
-  getEntityById(id: string) {
-    return this.customersService.getById(new AggregateId(id));
   }
 }

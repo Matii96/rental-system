@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AggregateId } from '@rental-system/common';
+import { ItemTypes } from '@rental-system/domain';
 import { availabilityEntityMock } from '@rental-system/domain-testing';
 import { AvailabilityService } from '../application/availability.service';
 import { AvailabilityRepository } from '../infrastructure/database/repositories/availability.repository';
@@ -46,14 +47,12 @@ describe('AvailabilityController', () => {
   });
 
   it('should register new item availability', async () => {
-    // @ts-ignore
-    expect(await controller.register({ id: new AggregateId('id'), type: 'ITEM' })).toBe('ok');
+    expect(await controller.register({ id: 'id', type: <ItemTypes>Object.keys(ItemTypes)[0] })).toBe('ok');
     expect(availabilityServiceMock.register).toHaveBeenCalledTimes(1);
   });
 
-  it('should unregister new item availability', async () => {
-    // @ts-ignore
-    expect(await controller.unregister({ id: new AggregateId('id'), type: 'ITEM' })).toBe('ok');
+  it('should unregister item availability', async () => {
+    expect(await controller.unregister(new AggregateId('id'))).toBe('ok');
     expect(availabilityServiceMock.unregister).toHaveBeenCalledTimes(1);
   });
 });

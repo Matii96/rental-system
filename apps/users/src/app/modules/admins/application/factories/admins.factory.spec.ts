@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { userAdminInputMock } from '@rental-system/interfaces';
+import { UsersConfig } from '../../../../infrastructure/config/config.validator';
 import { AdminsFactory } from './admins.factory';
 
 describe('AdminsFactory', () => {
@@ -8,7 +9,7 @@ describe('AdminsFactory', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forRoot({ envFilePath: ['.env', 'apps/users/.env'] })],
+      imports: [ConfigModule.forRoot({ envFilePath: ['.env', 'apps/users/.env'], validate: UsersConfig.validate })],
       providers: [AdminsFactory],
     }).compile();
 

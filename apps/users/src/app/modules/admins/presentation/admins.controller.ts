@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -8,11 +7,8 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { AggregateId } from '@rental-system/common';
-import { UserAdminEntity, UserTypes } from '@rental-system/domain';
+import { UserAdminEntity } from '@rental-system/domain';
 import { RequesterUser, UserAccess } from '@rental-system/auth';
-import { UserGetByIdQueryPattern } from '@rental-system/microservices';
-import { IUserController } from '../../users/presentation/interfaces/controller.interface';
 import { AdminsService } from '../application/admins.service';
 import { AdminsGuard } from './guards/admins.guard';
 import { UserNotSelfGuard } from '../../users/application/guards/users-not-self.guard';
@@ -23,7 +19,7 @@ import { AdminOutputDto } from './dto/output.dto';
 
 @ApiTags('Users Admins')
 @Controller('v1/admins')
-export class AdminsController implements IUserController<UserAdminEntity> {
+export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
 
   @Get(':userId')
@@ -73,10 +69,5 @@ export class AdminsController implements IUserController<UserAdminEntity> {
   async delete(@RequestUser() user: UserAdminEntity) {
     await this.adminsService.delete(user);
     return new AdminOutputDto(user);
-  }
-
-  @MessagePattern(new UserGetByIdQueryPattern(UserTypes.ADMIN))
-  getEntityById(id: string) {
-    return this.adminsService.getById(new AggregateId(id));
   }
 }

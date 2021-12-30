@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AggregateId } from '@rental-system/common';
 import { AvailabilityEntity } from '@rental-system/domain';
-import { IAvailabilityTotalInput, IChangeStateAvailabilityInput } from '@rental-system/interfaces';
+import { IAvailabilityTotalInput, ICreateAvailabilityInput } from '@rental-system/interfaces';
 import { AvailabilityRepository } from '../infrastructure/database/repositories/availability.repository';
 import { AvailabilityFactory } from './factories/availability.factory';
 
@@ -15,14 +15,14 @@ export class AvailabilityService {
     return availability;
   }
 
-  async register(data: IChangeStateAvailabilityInput) {
+  async register(data: ICreateAvailabilityInput) {
     const availability = this.factory.create(data);
     await this.repository.create(availability);
     return availability;
   }
 
-  async unregister(data: IChangeStateAvailabilityInput) {
-    const availability = await this.repository.findById(new AggregateId(data.id));
+  async unregister(itemId: AggregateId) {
+    const availability = await this.repository.findById(itemId);
     await this.repository.delete(availability);
     return availability;
   }

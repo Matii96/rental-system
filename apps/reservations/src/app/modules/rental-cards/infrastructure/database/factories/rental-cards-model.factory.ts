@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AggregateId, IEntityModelFactory } from '@rental-system/common';
 import { RentalCardEntity, RentalEntity, RentalPoliciesMapper } from '@rental-system/domain';
+import { rentalPoliciesReverseMapper } from '../../../common/rental-policies-reverse.mapper';
 import { RentalCardModel } from '../models/rental-card.model';
 
 @Injectable()
@@ -12,10 +13,7 @@ export class RentalCardsModelFactory implements IEntityModelFactory<RentalCardEn
     return <RentalCardModel>{
       id: card.id.toString(),
       ownerId: card.ownerId.toString(),
-      rentalPolicyType:
-        Object.keys(RentalPoliciesMapper)[
-          Object.values(RentalPoliciesMapper).findIndex((policy) => card.rentalPolicy instanceof policy)
-        ],
+      rentalPolicyType: rentalPoliciesReverseMapper(card.rentalPolicy),
     };
   }
 
@@ -25,7 +23,7 @@ export class RentalCardsModelFactory implements IEntityModelFactory<RentalCardEn
       new AggregateId(model.ownerId),
       activeRentals.map((rental) => rental.id),
       new RentalPoliciesMapper[model.rentalPolicyType]({
-        countLimit: parseInt(this.config.get<string>('RENTAL_POLICY_COUNT_LIMIT')),
+        countLimit: this.config.get<number>('RENTAL_POLICY_COUNT_LIMIT'),
       })
     );
   }

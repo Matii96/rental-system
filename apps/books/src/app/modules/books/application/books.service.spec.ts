@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { bookEntityMock } from '@rental-system/domain-testing';
+import { AvailabilityMicroserviceClient } from '@rental-system/microservices';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
-import { BooksMicroservicesSender } from '../infrastructure/microservices-senders/books.microservices-sender';
 import { BooksFactory } from './factories/books.factory';
 import { BooksService } from './books.service';
 
@@ -21,7 +21,7 @@ describe('BooksService', () => {
           useValue: {},
         },
         {
-          provide: BooksMicroservicesSender,
+          provide: AvailabilityMicroserviceClient,
           useValue: { registerAvailability: jest.fn(), unregisterAvailability: jest.fn() },
         },
       ],
