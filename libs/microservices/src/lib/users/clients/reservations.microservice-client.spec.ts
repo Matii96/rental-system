@@ -2,7 +2,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Test, TestingModule } from '@nestjs/testing';
 import { of } from 'rxjs';
 import { AggregateId } from '@rental-system/common';
-import { MicroservicesEnum } from '@rental-system/microservices';
+import { MicroservicesEnum } from '../../microservices.enum';
 import { ReservationsMicroserviceClient } from './reservations.microservice-client';
 
 describe('ReservationsMicroserviceClient', () => {

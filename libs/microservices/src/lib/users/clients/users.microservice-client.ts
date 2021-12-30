@@ -3,7 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { ClassConstructor, plainToClass } from 'class-transformer';
 import { AggregateId } from '@rental-system/common';
-import { IUser, UsersMapper, UserTypes } from '@rental-system/domain';
+import { IUser, UsersMapper } from '@rental-system/domain';
 import { MicroservicesEnum } from '../../microservices.enum';
 import { UserGetByIdQueryPattern } from '../queries/get-by-id.query-pattern';
 

@@ -1,5 +1,4 @@
-import { RentalPolicies, RentalPoliciesMapper } from '@rental-system/domain';
-import { IRentalPolicy } from 'libs/domain/src/lib/interfaces/reservations/rental-policy.interface';
+import { IRentalPolicy, RentalPolicies, RentalPoliciesMapper } from '@rental-system/domain';
 
 export const rentalPoliciesReverseMapper = (policy: IRentalPolicy) =>
   <RentalPolicies>(

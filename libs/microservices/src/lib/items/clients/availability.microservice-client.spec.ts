@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { bookEntityMock } from '@rental-system/domain-testing';
-import { MicroservicesEnum } from '@rental-system/microservices';
 import { of } from 'rxjs';
+import { MicroservicesEnum } from '../../microservices.enum';
 import { AvailabilityMicroserviceClient } from './availability.microservice-client';
 
 describe('AvailabilityMicroserviceClient', () => {

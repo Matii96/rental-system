@@ -25,6 +25,7 @@ export class UsersRepository extends SequelizeGenericRepository<IUser, UserModel
   async findById(id: AggregateId, transaction?: Transaction): Promise<IUser> {
     const user = await this.model.findByPk(id.toString(), {
       include: this.usersModels.map((model) => ({ model, required: false })),
+      transaction,
     });
     return this.modelFactory.modelToEntity(user);
   }
