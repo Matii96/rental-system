@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { MicroservicesModule } from '@rental-system/microservices';
 import { AuthModule } from '@rental-system/auth';
+import { RentalsModule } from '../rentals/rentals.module';
 import { RentalCardsFactory } from './application/factories/rental-cards.factory';
 import { RentalCardsService } from './application/rental-cards.service';
 import { RentalCardModel } from './infrastructure/database/models/rental-card.model';
@@ -10,7 +11,7 @@ import { RentalCardsRepository } from './infrastructure/database/repositories/re
 import { RentalCardsController } from './presentation/rental-cards.controller';
 
 @Module({
-  imports: [SequelizeModule.forFeature([RentalCardModel]), AuthModule, MicroservicesModule],
+  imports: [SequelizeModule.forFeature([RentalCardModel]), AuthModule, MicroservicesModule, RentalsModule],
   controllers: [RentalCardsController],
   providers: [RentalCardsModelFactory, RentalCardsFactory, RentalCardsRepository, RentalCardsService],
 })
