@@ -35,7 +35,7 @@ describe('UsersController', () => {
     const user = userAdminEntityMock();
     jest.spyOn(usersServiceMock, 'getById').mockResolvedValueOnce(user);
 
-    expect(await controller.getById(new AggregateId('id'))).toEqual(new UserGenericOutputDto(user));
+    expect(await controller.microserviceGetById(new AggregateId('id'))).toEqual(user);
     expect(usersServiceMock.getById).toHaveBeenCalledTimes(1);
   });
 

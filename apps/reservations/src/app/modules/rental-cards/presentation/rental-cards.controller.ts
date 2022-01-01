@@ -4,13 +4,13 @@ import { ApiCreatedResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/sw
 import { plainToClass } from 'class-transformer';
 import { AggregateId } from '@rental-system/common';
 import { UserAccess } from '@rental-system/auth';
-import { RentalCardEntity, UserAdminEntity } from '@rental-system/domain';
-import { UnregisterRentalCardCommandPattern } from '@rental-system/microservices';
+import { RentalCardEntity, UserAdminEntity, UserCustomerEntity } from '@rental-system/domain';
+import { RentalCardGetByIdQueryPattern, UnregisterRentalCardCommandPattern } from '@rental-system/microservices';
 import { RentalCardsService } from '../application/rental-cards.service';
 import { RequestRentalCard } from './decorators/request-rental-card.decorator';
 import { RentalCardGuard } from './guards/rental-cards.guard';
 import { RentalCardCreateInputDto } from './dto/input/create.dto';
-import { RentalCardUpdateDto } from './dto/input/update.dto';
+import { RentalCardUpdateInputDto } from './dto/input/update.dto';
 import { RentalCardOutputDto } from './dto/output.dto';
 
 @ApiTags('Rental cards')
@@ -20,7 +20,8 @@ export class RentalCardsController {
 
   @Get(':rentalCardId')
   @UseGuards(RentalCardGuard)
-  @ApiParam({ name: 'availabilityId' })
+  @UserAccess(UserAdminEntity, UserCustomerEntity)
+  @ApiParam({ name: 'rentalCardId' })
   @ApiOkResponse({ type: RentalCardOutputDto })
   getById(@RequestRentalCard() card: RentalCardEntity) {
     return new RentalCardOutputDto(card);
@@ -39,7 +40,7 @@ export class RentalCardsController {
   @UserAccess(UserAdminEntity)
   @ApiParam({ name: 'rentalCardId' })
   @ApiOkResponse({ type: RentalCardOutputDto })
-  async update(@RequestRentalCard() card: RentalCardEntity, @Body() data: RentalCardUpdateDto) {
+  async update(@RequestRentalCard() card: RentalCardEntity, @Body() data: RentalCardUpdateInputDto) {
     await this.rentalCardsService.update(card, data);
     return new RentalCardOutputDto(card);
   }
@@ -52,6 +53,11 @@ export class RentalCardsController {
   async delete(@RequestRentalCard() card: RentalCardEntity) {
     await this.rentalCardsService.unregister(card.id);
     return new RentalCardOutputDto(card);
+  }
+
+  @MessagePattern(new RentalCardGetByIdQueryPattern())
+  microserviceGetById(userId: AggregateId) {
+    return this.rentalCardsService.getById(plainToClass(AggregateId, userId));
   }
 
   @MessagePattern(new UnregisterRentalCardCommandPattern())

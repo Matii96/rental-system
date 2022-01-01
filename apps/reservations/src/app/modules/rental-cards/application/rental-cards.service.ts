@@ -16,6 +16,10 @@ export class RentalCardsService {
     private readonly usersClient: UsersMicroserviceClient
   ) {}
 
+  getById(id: AggregateId) {
+    return this.repository.findById(id);
+  }
+
   async register(data: ICreateRentalCardInput) {
     const card = this.factory.create(data);
 

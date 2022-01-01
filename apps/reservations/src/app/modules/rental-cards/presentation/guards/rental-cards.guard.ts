@@ -1,6 +1,6 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { AggregateId, InvalidContextTypeException } from '@rental-system/common';
-import { IUser } from '@rental-system/domain';
+import { IUser, UserAdminEntity } from '@rental-system/domain';
 import { RentalCardsRepository } from '../../infrastructure/database/repositories/rental-cards.repository';
 import { IRentalCardRequest } from '../interfaces/rental-card-request.interface';
 
@@ -8,8 +8,17 @@ import { IRentalCardRequest } from '../interfaces/rental-card-request.interface'
 export class RentalCardGuard implements CanActivate {
   constructor(private readonly repository: RentalCardsRepository) {}
 
-  private getRentalCard(user: IUser, rentalCardId: AggregateId) {
-    return this.repository.findById(rentalCardId);
+  private async getRentalCard(user: IUser, rentalCardId: AggregateId) {
+    const card = await this.repository.findById(rentalCardId);
+
+    if (user instanceof UserAdminEntity) {
+      return card;
+    }
+    if (!user.id.isEqual(card.ownerId)) {
+      throw new ForbiddenException();
+    }
+
+    return card;
   }
 
   async canActivate(context: ExecutionContext) {

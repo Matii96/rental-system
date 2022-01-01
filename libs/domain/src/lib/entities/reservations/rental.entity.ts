@@ -13,7 +13,7 @@ export class RentalEntity extends AggregateRoot {
     private returnDate: Date,
     private expectedReturnDate: Date,
     private prolongCounter: number,
-    private readonly maxProlongations: number
+    readonly maxProlongations: number
   ) {
     super();
   }

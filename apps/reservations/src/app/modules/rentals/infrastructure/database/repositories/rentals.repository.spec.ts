@@ -37,7 +37,15 @@ describe('RentalsRepository', () => {
     repository = module.get(RentalsRepository);
   });
 
+  it('should find all rentals for rental card', async () => {
+    expect(await repository.findAllForCard(new AggregateId('id'))).toEqual([]);
+  });
+
   it('should find active rentals for rental card', async () => {
     expect(await repository.findAllActive(new AggregateId('id'))).toEqual([]);
+  });
+
+  it('should count rentals for rental card', async () => {
+    expect(await repository.countForCard(new AggregateId('id'))).toBe(0);
   });
 });

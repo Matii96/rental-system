@@ -1,40 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AggregateId } from '@rental-system/common';
-import { RentalCardEntity, RentalPoliciesMapper } from '@rental-system/domain';
-import { ICreateRentalCardInput, IUpdateRentalCardInput } from '@rental-system/interfaces';
-import { UsersMicroserviceClient } from '@rental-system/microservices';
-import { RentalCardsRepository } from '../infrastructure/database/repositories/rental-cards.repository';
-import { RentalCardsFactory } from './factories/rental-cards.factory';
+import { FindAllSearchOptions, ICountableData } from '@rental-system/common';
+import { RentalCardEntity, RentalEntity } from '@rental-system/domain';
+import { ICreateRentalInput, IProlongRentalInput } from '@rental-system/interfaces';
+import { RentalsRepository } from '../infrastructure/database/repositories/rentals.repository';
+import { RentalsFactory } from './factories/rentals.factory';
 
 @Injectable()
-export class RentalCardsService {
-  constructor(
-    private readonly config: ConfigService,
-    private readonly factory: RentalCardsFactory,
-    private readonly repository: RentalCardsRepository,
-    private readonly usersClient: UsersMicroserviceClient
-  ) {}
+export class RentalsService {
+  constructor(private readonly factory: RentalsFactory, private readonly repository: RentalsRepository) {}
 
-  async register(data: ICreateRentalCardInput) {
-    const card = this.factory.create(data);
-
-    await this.usersClient.getById(card.ownerId);
-    await this.repository.create(card);
-    return card;
+  async getAll(card: RentalCardEntity, options: FindAllSearchOptions): Promise<ICountableData<RentalEntity>> {
+    const [data, total] = await Promise.all([
+      this.repository.findAllForCard(card.id, options),
+      this.repository.countForCard(card.id),
+    ]);
+    return { data, total };
   }
 
-  async update(card: RentalCardEntity, data: IUpdateRentalCardInput) {
-    card.rentalPolicy = new RentalPoliciesMapper[data.rentalPolicyType]({
-      countLimit: this.config.get<number>('RENTAL_POLICY_COUNT_LIMIT'),
-    });
-    await this.repository.update(card);
-    return card;
+  async create(card: RentalCardEntity, data: ICreateRentalInput) {
+    const rental = this.factory.create(data);
+    card.registerRental(rental);
+    await this.repository.create(rental);
+    return rental;
   }
 
-  async unregister(ownerId: AggregateId) {
-    const card = await this.repository.findById(ownerId);
-    await this.repository.delete(card);
-    return card;
+  async prolong(rental: RentalEntity, data: IProlongRentalInput) {
+    rental.prolong(data.to);
+    await this.repository.update(rental);
+    return rental;
+  }
+
+  async close(rental: RentalEntity) {
+    rental.close();
+    await this.repository.update(rental);
+    return rental;
   }
 }

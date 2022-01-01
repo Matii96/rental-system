@@ -3,7 +3,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { MessagePattern } from '@nestjs/microservices';
 import { Request } from 'express';
 import { plainToClass } from 'class-transformer';
-import { AggregateId } from '@rental-system/common';
+import { AggregateId, BaseController } from '@rental-system/common';
 import { InvalidLoginException, UserAdminEntity } from '@rental-system/domain';
 import { ReactAdminQueryDto } from '@rental-system/dto';
 import { UserAccess } from '@rental-system/auth';
@@ -15,8 +15,14 @@ import { UserGenericOutputDto } from './dto/output/generic-output.dto';
 
 @ApiTags('Users')
 @Controller('v1/users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UsersController extends BaseController {
+  protected readonly handledExceptions = {
+    [InvalidLoginException.name]: UnauthorizedException,
+  };
+
+  constructor(private readonly usersService: UsersService) {
+    super();
+  }
 
   @Get()
   @UserAccess(UserAdminEntity)
@@ -34,15 +40,12 @@ export class UsersController {
       const { user, jwt } = await this.usersService.login(data);
       return new UserLoginOutputDto(user, jwt);
     } catch (err) {
-      if (err instanceof InvalidLoginException) {
-        throw new UnauthorizedException();
-      }
-      throw err;
+      this.transformException(err);
     }
   }
 
   @MessagePattern(new UserGetByIdQueryPattern())
-  async getById(userId: AggregateId) {
-    return new UserGenericOutputDto(await this.usersService.getById(plainToClass(AggregateId, userId)));
+  microserviceGetById(userId: AggregateId) {
+    return this.usersService.getById(plainToClass(AggregateId, userId));
   }
 }

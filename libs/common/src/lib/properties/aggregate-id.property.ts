@@ -1,7 +1,11 @@
 export class AggregateId {
-  constructor(private readonly value: string) {}
+  constructor(private readonly idValue: string) {}
+
+  isEqual(id: AggregateId) {
+    return this.idValue === id.toString();
+  }
 
   toString(): string {
-    return this.value;
+    return this.idValue;
   }
 }
