@@ -1,4 +1,3 @@
-export * from './lib/bases';
 export * from './lib/enums';
 export * from './lib/exceptions';
 export * from './lib/helpers';

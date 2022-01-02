@@ -1,14 +1,11 @@
-import { AggregateRoot } from '@nestjs/cqrs';
 import { AggregateId, IIdentifiableEntity } from '@rental-system/common';
 import { ItemTypes } from '../../enums/item-types.enum';
 import { NoItemToReturnException } from '../../exceptions/items/no-item-to-return.exception';
 import { ItemNotAvailableException } from '../../exceptions/items/item-not-available.exception';
 import { NotEnoughItemsTotalException } from '../../exceptions/items/not-enough-items-total.exception';
 
-export class AvailabilityEntity extends AggregateRoot implements IIdentifiableEntity {
-  constructor(readonly id: AggregateId, readonly type: ItemTypes, private total: number, private reserved: number) {
-    super();
-  }
+export class AvailabilityEntity implements IIdentifiableEntity {
+  constructor(readonly id: AggregateId, readonly type: ItemTypes, private total: number, private reserved: number) {}
 
   getTotal() {
     return this.total;

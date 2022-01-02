@@ -1,7 +1,18 @@
-import { BadRequestException, Body, Controller, Get, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  InternalServerErrorException,
+  Patch,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { BaseController } from '@rental-system/common';
 import {
   MaxProlongationsExceededException,
   OverdueRentalException,
@@ -13,6 +24,7 @@ import {
 } from '@rental-system/domain';
 import { UserAccess } from '@rental-system/auth';
 import { ReactAdminQueryDto } from '@rental-system/dto';
+import { DomainExceptionInterceptor } from '@rental-system/filters';
 import { RentalCardGuard } from '../../rental-cards/presentation/guards/rental-cards.guard';
 import { RequestRentalCard } from '../../rental-cards/presentation/decorators/request-rental-card.decorator';
 import { RentalsService } from '../application/rentals.service';
@@ -23,17 +35,19 @@ import { RentalCreateInputDto } from './dto/input/create.dto';
 import { RentalOutputDto } from './dto/output.dto';
 
 @ApiTags('Rentals')
+@UseInterceptors(
+  new DomainExceptionInterceptor(
+    {
+      [RentalAlreadyClosedException.name]: BadRequestException,
+      [OverdueRentalException.name]: BadRequestException,
+      [MaxProlongationsExceededException.name]: BadRequestException,
+    },
+    InternalServerErrorException
+  )
+)
 @Controller('v1/rentals')
-export class RentalsController extends BaseController {
-  protected readonly handledExceptions = {
-    [RentalAlreadyClosedException.name]: BadRequestException,
-    [OverdueRentalException.name]: BadRequestException,
-    [MaxProlongationsExceededException.name]: BadRequestException,
-  };
-
-  constructor(private readonly rentalsService: RentalsService) {
-    super();
-  }
+export class RentalsController {
+  constructor(private readonly rentalsService: RentalsService) {}
 
   @Get(':rentalCardId/list')
   @UseGuards(RentalCardGuard)
@@ -69,12 +83,8 @@ export class RentalsController extends BaseController {
   @ApiParam({ name: 'rentalId' })
   @ApiOkResponse({ type: RentalOutputDto })
   async update(@RequestRental() rental: RentalEntity, @Body() data: RentalProlongInputDto) {
-    try {
-      await this.rentalsService.prolong(rental, data);
-      return new RentalOutputDto(rental);
-    } catch (err) {
-      this.transformException(err);
-    }
+    await this.rentalsService.prolong(rental, data);
+    return new RentalOutputDto(rental);
   }
 
   @Patch(':rentalId/close')
@@ -83,11 +93,7 @@ export class RentalsController extends BaseController {
   @ApiParam({ name: 'rentalId' })
   @ApiOkResponse({ type: RentalOutputDto })
   async close(@RequestRental() rental: RentalEntity) {
-    try {
-      await this.rentalsService.close(rental);
-      return new RentalOutputDto(rental);
-    } catch (err) {
-      this.transformException(err);
-    }
+    await this.rentalsService.close(rental);
+    return new RentalOutputDto(rental);
   }
 }
