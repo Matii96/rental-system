@@ -6,6 +6,12 @@ import { DomainException } from '@rental-system/common';
 export class DomainExceptionInterceptor implements NestInterceptor {
   private readonly logger = new Logger(DomainExceptionInterceptor.name);
 
+  /**
+   * Converts domain exceptions to defined in handledExceptions
+   * @example new DomainExceptionInterceptor({ [InvalidLoginException.name]: UnauthorizedException }, InternalServerErrorException)
+   * @param handledExceptions
+   * @param fallbackException
+   */
   constructor(
     private readonly handledExceptions: { [name: string]: { new (msg?: string): Error } },
     private readonly fallbackException: { new (msg?: string): Error }

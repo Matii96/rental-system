@@ -26,12 +26,7 @@ import { UserGenericOutputDto } from './dto/output/generic-output.dto';
 
 @ApiTags('Users')
 @UseInterceptors(
-  new DomainExceptionInterceptor(
-    {
-      [InvalidLoginException.name]: UnauthorizedException,
-    },
-    InternalServerErrorException
-  )
+  new DomainExceptionInterceptor({ [InvalidLoginException.name]: UnauthorizedException }, InternalServerErrorException)
 )
 @Controller('v1/users')
 export class UsersController {
