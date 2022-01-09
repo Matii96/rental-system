@@ -1,4 +1,4 @@
-import { FindAllOptions } from '../options/repositories.options';
+import { FindAllOptions } from '../../options/repositories.options';
 
 export interface IRepository<TEntity> {
   findById?(id: any, ...args: any[]): TEntity | Promise<TEntity>;

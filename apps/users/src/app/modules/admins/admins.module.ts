@@ -12,6 +12,6 @@ import { AdminsController } from './presentation/admins.controller';
   imports: [SequelizeModule.forFeature([UserAdminModel]), forwardRef(() => UsersModule)],
   controllers: [AdminsController],
   providers: [AdminsFactory, AdminsModelFactory, AdminsRepository, AdminsService],
-  exports: [AdminsModelFactory],
+  exports: [AdminsFactory, AdminsModelFactory, AdminsRepository],
 })
 export class AdminsModule {}

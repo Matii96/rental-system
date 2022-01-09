@@ -1,6 +1,6 @@
 import { Logger, NestInterceptor, ExecutionContext, CallHandler, Injectable } from '@nestjs/common';
 import { catchError } from 'rxjs';
-import { DomainException } from '@rental-system/common';
+import { ClassOf, DomainException } from '@rental-system/common';
 
 @Injectable()
 export class DomainExceptionInterceptor implements NestInterceptor {
@@ -13,8 +13,8 @@ export class DomainExceptionInterceptor implements NestInterceptor {
    * @param fallbackException
    */
   constructor(
-    private readonly handledExceptions: { [name: string]: { new (msg?: string): Error } },
-    private readonly fallbackException: { new (msg?: string): Error }
+    private readonly handledExceptions: { [name: string]: ClassOf<Error> },
+    private readonly fallbackException: ClassOf<Error>
   ) {}
 
   intercept(context: ExecutionContext, next: CallHandler) {

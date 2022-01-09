@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { sequelizeFactory } from '@rental-system/config';
+import { AdminSeeder } from './infrastructure/database/seeders/admin.seeder';
 import { AppController } from './presentation/app.controller';
 import { UsersConfig } from './infrastructure/config/config.validator';
 import { UsersModule } from './modules/users/users.module';
@@ -24,5 +25,12 @@ import { CustomersModule } from './modules/customers/customers.module';
     CustomersModule,
   ],
   controllers: [AppController],
+  providers: [AdminSeeder],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly adminSeeder: AdminSeeder) {}
+
+  async onModuleInit() {
+    await this.adminSeeder.run();
+  }
+}

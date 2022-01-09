@@ -1,4 +1,4 @@
-import { FindAllOptions } from '../options/repositories.options';
+import { FindAllOptions } from '../../options/repositories.options';
 import { IRepository } from './repository.interface';
 
 export interface ITransactionalRepository<TEntity, TTransaction> extends IRepository<TEntity> {

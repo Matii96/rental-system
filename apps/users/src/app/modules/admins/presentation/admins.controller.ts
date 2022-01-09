@@ -32,7 +32,7 @@ export class AdminsController {
   }
 
   @Post()
-  // @UserAccess(UserAdminEntity) TODO
+  @UserAccess(UserAdminEntity)
   @ApiCreatedResponse({ type: AdminOutputDto })
   @ApiBadRequestResponse()
   async create(@Body() data: AdminInputDto) {
