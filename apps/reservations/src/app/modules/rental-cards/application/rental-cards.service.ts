@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AggregateId } from '@rental-system/common';
 import { RentalCardEntity, RentalPoliciesMapper } from '@rental-system/domain';
-import { ICreateRentalCardInput, IUpdateRentalCardInput } from '@rental-system/interfaces';
+import { RentalCardCreateInputDto, RentalCardUpdateInputDto } from '@rental-system/dto';
 import { UsersMicroserviceClient } from '@rental-system/microservices';
 import { RentalCardsRepository } from '../infrastructure/database/repositories/rental-cards.repository';
 import { RentalCardsFactory } from './factories/rental-cards.factory';
@@ -20,7 +20,7 @@ export class RentalCardsService {
     return this.repository.findById(id);
   }
 
-  async register(data: ICreateRentalCardInput) {
+  async register(data: RentalCardCreateInputDto) {
     const card = this.factory.create(data);
 
     await this.usersClient.getById(card.ownerId);
@@ -28,7 +28,7 @@ export class RentalCardsService {
     return card;
   }
 
-  async update(card: RentalCardEntity, data: IUpdateRentalCardInput) {
+  async update(card: RentalCardEntity, data: RentalCardUpdateInputDto) {
     card.rentalPolicy = new RentalPoliciesMapper[data.rentalPolicyType]({
       countLimit: this.config.get<number>('RENTAL_POLICY_COUNT_LIMIT'),
     });

@@ -1,8 +1,8 @@
-import { MixinConstructor } from '../types/mixin-constructor.type';
+import { ClassConstructor } from '../types/class-constructor.type';
 
 export const instanceOfMixin = (
   obj: object,
-  mixin: <TBase extends MixinConstructor>(base: TBase) => MixinConstructor
+  mixin: <TBase extends ClassConstructor>(base: TBase) => ClassConstructor
 ) => {
   const mixinClass = mixin(class {});
   for (const propertyName of Object.getOwnPropertyNames(mixinClass.prototype)) {

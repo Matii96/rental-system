@@ -23,16 +23,16 @@ import {
   UserCustomerEntity,
 } from '@rental-system/domain';
 import { UserAccess } from '@rental-system/auth';
-import { ReactAdminQueryDto } from '@rental-system/dto';
+import { ReactAdminQueryDto } from '@rental-system/nest-dto';
 import { DomainExceptionInterceptor } from '@rental-system/filters';
 import { RentalCardGuard } from '../../rental-cards/presentation/guards/rental-cards.guard';
 import { RequestRentalCard } from '../../rental-cards/presentation/decorators/request-rental-card.decorator';
 import { RentalsService } from '../application/rentals.service';
 import { RentalsGuard } from './guards/rentals.guard';
 import { RequestRental } from './decorators/request-rental-card.decorator';
-import { RentalProlongInputDto } from './dto/input/prolong.dto';
-import { RentalCreateInputDto } from './dto/input/create.dto';
-import { RentalOutputDto } from './dto/output.dto';
+import { RentalProlongInputDto } from './dto/rest-input/prolong.dto';
+import { RentalCreateRestInputDto } from './dto/rest-input/create.dto';
+import { RentalRestOutputDto } from './dto/rest-output.dto';
 
 @ApiTags('Rentals')
 @UseInterceptors(
@@ -52,48 +52,48 @@ export class RentalsController {
   @Get(':rentalCardId/list')
   @UseGuards(RentalCardGuard)
   @UserAccess(UserAdminEntity, UserCustomerEntity)
-  @ApiCreatedResponse({ type: [RentalOutputDto] })
+  @ApiCreatedResponse({ type: [RentalRestOutputDto] })
   async list(@Req() req: Request, @RequestRentalCard() card: RentalCardEntity, @Query() query: ReactAdminQueryDto) {
     const { data, total } = await this.rentalsService.getAll(card, query.toOptions());
     req.res.setHeader('X-Total-Count', total);
-    return data.map((rental) => new RentalOutputDto(rental));
+    return data.map((rental) => new RentalRestOutputDto(rental));
   }
 
   @Get(':rentalId')
   @UseGuards(RentalsGuard)
   @UserAccess(UserAdminEntity, UserCustomerEntity)
   @ApiParam({ name: 'rentalId' })
-  @ApiOkResponse({ type: RentalOutputDto })
+  @ApiOkResponse({ type: RentalRestOutputDto })
   getById(@RequestRental() rental: RentalEntity) {
-    return new RentalOutputDto(rental);
+    return new RentalRestOutputDto(rental);
   }
 
   @Post(':rentalCardId')
   @UseGuards(RentalCardGuard)
   @UserAccess(UserAdminEntity, UserCustomerEntity)
-  @ApiCreatedResponse({ type: RentalOutputDto })
-  async create(@RequestRentalCard() card: RentalCardEntity, @Body() data: RentalCreateInputDto) {
-    const rental = await this.rentalsService.create(card, { cardId: card.id.toString(), ...data });
-    return new RentalOutputDto(rental);
+  @ApiCreatedResponse({ type: RentalRestOutputDto })
+  async create(@RequestRentalCard() card: RentalCardEntity, @Body() data: RentalCreateRestInputDto) {
+    const rental = await this.rentalsService.create(card, data);
+    return new RentalRestOutputDto(rental);
   }
 
   @Patch(':rentalId/prolong')
   @UseGuards(RentalsGuard)
   @UserAccess(UserAdminEntity, UserCustomerEntity)
   @ApiParam({ name: 'rentalId' })
-  @ApiOkResponse({ type: RentalOutputDto })
+  @ApiOkResponse({ type: RentalRestOutputDto })
   async update(@RequestRental() rental: RentalEntity, @Body() data: RentalProlongInputDto) {
     await this.rentalsService.prolong(rental, data);
-    return new RentalOutputDto(rental);
+    return new RentalRestOutputDto(rental);
   }
 
   @Patch(':rentalId/close')
   @UseGuards(RentalsGuard)
   @UserAccess(UserAdminEntity, UserCustomerEntity)
   @ApiParam({ name: 'rentalId' })
-  @ApiOkResponse({ type: RentalOutputDto })
+  @ApiOkResponse({ type: RentalRestOutputDto })
   async close(@RequestRental() rental: RentalEntity) {
     await this.rentalsService.close(rental);
-    return new RentalOutputDto(rental);
+    return new RentalRestOutputDto(rental);
   }
 }

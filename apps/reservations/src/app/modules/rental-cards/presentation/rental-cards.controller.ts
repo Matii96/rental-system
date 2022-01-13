@@ -9,9 +9,9 @@ import { RentalCardGetByIdQueryPattern, UnregisterRentalCardCommandPattern } fro
 import { RentalCardsService } from '../application/rental-cards.service';
 import { RequestRentalCard } from './decorators/request-rental-card.decorator';
 import { RentalCardGuard } from './guards/rental-cards.guard';
-import { RentalCardCreateInputDto } from './dto/input/create.dto';
-import { RentalCardUpdateInputDto } from './dto/input/update.dto';
-import { RentalCardOutputDto } from './dto/output.dto';
+import { RentalCardCreateRestInputDto } from './dto/rest-input/create.dto';
+import { RentalCardUpdateRestInputDto } from './dto/rest-input/update.dto';
+import { RentalCardRestOutputDto } from './dto/rest-output.dto';
 
 @ApiTags('Rental cards')
 @Controller('v1/rental-cards')
@@ -22,37 +22,37 @@ export class RentalCardsController {
   @UseGuards(RentalCardGuard)
   @UserAccess(UserAdminEntity, UserCustomerEntity)
   @ApiParam({ name: 'rentalCardId' })
-  @ApiOkResponse({ type: RentalCardOutputDto })
+  @ApiOkResponse({ type: RentalCardRestOutputDto })
   getById(@RequestRentalCard() card: RentalCardEntity) {
-    return new RentalCardOutputDto(card);
+    return new RentalCardRestOutputDto(card);
   }
 
   @Post()
   @UserAccess(UserAdminEntity)
-  @ApiCreatedResponse({ type: RentalCardOutputDto })
-  async create(@Body() data: RentalCardCreateInputDto) {
+  @ApiCreatedResponse({ type: RentalCardRestOutputDto })
+  async create(@Body() data: RentalCardCreateRestInputDto) {
     const card = await this.rentalCardsService.register(data);
-    return new RentalCardOutputDto(card);
+    return new RentalCardRestOutputDto(card);
   }
 
   @Patch(':rentalCardId/rental-policy')
   @UseGuards(RentalCardGuard)
   @UserAccess(UserAdminEntity)
   @ApiParam({ name: 'rentalCardId' })
-  @ApiOkResponse({ type: RentalCardOutputDto })
-  async update(@RequestRentalCard() card: RentalCardEntity, @Body() data: RentalCardUpdateInputDto) {
+  @ApiOkResponse({ type: RentalCardRestOutputDto })
+  async update(@RequestRentalCard() card: RentalCardEntity, @Body() data: RentalCardUpdateRestInputDto) {
     await this.rentalCardsService.update(card, data);
-    return new RentalCardOutputDto(card);
+    return new RentalCardRestOutputDto(card);
   }
 
   @Delete(':rentalCardId')
   @UseGuards(RentalCardGuard)
   @UserAccess(UserAdminEntity)
   @ApiParam({ name: 'rentalCardId' })
-  @ApiOkResponse({ type: RentalCardOutputDto })
+  @ApiOkResponse({ type: RentalCardRestOutputDto })
   async delete(@RequestRentalCard() card: RentalCardEntity) {
     await this.rentalCardsService.unregister(card.id);
-    return new RentalCardOutputDto(card);
+    return new RentalCardRestOutputDto(card);
   }
 
   @MessagePattern(new RentalCardGetByIdQueryPattern())

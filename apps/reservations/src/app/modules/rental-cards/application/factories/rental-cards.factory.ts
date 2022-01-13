@@ -3,13 +3,13 @@ import { ConfigService } from '@nestjs/config';
 import { v4 as uuidv4 } from 'uuid';
 import { RentalCardEntity, RentalPoliciesMapper } from '@rental-system/domain';
 import { AggregateId, IEntityFactory } from '@rental-system/common';
-import { ICreateRentalCardInput } from '@rental-system/interfaces';
+import { RentalCardCreateInputDto } from '@rental-system/dto';
 
 @Injectable()
 export class RentalCardsFactory implements IEntityFactory<RentalCardEntity> {
   constructor(private readonly config: ConfigService) {}
 
-  create(data: ICreateRentalCardInput) {
+  create(data: RentalCardCreateInputDto) {
     return new RentalCardEntity(
       new AggregateId(uuidv4()),
       new AggregateId(data.ownerId),

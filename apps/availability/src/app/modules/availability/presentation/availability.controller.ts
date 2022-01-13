@@ -5,13 +5,13 @@ import { plainToClass } from 'class-transformer';
 import { AggregateId } from '@rental-system/common';
 import { UserAccess } from '@rental-system/auth';
 import { AvailabilityEntity, UserAdminEntity } from '@rental-system/domain';
-import { ICreateAvailabilityInput } from '@rental-system/interfaces';
+import { AvailabilityCreateInputDto } from '@rental-system/dto';
 import { RegisterAvailabilityCommandPattern, UnregisterAvailabilityCommandPattern } from '@rental-system/microservices';
 import { AvailabilityService } from '../application/availability.service';
 import { AvailabilityGuard } from './guards/availability.guard';
 import { RequestAvailability } from './decorators/request-availability.decorator';
-import { AvailabilityTotalInputDto } from './dto/total-input.dto';
-import { AvailabilityOutputDto } from './dto/output.dto';
+import { AvailabilityRestOutputDto } from './dto/rest-output.dto';
+import { AvailabilityTotalRestInputDto } from './dto/rest-total-input.dto';
 
 @ApiTags('Availability')
 @Controller('availability')
@@ -21,24 +21,27 @@ export class AvailabilityController {
   @Get(':availabilityId')
   @UseGuards(AvailabilityGuard)
   @ApiParam({ name: 'availabilityId' })
-  @ApiOkResponse({ type: AvailabilityOutputDto })
+  @ApiOkResponse({ type: AvailabilityRestOutputDto })
   getById(@RequestAvailability() availability: AvailabilityEntity) {
-    return new AvailabilityOutputDto(availability);
+    return new AvailabilityRestOutputDto(availability);
   }
 
   @Put(':availabilityId')
   @UseGuards(AvailabilityGuard)
   @UserAccess(UserAdminEntity)
   @ApiParam({ name: 'availabilityId' })
-  @ApiOkResponse({ type: AvailabilityOutputDto })
-  async updateTotal(@RequestAvailability() availability: AvailabilityEntity, @Body() data: AvailabilityTotalInputDto) {
+  @ApiOkResponse({ type: AvailabilityRestOutputDto })
+  async updateTotal(
+    @RequestAvailability() availability: AvailabilityEntity,
+    @Body() data: AvailabilityTotalRestInputDto
+  ) {
     await this.availabilityService.updateTotal(availability, data);
-    return new AvailabilityOutputDto(availability);
+    return new AvailabilityRestOutputDto(availability);
   }
 
   @MessagePattern(new RegisterAvailabilityCommandPattern())
-  async register(data: ICreateAvailabilityInput) {
-    await this.availabilityService.register(data);
+  async register(data: AvailabilityCreateInputDto) {
+    await this.availabilityService.register(plainToClass(AvailabilityCreateInputDto, data));
     return 'ok';
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindAllSearchOptions, ICountableData } from '@rental-system/common';
 import { RentalCardEntity, RentalEntity } from '@rental-system/domain';
-import { ICreateRentalInput, IProlongRentalInput } from '@rental-system/interfaces';
+import { ProlongRentalInputDto, RentalCreateInputDto } from '@rental-system/dto';
 import { RentalsRepository } from '../infrastructure/database/repositories/rentals.repository';
 import { RentalsFactory } from './factories/rentals.factory';
 
@@ -17,14 +17,14 @@ export class RentalsService {
     return { data, total };
   }
 
-  async create(card: RentalCardEntity, data: ICreateRentalInput) {
-    const rental = this.factory.create(data);
+  async create(card: RentalCardEntity, data: RentalCreateInputDto) {
+    const rental = this.factory.create(card, data);
     card.registerRental(rental);
     await this.repository.create(rental);
     return rental;
   }
 
-  async prolong(rental: RentalEntity, data: IProlongRentalInput) {
+  async prolong(rental: RentalEntity, data: ProlongRentalInputDto) {
     rental.prolong(data.to);
     await this.repository.update(rental);
     return rental;

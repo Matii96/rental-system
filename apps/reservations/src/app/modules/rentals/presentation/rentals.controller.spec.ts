@@ -4,7 +4,7 @@ import { ReservationsMicroserviceClient } from '@rental-system/microservices';
 import { RentalCardsRepository } from '../../rental-cards/infrastructure/database/repositories/rental-cards.repository';
 import { RentalsService } from '../application/rentals.service';
 import { RentalsRepository } from '../infrastructure/database/repositories/rentals.repository';
-import { RentalOutputDto } from './dto/output.dto';
+import { RentalRestOutputDto } from './dto/rest-output.dto';
 import { RentalsController } from './rentals.controller';
 
 describe('RentalsController', () => {
@@ -28,6 +28,6 @@ describe('RentalsController', () => {
 
   it('should get rental by id', async () => {
     const rental = rentalEntityMock();
-    expect(controller.getById(rental)).toEqual(new RentalOutputDto(rental));
+    expect(controller.getById(rental)).toEqual(new RentalRestOutputDto(rental));
   });
 });

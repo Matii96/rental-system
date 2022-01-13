@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { RentalEntity } from '@rental-system/domain';
+import { rentalCardEntityMock } from '@rental-system/domain-testing';
 import { ReservationsConfig } from '../../../../infrastructure/config/config.validator';
 import { RentalsFactory } from './rentals.factory';
 
@@ -22,8 +23,8 @@ describe('RentalFactory', () => {
   });
 
   it('should create new entity', () => {
-    expect(factory.create({ cardId: 'card-id', itemId: 'item-id', expectedReturnDate: new Date() })).toBeInstanceOf(
-      RentalEntity
-    );
+    expect(
+      factory.create(rentalCardEntityMock(), { itemId: 'item-id', expectedReturnDate: new Date() })
+    ).toBeInstanceOf(RentalEntity);
   });
 });

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Request } from 'express';
 import { ICountableData } from '@rental-system/common';
+import { BookEntity } from '@rental-system/domain';
 import { BooksService } from '../application/books.service';
 import { BooksController } from './books.controller';
-import { BookOutputDto } from './dto/output.dto';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
 
 describe('BooksController', () => {
@@ -17,7 +17,7 @@ describe('BooksController', () => {
         { provide: BooksRepository, useValue: {} },
         {
           provide: BooksService,
-          useValue: { getAll: jest.fn((): ICountableData<BookOutputDto> => ({ data: [], total: 0 })) },
+          useValue: { getAll: jest.fn((): ICountableData<BookEntity> => ({ data: [], total: 0 })) },
         },
       ],
     }).compile();

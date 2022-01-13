@@ -1,6 +1,6 @@
-import { MixinConstructor } from '@rental-system/common';
+import { ClassConstructor } from '@rental-system/common';
 
-export const CanReceiveNewsletterAbility = <TBase extends MixinConstructor>(base: TBase) =>
+export const CanReceiveNewsletterAbility = <TBase extends ClassConstructor>(base: TBase) =>
   class extends base {
     agreedToNewsletter: boolean;
 

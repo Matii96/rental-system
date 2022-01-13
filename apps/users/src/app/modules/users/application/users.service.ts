@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AggregateId, FindAllSearchOptions, ICountableData } from '@rental-system/common';
 import { IUser } from '@rental-system/domain';
 import { AuthUserJwtDto } from '@rental-system/auth';
-import { IUserLoginInput } from '@rental-system/interfaces';
+import { UserLoginInputDto } from '@rental-system/dto';
 import { ReservationsMicroserviceClient } from '@rental-system/microservices';
 import { UsersRepository } from '../infrastructure/database/repositories/users.repository';
 
@@ -24,7 +24,7 @@ export class UsersService {
     return { data, total };
   }
 
-  async login(data: IUserLoginInput) {
+  async login(data: UserLoginInputDto) {
     const user = await this.repository.findByLogin(data.nameOrEmail);
     user.checkPassword(data.password);
     const authData = new AuthUserJwtDto(user);

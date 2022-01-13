@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindAllSearchOptions, ICountableData } from '@rental-system/common';
 import { BookEntity } from '@rental-system/domain';
-import { IBookInput } from '@rental-system/interfaces';
+import { BookInputDto } from '@rental-system/dto';
 import { AvailabilityMicroserviceClient } from '@rental-system/microservices';
 import { BooksRepository } from '../infrastructure/database/repositories/books.repository';
 import { BooksFactory } from './factories/books.factory';
@@ -19,7 +19,7 @@ export class BooksService {
     return { data, total };
   }
 
-  async create(data: IBookInput) {
+  async create(data: BookInputDto) {
     const book = this.factory.create(data);
     await this.repository.transaction(async (t) => {
       await this.repository.create(book, t);
@@ -28,7 +28,7 @@ export class BooksService {
     return book;
   }
 
-  async update(book: BookEntity, data: IBookInput) {
+  async update(book: BookEntity, data: BookInputDto) {
     book.name = data.name;
     book.author = data.author;
     book.pagesCount = data.pagesCount;

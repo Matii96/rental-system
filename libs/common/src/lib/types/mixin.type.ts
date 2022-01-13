@@ -1,3 +1,3 @@
-import { MixinConstructor } from './mixin-constructor.type';
+import { ClassConstructor } from './class-constructor.type';
 
-export type Mixin = <TBase extends MixinConstructor>(base: TBase) => MixinConstructor;
+export type Mixin = <TBase extends ClassConstructor>(base: TBase) => ClassConstructor;

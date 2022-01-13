@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { v4 as uuidv4 } from 'uuid';
-import { RentalEntity } from '@rental-system/domain';
 import { AggregateId, IEntityFactory } from '@rental-system/common';
-import { ICreateRentalInput } from '@rental-system/interfaces';
+import { RentalCardEntity, RentalEntity } from '@rental-system/domain';
+import { RentalCreateInputDto } from '@rental-system/dto';
 
 @Injectable()
 export class RentalsFactory implements IEntityFactory<RentalEntity> {
   constructor(private readonly config: ConfigService) {}
 
-  create(data: ICreateRentalInput) {
+  create(card: RentalCardEntity, data: RentalCreateInputDto) {
     return new RentalEntity(
       new AggregateId(uuidv4()),
-      new AggregateId(data.cardId),
+      card.id,
       new AggregateId(data.itemId),
       new Date(),
       null,

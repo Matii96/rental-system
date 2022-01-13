@@ -1,12 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Request } from 'express';
 import { AggregateId, ICountableData } from '@rental-system/common';
+import { IUser } from '@rental-system/domain';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
 import { UsersService } from '../application/users.service';
-import { UserOutputDto } from './dto/output/output.dto';
+import { UserLoginRestOutputDto } from './dto/rest-output/login-output.dto';
 import { UsersController } from './users.controller';
-import { UserLoginOutputDto } from './dto/output/login-output.dto';
-import { UserGenericOutputDto } from './dto/output/generic-output.dto';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -20,7 +19,7 @@ describe('UsersController', () => {
           provide: UsersService,
           useValue: {
             getById: jest.fn(),
-            getAll: jest.fn((): ICountableData<UserOutputDto> => ({ data: [], total: 0 })),
+            getAll: jest.fn((): ICountableData<IUser> => ({ data: [], total: 0 })),
             login: jest.fn().mockResolvedValue({ user: userAdminEntityMock(), jwt: 'jwt' }),
           },
         },
@@ -46,7 +45,9 @@ describe('UsersController', () => {
   });
 
   it('should login user', async () => {
-    expect(await controller.login({ nameOrEmail: 'user', password: 'password' })).toBeInstanceOf(UserLoginOutputDto);
+    expect(await controller.login({ nameOrEmail: 'user', password: 'password' })).toBeInstanceOf(
+      UserLoginRestOutputDto
+    );
     expect(usersServiceMock.login).toHaveBeenCalledTimes(1);
   });
 });

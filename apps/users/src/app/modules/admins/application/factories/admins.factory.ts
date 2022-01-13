@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { v4 as uuidv4 } from 'uuid';
 import { AggregateId, IEntityFactory } from '@rental-system/common';
 import { UserAdminEntity } from '@rental-system/domain';
-import { AdminInputDto } from '../../presentation/dto/input/input.dto';
+import { AdminInputDto } from '@rental-system/dto';
 
 @Injectable()
 export class AdminsFactory implements IEntityFactory<UserAdminEntity> {

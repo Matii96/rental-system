@@ -13,9 +13,9 @@ import { CustomersService } from '../application/customers.service';
 import { CustomersGuard } from './guards/customers.guard';
 import { UserNotSelfGuard } from '../../users/application/guards/users-not-self.guard';
 import { RequestUser } from '../../users/presentation/decorators/request-user.decorator';
-import { CustomerInputSelfDto } from './dto/input/input-self.dto';
-import { CustomerInputDto } from './dto/input/input.dto';
-import { CustomerOutputDto } from './dto/output.dto';
+import { CustomerRestInputSelfDto } from './dto/rest-input/input-self.dto';
+import { CustomerRestInputDto } from './dto/rest-input/input.dto';
+import { CustomerRestOutputDto } from './dto/rest-output.dto';
 
 @ApiTags('Users Customers')
 @Controller('v1/customers')
@@ -25,49 +25,49 @@ export class CustomersController {
   @Get(':userId')
   @UserAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
-  @ApiOkResponse({ type: CustomerOutputDto })
+  @ApiOkResponse({ type: CustomerRestOutputDto })
   @ApiNotFoundResponse()
   getById(@RequestUser() user: UserCustomerEntity) {
-    return new CustomerOutputDto(user);
+    return new CustomerRestOutputDto(user);
   }
 
   @Post()
   @UserAccess(UserAdminEntity)
-  @ApiCreatedResponse({ type: CustomerOutputDto })
+  @ApiCreatedResponse({ type: CustomerRestOutputDto })
   @ApiBadRequestResponse()
-  async create(@Body() data: CustomerInputDto) {
-    return new CustomerOutputDto(await this.customersService.create(data));
+  async create(@Body() data: CustomerRestInputDto) {
+    return new CustomerRestOutputDto(await this.customersService.create(data));
   }
 
   @Put('self')
   @UserAccess(UserCustomerEntity)
-  @ApiOkResponse({ type: CustomerOutputDto })
+  @ApiOkResponse({ type: CustomerRestOutputDto })
   @ApiBadRequestResponse()
-  async updateSelf(@RequesterUser() user: UserCustomerEntity, @Body() data: CustomerInputSelfDto) {
+  async updateSelf(@RequesterUser() user: UserCustomerEntity, @Body() data: CustomerRestInputSelfDto) {
     await this.customersService.updateSelf(user, data);
-    return new CustomerOutputDto(user);
+    return new CustomerRestOutputDto(user);
   }
 
   @Put(':userId')
   @UseGuards(CustomersGuard, UserNotSelfGuard)
   @UserAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
-  @ApiOkResponse({ type: CustomerOutputDto })
+  @ApiOkResponse({ type: CustomerRestOutputDto })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
-  async update(@RequestUser() user: UserCustomerEntity, @Body() data: CustomerInputDto) {
+  async update(@RequestUser() user: UserCustomerEntity, @Body() data: CustomerRestInputDto) {
     await this.customersService.update(user, data);
-    return new CustomerOutputDto(user);
+    return new CustomerRestOutputDto(user);
   }
 
   @Delete(':userId')
   @UseGuards(CustomersGuard)
   @UserAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
-  @ApiOkResponse({ type: CustomerOutputDto })
+  @ApiOkResponse({ type: CustomerRestOutputDto })
   @ApiNotFoundResponse()
   async delete(@RequestUser() user: UserCustomerEntity) {
     await this.customersService.delete(user);
-    return new CustomerOutputDto(user);
+    return new CustomerRestOutputDto(user);
   }
 }

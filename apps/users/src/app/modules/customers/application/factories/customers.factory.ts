@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { v4 as uuidv4 } from 'uuid';
 import { AggregateId, IEntityFactory } from '@rental-system/common';
 import { UserCustomerEntity } from '@rental-system/domain';
-import { CustomerInputDto } from '../../presentation/dto/input/input.dto';
+import { CustomerInputDto } from '@rental-system/dto';
 
 @Injectable()
 export class CustomersFactory implements IEntityFactory<UserCustomerEntity> {
@@ -15,7 +15,7 @@ export class CustomersFactory implements IEntityFactory<UserCustomerEntity> {
       new Date(),
       data.name,
       data.email,
-      'password', // Set manually below
+      '', // Set manually below
       data.active,
       data.agreedToNewsletter
     );

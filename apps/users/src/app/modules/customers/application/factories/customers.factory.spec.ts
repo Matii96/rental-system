@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
-import { userCustomerInputMock } from '@rental-system/interfaces';
+import { userCustomerInputMock } from '@rental-system/dto-testing';
 import { UsersConfig } from '../../../../infrastructure/config/config.validator';
 import { CustomersFactory } from './customers.factory';
 

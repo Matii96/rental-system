@@ -4,8 +4,8 @@ import { ItemTypes } from '@rental-system/domain';
 import { availabilityEntityMock } from '@rental-system/domain-testing';
 import { AvailabilityService } from '../application/availability.service';
 import { AvailabilityRepository } from '../infrastructure/database/repositories/availability.repository';
+import { AvailabilityRestOutputDto } from './dto/rest-output.dto';
 import { AvailabilityController } from './availability.controller';
-import { AvailabilityOutputDto } from './dto/output.dto';
 
 describe('AvailabilityController', () => {
   let controller: AvailabilityController;
@@ -32,7 +32,7 @@ describe('AvailabilityController', () => {
 
   it('should get availability by id', () => {
     const availability = availabilityEntityMock();
-    expect(controller.getById(availability)).toEqual(<AvailabilityOutputDto>{
+    expect(controller.getById(availability)).toEqual(<AvailabilityRestOutputDto>{
       total: availability.getTotal(),
       reserved: availability.getReserved(),
     });
@@ -43,7 +43,7 @@ describe('AvailabilityController', () => {
     expect(await controller.updateTotal(availability, { total: availability.getTotal() })).toEqual({
       total: availability.getTotal(),
       reserved: availability.getReserved(),
-    } as AvailabilityOutputDto);
+    } as AvailabilityRestOutputDto);
   });
 
   it('should register new item availability', async () => {

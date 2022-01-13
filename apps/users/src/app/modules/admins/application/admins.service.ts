@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserAdminEntity } from '@rental-system/domain';
-import { IAdminInput } from '@rental-system/interfaces';
+import { AdminInputDto, AdminInputSelfDto } from '@rental-system/dto';
 import { UsersService } from '../../users/application/users.service';
 import { AdminsRepository } from '../infrastructure/database/repositories/admins.repository';
-import { AdminInputSelfDto } from '../presentation/dto/input/input-self.dto';
 import { AdminsFactory } from './factories/admins.factory';
 
 @Injectable()
@@ -16,13 +15,13 @@ export class AdminsService {
     private readonly repository: AdminsRepository
   ) {}
 
-  async create(data: IAdminInput): Promise<UserAdminEntity> {
+  async create(data: AdminInputDto): Promise<UserAdminEntity> {
     const user = this.factory.create(data);
     await this.repository.create(user);
     return user;
   }
 
-  async update(user: UserAdminEntity, data: IAdminInput): Promise<UserAdminEntity> {
+  async update(user: UserAdminEntity, data: AdminInputDto): Promise<UserAdminEntity> {
     user.name = data.name;
     user.email = data.email;
     user.setPassword(data.password, this.config.get<number>('PASSWORD_SALT'));

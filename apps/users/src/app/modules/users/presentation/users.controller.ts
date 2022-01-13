@@ -16,13 +16,13 @@ import { plainToClass } from 'class-transformer';
 import { AggregateId } from '@rental-system/common';
 import { InvalidLoginException, UserAdminEntity } from '@rental-system/domain';
 import { DomainExceptionInterceptor } from '@rental-system/filters';
-import { ReactAdminQueryDto } from '@rental-system/dto';
+import { ReactAdminQueryDto } from '@rental-system/nest-dto';
 import { UserAccess } from '@rental-system/auth';
 import { UserGetByIdQueryPattern } from '@rental-system/microservices';
 import { UsersService } from '../application/users.service';
-import { UserLoginOutputDto } from './dto/output/login-output.dto';
-import { UserLoginInputDto } from './dto/input/login-input.dto';
-import { UserGenericOutputDto } from './dto/output/generic-output.dto';
+import { UserLoginRestOutputDto } from './dto/rest-output/login-output.dto';
+import { UserLoginRestInputDto } from './dto/rest-input/login-input.dto';
+import { UserGenericRestOutputDto } from './dto/rest-output/generic-output.dto';
 
 @ApiTags('Users')
 @UseInterceptors(
@@ -34,18 +34,18 @@ export class UsersController {
 
   @Get()
   @UserAccess(UserAdminEntity)
-  @ApiOkResponse({ type: [UserGenericOutputDto] })
+  @ApiOkResponse({ type: [UserGenericRestOutputDto] })
   async list(@Req() req: Request, @Query() query: ReactAdminQueryDto) {
     const { data, total } = await this.usersService.getAll(query.toOptions());
     req.res.setHeader('X-Total-Count', total);
-    return data.map((user) => new UserGenericOutputDto(user));
+    return data.map((user) => new UserGenericRestOutputDto(user));
   }
 
   @Post('login')
-  @ApiOkResponse({ type: UserLoginOutputDto })
-  async login(@Body() data: UserLoginInputDto) {
+  @ApiOkResponse({ type: UserLoginRestOutputDto })
+  async login(@Body() data: UserLoginRestInputDto) {
     const { user, jwt } = await this.usersService.login(data);
-    return new UserLoginOutputDto(user, jwt);
+    return new UserLoginRestOutputDto(user, jwt);
   }
 
   @MessagePattern(new UserGetByIdQueryPattern())

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AggregateId } from '@rental-system/common';
 import { AvailabilityEntity } from '@rental-system/domain';
-import { IAvailabilityTotalInput, ICreateAvailabilityInput } from '@rental-system/interfaces';
+import { AvailabilityTotalInputDto, AvailabilityCreateInputDto } from '@rental-system/dto';
 import { AvailabilityRepository } from '../infrastructure/database/repositories/availability.repository';
 import { AvailabilityFactory } from './factories/availability.factory';
 
@@ -9,13 +9,13 @@ import { AvailabilityFactory } from './factories/availability.factory';
 export class AvailabilityService {
   constructor(private readonly factory: AvailabilityFactory, private readonly repository: AvailabilityRepository) {}
 
-  async updateTotal(availability: AvailabilityEntity, data: IAvailabilityTotalInput) {
+  async updateTotal(availability: AvailabilityEntity, data: AvailabilityTotalInputDto) {
     availability.setTotal(data.total);
     await this.repository.update(availability);
     return availability;
   }
 
-  async register(data: ICreateAvailabilityInput) {
+  async register(data: AvailabilityCreateInputDto) {
     const availability = this.factory.create(data);
     await this.repository.create(availability);
     return availability;
