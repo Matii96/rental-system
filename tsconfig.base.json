@@ -22,10 +22,10 @@
       "@rental-system/domain": ["libs/domain/src/index.ts"],
       "@rental-system/domain-testing": ["libs/domain-testing/src/index.ts"],
       "@rental-system/dto": ["libs/dto/src/index.ts"],
+      "@rental-system/dto-nest": ["libs/dto-nest/src/index.ts"],
       "@rental-system/dto-testing": ["libs/dto-testing/src/index.ts"],
       "@rental-system/filters": ["libs/filters/src/index.ts"],
       "@rental-system/microservices": ["libs/microservices/src/index.ts"],
-      "@rental-system/nest-dto": ["libs/nest-dto/src/index.ts"],
       "@rental-system/validators": ["libs/validators/src/index.ts"]
     }
   },

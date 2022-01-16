@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, Post, Put, Query, Req, UseGuards } from 
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { BookEntity, UserAdminEntity } from '@rental-system/domain';
-import { ReactAdminQueryDto } from '@rental-system/nest-dto';
-import { UserAccess } from '@rental-system/auth';
+import { ReactAdminQueryDto } from '@rental-system/dto-nest';
+import { UserRestAccess } from '@rental-system/auth';
 import { BooksService } from '../application/books.service';
 import { RequestBook } from './decorators/request-book.decorator';
 import { BooksGuard } from './guards/books.guard';
@@ -30,7 +30,7 @@ export class BooksController {
   }
 
   @Post()
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiCreatedResponse({ type: BookRestOutputDto })
   @ApiBadRequestResponse()
   async create(@Body() data: BookRestInputDto) {
@@ -39,7 +39,7 @@ export class BooksController {
 
   @Put(':bookId')
   @UseGuards(BooksGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'bookId' })
   @ApiOkResponse({ type: BookRestOutputDto })
   @ApiBadRequestResponse()
@@ -50,7 +50,7 @@ export class BooksController {
 
   @Delete(':bookId')
   @UseGuards(BooksGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'bookId' })
   @ApiOkResponse({ type: BookRestOutputDto })
   async delete(@RequestBook() book: BookEntity) {

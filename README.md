@@ -9,6 +9,7 @@
 ## Description
 
 Production-ready basic managment system for items (currently movies and books) rental using [Nest.js](https://nestjs.com) and [Nx workspace](https://nx.dev). Built as a case-study of complex problems related to distributed microservices systems and solutions for them.
+The project is still in progress tho most of functionalities are completed.
 
 ## Requirements
 
@@ -62,12 +63,18 @@ $ nx test <app_name>
 
 ## Api documentation
 
-Interactive [swagger.io](https://swagger.io/tools/swagger-ui/) documentation is available under following addresses:
+Interactive [swagger.io](https://swagger.io/tools/swagger-ui/) and [graphql](https://graphql.org) documentations is available under following addresses:
 
-- Users service: http://localhost:3001/api/docs
+- Users service: http://localhost:3001/api/docs, http://localhost:3001/graphql
 - Reservations service: http://localhost:3002/api/docs
 - Availability service: http://localhost:3003/api/docs
 - Books service: http://localhost:3004/api/docs
+
+## Todo
+
+- Add Movies microservice
+- Implement gql in all microservices
+- Add [gql federation](https://www.apollographql.com/docs/federation/) gateway
 
 ## License
 

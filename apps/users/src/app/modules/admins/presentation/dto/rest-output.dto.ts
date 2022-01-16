@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserAdminEntity } from '@rental-system/domain';
 import { AdminOutputDto } from '@rental-system/dto';
-import { UserRestOutputDto } from '../../../users/presentation/dto/rest-output/output.dto';
+import { UserRestOutputDto } from '../../../users/presentation/dto/rest-output/user.output.dto';
 
 export class AdminRestOutputDto extends UserRestOutputDto implements AdminOutputDto {
   @ApiProperty()

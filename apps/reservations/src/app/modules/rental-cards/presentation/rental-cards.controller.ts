@@ -3,7 +3,7 @@ import { MessagePattern } from '@nestjs/microservices';
 import { ApiCreatedResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { AggregateId } from '@rental-system/common';
-import { UserAccess } from '@rental-system/auth';
+import { UserRestAccess } from '@rental-system/auth';
 import { RentalCardEntity, UserAdminEntity, UserCustomerEntity } from '@rental-system/domain';
 import { RentalCardGetByIdQueryPattern, UnregisterRentalCardCommandPattern } from '@rental-system/microservices';
 import { RentalCardsService } from '../application/rental-cards.service';
@@ -20,7 +20,7 @@ export class RentalCardsController {
 
   @Get(':rentalCardId')
   @UseGuards(RentalCardGuard)
-  @UserAccess(UserAdminEntity, UserCustomerEntity)
+  @UserRestAccess(UserAdminEntity, UserCustomerEntity)
   @ApiParam({ name: 'rentalCardId' })
   @ApiOkResponse({ type: RentalCardRestOutputDto })
   getById(@RequestRentalCard() card: RentalCardEntity) {
@@ -28,7 +28,7 @@ export class RentalCardsController {
   }
 
   @Post()
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiCreatedResponse({ type: RentalCardRestOutputDto })
   async create(@Body() data: RentalCardCreateRestInputDto) {
     const card = await this.rentalCardsService.register(data);
@@ -37,7 +37,7 @@ export class RentalCardsController {
 
   @Patch(':rentalCardId/rental-policy')
   @UseGuards(RentalCardGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'rentalCardId' })
   @ApiOkResponse({ type: RentalCardRestOutputDto })
   async update(@RequestRentalCard() card: RentalCardEntity, @Body() data: RentalCardUpdateRestInputDto) {
@@ -47,7 +47,7 @@ export class RentalCardsController {
 
   @Delete(':rentalCardId')
   @UseGuards(RentalCardGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'rentalCardId' })
   @ApiOkResponse({ type: RentalCardRestOutputDto })
   async delete(@RequestRentalCard() card: RentalCardEntity) {

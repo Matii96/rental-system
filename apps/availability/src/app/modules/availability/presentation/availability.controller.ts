@@ -3,7 +3,7 @@ import { MessagePattern } from '@nestjs/microservices';
 import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { AggregateId } from '@rental-system/common';
-import { UserAccess } from '@rental-system/auth';
+import { UserRestAccess } from '@rental-system/auth';
 import { AvailabilityEntity, UserAdminEntity } from '@rental-system/domain';
 import { AvailabilityCreateInputDto } from '@rental-system/dto';
 import { RegisterAvailabilityCommandPattern, UnregisterAvailabilityCommandPattern } from '@rental-system/microservices';
@@ -28,7 +28,7 @@ export class AvailabilityController {
 
   @Put(':availabilityId')
   @UseGuards(AvailabilityGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'availabilityId' })
   @ApiOkResponse({ type: AvailabilityRestOutputDto })
   async updateTotal(

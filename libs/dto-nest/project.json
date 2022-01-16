@@ -1,20 +1,20 @@
 {
-  "root": "libs/nest-dto",
-  "sourceRoot": "libs/nest-dto/src",
+  "root": "libs/dto-nest",
+  "sourceRoot": "libs/dto-nest/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/nest-dto/**/*.ts"]
+        "lintFilePatterns": ["libs/dto-nest/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/nest-dto"],
+      "outputs": ["coverage/libs/dto-nest"],
       "options": {
-        "jestConfig": "libs/nest-dto/jest.config.js",
+        "jestConfig": "libs/dto-nest/jest.config.js",
         "passWithNoTests": true
       }
     }

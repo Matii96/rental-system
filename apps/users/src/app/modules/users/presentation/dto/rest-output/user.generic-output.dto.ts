@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IUser, UserTypes } from '@rental-system/domain';
-import { UserRestOutputDto } from './output.dto';
+import { UserGenericOutputDto } from '@rental-system/dto';
+import { UserRestOutputDto } from './user.output.dto';
 
-export class UserGenericRestOutputDto extends UserRestOutputDto {
+export class UserGenericRestOutputDto extends UserRestOutputDto implements UserGenericOutputDto {
   @ApiProperty({ enum: UserTypes, example: Object.keys(UserTypes)[0] })
   readonly type: UserTypes;
 

@@ -8,7 +8,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UserAdminEntity, UserCustomerEntity } from '@rental-system/domain';
-import { RequesterUser, UserAccess } from '@rental-system/auth';
+import { RestUser, UserRestAccess } from '@rental-system/auth';
 import { CustomersService } from '../application/customers.service';
 import { CustomersGuard } from './guards/customers.guard';
 import { UserNotSelfGuard } from '../../users/application/guards/users-not-self.guard';
@@ -23,7 +23,7 @@ export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
   @Get(':userId')
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: CustomerRestOutputDto })
   @ApiNotFoundResponse()
@@ -32,7 +32,7 @@ export class CustomersController {
   }
 
   @Post()
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiCreatedResponse({ type: CustomerRestOutputDto })
   @ApiBadRequestResponse()
   async create(@Body() data: CustomerRestInputDto) {
@@ -40,17 +40,17 @@ export class CustomersController {
   }
 
   @Put('self')
-  @UserAccess(UserCustomerEntity)
+  @UserRestAccess(UserCustomerEntity)
   @ApiOkResponse({ type: CustomerRestOutputDto })
   @ApiBadRequestResponse()
-  async updateSelf(@RequesterUser() user: UserCustomerEntity, @Body() data: CustomerRestInputSelfDto) {
+  async updateSelf(@RestUser() user: UserCustomerEntity, @Body() data: CustomerRestInputSelfDto) {
     await this.customersService.updateSelf(user, data);
     return new CustomerRestOutputDto(user);
   }
 
   @Put(':userId')
   @UseGuards(CustomersGuard, UserNotSelfGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: CustomerRestOutputDto })
   @ApiBadRequestResponse()
@@ -62,7 +62,7 @@ export class CustomersController {
 
   @Delete(':userId')
   @UseGuards(CustomersGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: CustomerRestOutputDto })
   @ApiNotFoundResponse()

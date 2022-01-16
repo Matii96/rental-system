@@ -22,8 +22,8 @@ import {
   UserAdminEntity,
   UserCustomerEntity,
 } from '@rental-system/domain';
-import { UserAccess } from '@rental-system/auth';
-import { ReactAdminQueryDto } from '@rental-system/nest-dto';
+import { UserRestAccess } from '@rental-system/auth';
+import { ReactAdminQueryDto } from '@rental-system/dto-nest';
 import { DomainExceptionInterceptor } from '@rental-system/filters';
 import { RentalCardGuard } from '../../rental-cards/presentation/guards/rental-cards.guard';
 import { RequestRentalCard } from '../../rental-cards/presentation/decorators/request-rental-card.decorator';
@@ -51,7 +51,7 @@ export class RentalsController {
 
   @Get(':rentalCardId/list')
   @UseGuards(RentalCardGuard)
-  @UserAccess(UserAdminEntity, UserCustomerEntity)
+  @UserRestAccess(UserAdminEntity, UserCustomerEntity)
   @ApiCreatedResponse({ type: [RentalRestOutputDto] })
   async list(@Req() req: Request, @RequestRentalCard() card: RentalCardEntity, @Query() query: ReactAdminQueryDto) {
     const { data, total } = await this.rentalsService.getAll(card, query.toOptions());
@@ -61,7 +61,7 @@ export class RentalsController {
 
   @Get(':rentalId')
   @UseGuards(RentalsGuard)
-  @UserAccess(UserAdminEntity, UserCustomerEntity)
+  @UserRestAccess(UserAdminEntity, UserCustomerEntity)
   @ApiParam({ name: 'rentalId' })
   @ApiOkResponse({ type: RentalRestOutputDto })
   getById(@RequestRental() rental: RentalEntity) {
@@ -70,7 +70,7 @@ export class RentalsController {
 
   @Post(':rentalCardId')
   @UseGuards(RentalCardGuard)
-  @UserAccess(UserAdminEntity, UserCustomerEntity)
+  @UserRestAccess(UserAdminEntity, UserCustomerEntity)
   @ApiCreatedResponse({ type: RentalRestOutputDto })
   async create(@RequestRentalCard() card: RentalCardEntity, @Body() data: RentalCreateRestInputDto) {
     const rental = await this.rentalsService.create(card, data);
@@ -79,7 +79,7 @@ export class RentalsController {
 
   @Patch(':rentalId/prolong')
   @UseGuards(RentalsGuard)
-  @UserAccess(UserAdminEntity, UserCustomerEntity)
+  @UserRestAccess(UserAdminEntity, UserCustomerEntity)
   @ApiParam({ name: 'rentalId' })
   @ApiOkResponse({ type: RentalRestOutputDto })
   async update(@RequestRental() rental: RentalEntity, @Body() data: RentalProlongInputDto) {
@@ -89,7 +89,7 @@ export class RentalsController {
 
   @Patch(':rentalId/close')
   @UseGuards(RentalsGuard)
-  @UserAccess(UserAdminEntity, UserCustomerEntity)
+  @UserRestAccess(UserAdminEntity, UserCustomerEntity)
   @ApiParam({ name: 'rentalId' })
   @ApiOkResponse({ type: RentalRestOutputDto })
   async close(@RequestRental() rental: RentalEntity) {

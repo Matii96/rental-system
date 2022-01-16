@@ -1,5 +1,6 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ContextType, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { ClassOf, instanceOfMixin, InvalidContextTypeException, Mixin } from '@rental-system/common';
 import { IUser } from '@rental-system/domain';
 import { AuthMetadata } from '../enums/metadata.enum';
@@ -13,7 +14,6 @@ export class UserAuthorizationGuard implements CanActivate {
     if (allowed.length === 0) {
       return true;
     }
-
     for (const allow of allowed) {
       try {
         if (user instanceof allow) return true;
@@ -25,13 +25,19 @@ export class UserAuthorizationGuard implements CanActivate {
   }
 
   canActivate(context: ExecutionContext) {
+    const contextType: ContextType | 'graphql' = context.getType();
     const allowed = this.reflector.get<(ClassOf<IUser> | Mixin)[]>(AuthMetadata.AUTH_ALLOWED, context.getHandler());
-    switch (context.getType()) {
+
+    let req: IAuthenticatedRequest;
+    switch (contextType) {
       case 'http':
-        const req = context.switchToHttp().getRequest<IAuthenticatedRequest>();
+        req = context.switchToHttp().getRequest();
+        return this.checkAccess(req.user, allowed);
+      case 'graphql':
+        req = GqlExecutionContext.create(context).getContext().req;
         return this.checkAccess(req.user, allowed);
       default:
-        throw new InvalidContextTypeException(context.getType());
+        throw new InvalidContextTypeException(contextType);
     }
   }
 }

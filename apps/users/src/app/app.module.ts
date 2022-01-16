@@ -2,6 +2,7 @@ import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { sequelizeFactory } from '@rental-system/config';
+import { GraphQLModule } from '@nestjs/graphql';
 import { AdminSeeder } from './infrastructure/database/seeders/admin.seeder';
 import { AppController } from './presentation/app.controller';
 import { UsersConfig } from './infrastructure/config/config.validator';
@@ -19,6 +20,10 @@ import { CustomersModule } from './modules/customers/customers.module';
     SequelizeModule.forRootAsync({
       inject: [ConfigService],
       useFactory: sequelizeFactory,
+    }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+      playground: process.env.NODE_ENV !== 'production',
     }),
     UsersModule,
     AdminsModule,

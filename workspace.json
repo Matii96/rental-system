@@ -10,10 +10,10 @@
     "domain": "libs/domain",
     "domain-testing": "libs/domain-testing",
     "dto": "libs/dto",
+    "dto-nest": "libs/dto-nest",
     "dto-testing": "libs/dto-testing",
     "filters": "libs/filters",
     "microservices": "libs/microservices",
-    "nest-dto": "libs/nest-dto",
     "reservations": "apps/reservations",
     "users": "apps/users",
     "validators": "libs/validators"

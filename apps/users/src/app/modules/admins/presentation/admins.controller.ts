@@ -8,7 +8,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UserAdminEntity } from '@rental-system/domain';
-import { RequesterUser, UserAccess } from '@rental-system/auth';
+import { RestUser, UserRestAccess } from '@rental-system/auth';
 import { AdminsService } from '../application/admins.service';
 import { AdminsGuard } from './guards/admins.guard';
 import { UserNotSelfGuard } from '../../users/application/guards/users-not-self.guard';
@@ -23,7 +23,7 @@ export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
 
   @Get(':userId')
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: AdminRestOutputDto })
   @ApiNotFoundResponse()
@@ -32,7 +32,7 @@ export class AdminsController {
   }
 
   @Post()
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiCreatedResponse({ type: AdminRestOutputDto })
   @ApiBadRequestResponse()
   async create(@Body() data: AdminRestInputDto) {
@@ -40,17 +40,17 @@ export class AdminsController {
   }
 
   @Put('self')
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiOkResponse({ type: AdminRestOutputDto })
   @ApiBadRequestResponse()
-  async updateSelf(@RequesterUser() user: UserAdminEntity, @Body() data: AdminRestInputSelfDto) {
+  async updateSelf(@RestUser() user: UserAdminEntity, @Body() data: AdminRestInputSelfDto) {
     await this.adminsService.updateSelf(user, data);
     return new AdminRestOutputDto(user);
   }
 
   @Put(':userId')
   @UseGuards(AdminsGuard, UserNotSelfGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: AdminRestOutputDto })
   @ApiBadRequestResponse()
@@ -62,7 +62,7 @@ export class AdminsController {
 
   @Delete(':userId')
   @UseGuards(AdminsGuard)
-  @UserAccess(UserAdminEntity)
+  @UserRestAccess(UserAdminEntity)
   @ApiParam({ name: 'userId' })
   @ApiOkResponse({ type: AdminRestOutputDto })
   @ApiNotFoundResponse()
