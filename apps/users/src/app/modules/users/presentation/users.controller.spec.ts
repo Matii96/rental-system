@@ -4,7 +4,7 @@ import { AggregateId, ICountableData } from '@rental-system/common';
 import { IUser } from '@rental-system/domain';
 import { userAdminEntityMock } from '@rental-system/domain-testing';
 import { UsersService } from '../application/users.service';
-import { UserLoginRestOutputDto } from './dto/rest-output/login-output.dto';
+import { UserLoginRestOutputDto } from './dto/rest-output/user.login-output.dto';
 import { UsersController } from './users.controller';
 
 describe('UsersController', () => {
