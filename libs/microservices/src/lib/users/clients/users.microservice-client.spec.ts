@@ -25,7 +25,7 @@ describe('UsersMicroserviceClient', () => {
   });
 
   it('should get user by id', async () => {
-    const user = { id: new AggregateId('id') };
+    const user = { id: new AggregateId() };
     jest.spyOn(usersClientMock, 'send').mockReturnValueOnce(of(user));
 
     expect(await client.getById(user.id)).toEqual(user);

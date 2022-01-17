@@ -6,7 +6,12 @@ import { AggregateId } from '@rental-system/common';
 import { UserRestAccess } from '@rental-system/auth';
 import { AvailabilityEntity, UserAdminEntity } from '@rental-system/domain';
 import { AvailabilityCreateInputDto } from '@rental-system/dto';
-import { RegisterAvailabilityCommandPattern, UnregisterAvailabilityCommandPattern } from '@rental-system/microservices';
+import {
+  RegisterAvailabilityCommandPattern,
+  ReleaseItemCommandPattern,
+  ReserveItemCommandPattern,
+  UnregisterAvailabilityCommandPattern,
+} from '@rental-system/microservices';
 import { AvailabilityService } from '../application/availability.service';
 import { AvailabilityGuard } from './guards/availability.guard';
 import { RequestAvailability } from './decorators/request-availability.decorator';
@@ -37,6 +42,18 @@ export class AvailabilityController {
   ) {
     await this.availabilityService.updateTotal(availability, data);
     return new AvailabilityRestOutputDto(availability);
+  }
+
+  @MessagePattern(new ReserveItemCommandPattern())
+  async reserveItem(itemId: AggregateId) {
+    await this.availabilityService.reserveItem(plainToClass(AggregateId, itemId));
+    return 'ok';
+  }
+
+  @MessagePattern(new ReleaseItemCommandPattern())
+  async releaseItem(itemId: AggregateId) {
+    await this.availabilityService.releaseItem(plainToClass(AggregateId, itemId));
+    return 'ok';
   }
 
   @MessagePattern(new RegisterAvailabilityCommandPattern())

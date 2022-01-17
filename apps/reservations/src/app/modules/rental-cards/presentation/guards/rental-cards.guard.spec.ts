@@ -34,7 +34,7 @@ describe('RentalCardGuard', () => {
       jest.spyOn(rentalCardsRepositoryMock, 'findById').mockResolvedValueOnce(card);
 
       // @ts-ignore
-      expect(await guard.getRentalCard(user, new AggregateId('id'))).toBe(card);
+      expect(await guard.getRentalCard(user, new AggregateId())).toBe(card);
     });
 
     it('should fail to activate route - user trying to access foreign rental card', async () => {
@@ -43,7 +43,7 @@ describe('RentalCardGuard', () => {
       jest.spyOn(rentalCardsRepositoryMock, 'findById').mockResolvedValueOnce(card);
 
       // @ts-ignore
-      await expect(guard.getRentalCard(user, new AggregateId('id'))).rejects.toThrow(ForbiddenException);
+      await expect(guard.getRentalCard(user, new AggregateId())).rejects.toThrow(ForbiddenException);
     });
   });
 

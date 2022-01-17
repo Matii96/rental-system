@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { v4 as uuidv4 } from 'uuid';
 import { AggregateId, IEntityFactory } from '@rental-system/common';
 import { UserCustomerEntity } from '@rental-system/domain';
 import { CustomerInputDto } from '@rental-system/dto';
@@ -11,7 +10,7 @@ export class CustomersFactory implements IEntityFactory<UserCustomerEntity> {
 
   create(data: CustomerInputDto) {
     const user = new UserCustomerEntity(
-      new AggregateId(uuidv4()),
+      new AggregateId(),
       new Date(),
       data.name,
       data.email,

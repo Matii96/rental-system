@@ -38,14 +38,14 @@ describe('RentalsRepository', () => {
   });
 
   it('should find all rentals for rental card', async () => {
-    expect(await repository.findAllForCard(new AggregateId('id'))).toEqual([]);
+    expect(await repository.findAllForCard(new AggregateId())).toEqual([]);
   });
 
   it('should find active rentals for rental card', async () => {
-    expect(await repository.findAllActive(new AggregateId('id'))).toEqual([]);
+    expect(await repository.findAllActive(new AggregateId())).toEqual([]);
   });
 
   it('should count rentals for rental card', async () => {
-    expect(await repository.countForCard(new AggregateId('id'))).toBe(0);
+    expect(await repository.countForCard(new AggregateId())).toBe(0);
   });
 });

@@ -30,7 +30,7 @@ export class AvailabilityEntity implements IIdentifiableEntity {
     this.reserved = newReserved;
   }
 
-  returnItem() {
+  releaseItem() {
     const newReserved = this.reserved - 1;
     if (newReserved <= 0) {
       throw new NoItemToReturnException();

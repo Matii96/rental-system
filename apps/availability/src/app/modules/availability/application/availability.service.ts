@@ -9,6 +9,20 @@ import { AvailabilityFactory } from './factories/availability.factory';
 export class AvailabilityService {
   constructor(private readonly factory: AvailabilityFactory, private readonly repository: AvailabilityRepository) {}
 
+  async reserveItem(itemId: AggregateId) {
+    const availability = await this.repository.findById(itemId);
+    availability.reserveItem();
+    await this.repository.update(availability);
+    return availability;
+  }
+
+  async releaseItem(itemId: AggregateId) {
+    const availability = await this.repository.findById(itemId);
+    availability.releaseItem();
+    await this.repository.update(availability);
+    return availability;
+  }
+
   async updateTotal(availability: AvailabilityEntity, data: AvailabilityTotalInputDto) {
     availability.setTotal(data.total);
     await this.repository.update(availability);

@@ -52,7 +52,7 @@ describe('AvailabilityController', () => {
   });
 
   it('should unregister item availability', async () => {
-    expect(await controller.unregister(new AggregateId('id'))).toBe('ok');
+    expect(await controller.unregister(new AggregateId())).toBe('ok');
     expect(availabilityServiceMock.unregister).toHaveBeenCalledTimes(1);
   });
 });

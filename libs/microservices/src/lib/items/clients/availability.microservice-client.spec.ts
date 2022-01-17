@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { AggregateId } from '@rental-system/common';
 import { bookEntityMock } from '@rental-system/domain-testing';
 import { of } from 'rxjs';
 import { MicroservicesEnum } from '../../microservices.enum';
@@ -22,10 +23,18 @@ describe('AvailabilityMicroserviceClient', () => {
   });
 
   it('should send register availability message', async () => {
-    expect(await client.registerAvailability(bookEntityMock())).toBe('ok');
+    expect(await client.registerAvailability(bookEntityMock())).toBeUndefined();
   });
 
   it('should send unregister availability message', async () => {
-    expect(await client.unregisterAvailability(bookEntityMock())).toBe('ok');
+    expect(await client.unregisterAvailability(bookEntityMock())).toBeUndefined();
+  });
+
+  it('should send reserve item message', async () => {
+    expect(await client.reserveItem(new AggregateId())).toBeUndefined();
+  });
+
+  it('should send release item message', async () => {
+    expect(await client.releaseItem(new AggregateId())).toBeUndefined();
   });
 });

@@ -34,7 +34,7 @@ describe('ReservationsMicroserviceClient', () => {
   });
 
   it('should unregister rental card', async () => {
-    expect(await client.unregisterCard(new AggregateId('id'))).toBe('ok');
+    expect(await client.unregisterCard(new AggregateId())).toBe('ok');
     expect(reservationsClientMock.send).toHaveBeenCalledTimes(1);
   });
 });

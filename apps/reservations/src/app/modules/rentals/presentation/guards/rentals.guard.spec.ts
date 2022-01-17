@@ -44,7 +44,7 @@ describe('RentalsGuard', () => {
         .mockResolvedValueOnce(plainToClass(RentalCardEntity, { ...rentalCardEntityMock(), ownerId: user.id }));
 
       // @ts-ignore
-      expect(await guard.getRental(user, new AggregateId('id'))).toBe(rental);
+      expect(await guard.getRental(user, new AggregateId())).toBe(rental);
     });
 
     it('should fail to activate route - user trying to access foreign rental', async () => {
@@ -54,7 +54,7 @@ describe('RentalsGuard', () => {
       jest.spyOn(reservationsClientMock, 'getCardById').mockResolvedValueOnce(rentalCardEntityMock());
 
       // @ts-ignore
-      await expect(guard.getRental(user, new AggregateId('id'))).rejects.toThrow(ForbiddenException);
+      await expect(guard.getRental(user, new AggregateId())).rejects.toThrow(ForbiddenException);
     });
   });
 

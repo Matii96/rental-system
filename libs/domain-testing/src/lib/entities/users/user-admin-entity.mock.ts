@@ -1,11 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
 import { datatype, name, internet } from 'faker';
 import { AggregateId } from '@rental-system/common';
 import { UserAdminEntity } from '@rental-system/domain';
 
 export const userAdminEntityMock = () => {
   const user = new UserAdminEntity(
-    new AggregateId(uuidv4()),
+    new AggregateId(),
     new Date(),
     name.findName(),
     internet.email(),

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { v4 as uuidv4 } from 'uuid';
 import { RentalCardEntity, RentalPoliciesMapper } from '@rental-system/domain';
 import { AggregateId, IEntityFactory } from '@rental-system/common';
 import { RentalCardCreateInputDto } from '@rental-system/dto';
@@ -11,7 +10,7 @@ export class RentalCardsFactory implements IEntityFactory<RentalCardEntity> {
 
   create(data: RentalCardCreateInputDto) {
     return new RentalCardEntity(
-      new AggregateId(uuidv4()),
+      new AggregateId(),
       new AggregateId(data.ownerId),
       [],
       new RentalPoliciesMapper[data.rentalPolicyType]({

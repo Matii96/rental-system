@@ -3,7 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken, InjectModel } from '@nestjs/sequelize';
 import { ValidationError, ValidationErrorItem } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { v4 as uuidv4 } from 'uuid';
 import { AggregateId, IEntityModelFactory, IIdentifiableEntity } from '@rental-system/common';
 import { InvalidIdException } from '../exceptions/invalid-id.exception';
 import { IdentifiableModel } from '../models/identifiable.model';
@@ -57,7 +56,7 @@ describe('SequelizeGenericRepository', () => {
 
   describe('findById()', () => {
     it('should find entity by id', async () => {
-      const entity = new IdentifiableEntity(new AggregateId(uuidv4()));
+      const entity = new IdentifiableEntity(new AggregateId());
       await dbModelMock.create(new IdentifiableModelMock(entity.id));
       jest.spyOn(modelFactoryMock, 'modelToEntity').mockReturnValueOnce(entity);
 
@@ -70,7 +69,7 @@ describe('SequelizeGenericRepository', () => {
   });
 
   it('should find one entity', async () => {
-    const entity = new IdentifiableEntity(new AggregateId(uuidv4()));
+    const entity = new IdentifiableEntity(new AggregateId());
     await dbModelMock.create(new IdentifiableModelMock(entity.id));
     jest.spyOn(modelFactoryMock, 'modelToEntity').mockReturnValueOnce(entity);
 
@@ -78,10 +77,7 @@ describe('SequelizeGenericRepository', () => {
   });
 
   it('should find all entities', async () => {
-    const entities = [
-      new IdentifiableEntity(new AggregateId(uuidv4())),
-      new IdentifiableEntity(new AggregateId(uuidv4())),
-    ];
+    const entities = [new IdentifiableEntity(new AggregateId()), new IdentifiableEntity(new AggregateId())];
     entities.forEach(async (entity) => await dbModelMock.create(new IdentifiableModelMock(entity.id)));
     jest
       .spyOn(modelFactoryMock, 'modelToEntity')
@@ -91,18 +87,18 @@ describe('SequelizeGenericRepository', () => {
   });
 
   it('should save new entity to database', async () => {
-    const entity = new IdentifiableEntity(new AggregateId(uuidv4()));
+    const entity = new IdentifiableEntity(new AggregateId());
     expect(await repository.create(entity)).toEqual(entity);
   });
 
   it('should update entity in database', async () => {
-    const entity = new IdentifiableEntity(new AggregateId(uuidv4()));
+    const entity = new IdentifiableEntity(new AggregateId());
     jest.spyOn(modelFactoryMock, 'entityToModel').mockReturnValueOnce(<IdentifiableModel>{ id: entity.id.toString() });
     expect(await repository.update(entity)).toEqual(entity);
   });
 
   it('should delete entity from database', async () => {
-    const entity = new IdentifiableEntity(new AggregateId(uuidv4()));
+    const entity = new IdentifiableEntity(new AggregateId());
     await dbModelMock.create(new IdentifiableModelMock(entity.id));
     expect(await repository.delete(entity)).toEqual(entity);
   });

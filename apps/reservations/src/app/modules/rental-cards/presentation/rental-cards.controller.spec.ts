@@ -61,7 +61,7 @@ describe('RentalCardsController', () => {
   });
 
   it('should unregister rental cards - micreservices call', async () => {
-    expect(await controller.unregister(new AggregateId('id'))).toBe('ok');
+    expect(await controller.unregister(new AggregateId())).toBe('ok');
     expect(rentalCardsServiceMock.unregister).toHaveBeenCalledTimes(1);
   });
 });
