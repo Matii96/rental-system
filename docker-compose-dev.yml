@@ -72,23 +72,12 @@ services:
     image: postgres:14-alpine
     volumes:
       - ./dev-db:/docker-entrypoint-initdb.d
+      - pg-data:/var/lib/postgresql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - 5432:5432
 
-  pg-admin:
-    image: dpage/pgadmin4
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: dev@rental.com
-      PGADMIN_DEFAULT_PASSWORD: secret
-    ports:
-      - 5000:80
-    logging:
-      driver: none
-
 volumes:
-  pgadmin-data:
+  pg-data:

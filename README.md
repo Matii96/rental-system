@@ -16,6 +16,7 @@ The project is still in progress tho most of functionalities are completed.
 - Npm v6.14 and higher
 - Docker v20.10 and higher
 - Docker compose v1.29 and higher
+- [Tilt.dev](https://tilt.dev) - optional
 
 ## Installation
 
@@ -49,6 +50,9 @@ All variables defaults are in [.env](https://github.com/Matii96/rental-system/bl
 ```bash
 # development
 $ npm run start:dev
+
+# development (tilt)
+$ tilt up
 ```
 
 ## Tests
