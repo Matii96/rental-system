@@ -2,7 +2,7 @@ import { Column, Table, DataType, ForeignKey, BelongsTo } from 'sequelize-typesc
 import { IdentifiableModel } from '@rental-system/database-storage';
 import { RentalCardModel } from '../../../../rental-cards/infrastructure/database/models/rental-card.model';
 
-@Table({ tableName: 'RentalCards' })
+@Table({ tableName: 'Rentals' })
 export class RentalModel extends IdentifiableModel {
   @Column({ type: DataType.STRING, allowNull: false })
   itemId: string;
