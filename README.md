@@ -9,7 +9,7 @@
 ## Description
 
 Production-ready basic managment system for items (currently movies and books) rental using [Nest.js](https://nestjs.com) and [Nx workspace](https://nx.dev). Built as a case-study of complex problems related to distributed microservices systems and solutions for them.
-The project is still in progress tho most of functionalities are completed.
+The project is still in progress nevertheless most of functionalities are completed.
 
 ## Requirements
 
